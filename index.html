@@ -1,0 +1,107 @@
+
+/** EECS 448 Class project : Clock Display on a Web application.
+** Author: Vuong Nguyen. 
+** Contributor: 
+** Laste update: Feb 05, 2016.
+**/
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>My digital Clock</title>
+		
+		<style type="text/css">
+		.container {
+			margin: 0; padding: 0; 
+			font-family:Arial, Helvetica, sans-serif;
+			position: relative;
+		}	
+		
+		 .header {
+			height: 230px; background-color: #B4AEFD;
+		 
+		 }
+		 
+		 #rightBlock {
+			background-color: none;
+			height: 100px; width: 30%; float: left;
+		 }
+		 #leftBlock {
+			background-color: none;
+			height: 100px; width: 65%; float: right;
+		 }
+		 
+		 /** Right sided clock mode **/
+		 #clockMode {
+			background-color: transparent;
+			height: 70%; width: 70%; margin: auto;
+			position: relative; padding: 10px; 
+		 }
+		 select {
+			background-color: #EFEEFE;
+			width: 180px; height: 100%; 
+			font-size: 20px;
+			margin-top: 25px;
+		 }
+		 
+		 /** Left sided setTime div **/
+		 #setTime {
+			padding: 20px 30px 20px 50px;
+			font-size: 20px;
+		 }
+		 #hrs {
+			padding: 3px; font-size: 15px; text-align: center;
+		 }
+		 #min {
+			padding: 3px; font-size: 15px; text-align: center;
+		 }
+		 #sec {
+			padding: 3px; font-size: 15px; text-align: center;
+		 }
+		 
+		 
+			
+}
+		</style>
+		
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="header">
+			
+				<div id="rightBlock">
+					<div id="clockMode">
+						<div class="select">
+							<select name="Hour clock">
+								<option value="12"> 12-hour clock</option>
+								<option value="24"> 24-hour clock</option>
+							</select>	
+						</div>
+					</div>
+					
+				
+				</div>
+				
+				<div id="leftBlock"> 
+					<div id="setTime">
+						<h2> Select the clock hour and set your time </h2>
+						<p>Please input a number between 1 and 12:</p>
+
+							<input id="hrs">
+							<input id="min">
+							<input id="sec">
+							<button class="button" onclick="myFunction()">Submit </button>
+
+							
+						
+					</div>
+				</div>
+			</div>
+			
+			<div class="clock">
+					
+			</div>
+		</div>
+	</body>
+</html>
