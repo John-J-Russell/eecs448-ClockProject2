@@ -150,7 +150,7 @@
 		}  
 		else
 		{ 
-			text = "Input valid"; 
+			text = "Your digital clock"; 
 			
 			counter = "stop";
 			

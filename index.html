@@ -21,7 +21,7 @@
 		<div class="container">
 			<div class="header">
 			
-				<div id="rightBlock">
+				<div id="leftBlock">
 					<div id="clockMode">
 						<div class="select">
 							<select id="Hour clock">
@@ -34,16 +34,16 @@
 				
 				</div>
 				
-				<div id="leftBlock"> 
+				<div id="rightBlock"> 
 					<div id="setTime">
 						<h2> Select the clock hour and set your time </h2>
 						<p>Please input a number between 1 and 12:</p>
 
-							<input id="InputHours">
-							<input id="InputMinutes">
-							<input id="InputSeconds">
+							<input id="InputHours"> : 
+							<input id="InputMinutes"> : 
+							<input id="InputSeconds"> seconds
 							
-							<button class="button" onclick="clockBuild()">Submit </button>
+							<button class="button" onclick="clockBuild()">Run! </button>
 							
 							
 						
@@ -51,15 +51,16 @@
 				</div>
 			</div>
 			
-			<div class="clock">
-				<p id="valid"></p> 
+			<div class="main">
+				<div id="clock">
+					<p id="valid"></p> 
 				
 					<span id="hClock"></span>
-					:
+					
 					<span id="mClock"></span>
-					:
+					
 					<span id="sClock"></span>
-				 
+				</div> 
 			</div>
 		</div>
 		

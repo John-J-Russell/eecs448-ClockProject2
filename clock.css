@@ -10,41 +10,46 @@
  
  }
  
- #rightBlock {
+ #leftBlock {
 	background-color: none;
 	height: 100px; width: 30%; float: left;
  }
- #leftBlock {
+ #rightBlock {
 	background-color: none;
 	height: 100px; width: 65%; float: right;
  }
- 
+ .main {
+	background-color: yellow;
+	height: 400px; margin: auto; width: 1000px; 
+
+
+}
  /** Right sided clock mode **/
  #clockMode {
 	background-color: transparent;
-	height: 70%; width: 70%; margin: auto;
+	height: 70%; width: 70%; margin: 50px 0 0 100px;
 	position: relative; padding: 10px; 
  }
  select {
 	background-color: #EFEEFE;
-	width: 180px; height: 100%; 
-	font-size: 20px;
-	margin-top: 25px;
+	width: 230px; height: 100%; 
+	font-size: 25px; text-align: center;
+	margin: 50px 0 0 25px; padding: 5px 0 5px 5px;
  }
  
- /** Left sided setTime div **/
+ /** right-sided setTime div **/
  #setTime {
 	padding: 20px 30px 20px 50px;
-	font-size: 20px;
+	font-size: 25px; margin: 24px 0 0 0;
  }
- #hrs {
-	padding: 3px; font-size: 15px; text-align: center;
+ #InputHours{
+	padding: 5px; font-size: 20px; text-align: center;
  }
- #min {
-	padding: 3px; font-size: 15px; text-align: center;
+ #InputMinutes{
+	padding: 5px; font-size: 20px; text-align: center;
  }
- #sec {
-	padding: 3px; font-size: 15px; text-align: center;
+ #InputSeconds {
+	padding: 5px; font-size: 20px; text-align: center;
  }
 		 
 		 
