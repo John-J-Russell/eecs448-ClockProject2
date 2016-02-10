@@ -9,7 +9,8 @@
 <html>
 	<head>
 		<title>My digital Clock</title>
-		<link rel="stylesheet" type="text/css" href="clock.css">			
+		<script type="text/javascript" src= "clock.js"></script>	
+		<link rel="stylesheet" type="text/css" href="clock.css">
 	</head>
 
 	<body>
@@ -34,11 +35,12 @@
 						<h2> Select the clock hour and set your time </h2>
 						<p>Please input a number between 1 and 12:</p>
 
-							<input id="hrs">
-							<input id="min">
-							<input id="sec">
-							<button class="button" onclick="myFunction()">Submit </button>
-
+							<input id="InputHours">
+							<input id="InputMinutes">
+							<input id="InputSeconds">
+							
+							<button class="button" onclick="clockBuild12()">Submit </button>
+							
 							
 						
 					</div>
@@ -46,7 +48,14 @@
 			</div>
 			
 			<div class="clock">
-					
+				<p id="valid"></p> 
+				
+					<span id="hClock"></span>
+					:
+					<span id="mClock"></span>
+					:
+					<span id="sClock"></span>
+				 
 			</div>
 		</div>
 	</body>
