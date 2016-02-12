@@ -166,7 +166,7 @@
 		 
 			document.getElementById("valid").innerHTML = text;
 	}
-	
+	//Author: Luke Dercher
 	function chngDisp()
 	{
 
