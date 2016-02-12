@@ -166,4 +166,22 @@
 		 
 			document.getElementById("valid").innerHTML = text;
 	}
+	
+	function chngDisp()
+	{
+
+		dropDown = document.getElementById("Hour clock");
+		
+		MaxHour = dropDown.options[dropDown.selectedIndex].value;
+		
+		if (MaxHour == 12)
+		{
+			document.getElementById("whatNums").innerHTML = "Please input a number between 1 and 12:";
+		}
+		else if (MaxHour == 23)
+		{		
+			document.getElementById("whatNums").innerHTML = "Please input a number between 0 and 23:";
+		}
+
+	}
  
