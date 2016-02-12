@@ -25,7 +25,7 @@
 				<div id="leftBlock">
 					<div id="clockMode">
 						<div class="select">
-							<select id="Hour clock">
+							<select id="Hour clock" onchange="chngDisp()">
 								<option value="12"> 12-hour clock</option>
 								<option value="23"> 24-hour clock</option>
 							</select>	
@@ -38,7 +38,7 @@
 				<div id="rightBlock"> 
 					<div id="setTime">
 						<h2> Select the clock hour and set your time </h2>
-						<p>Please input a number between 1 and 12:</p>
+						<p id="whatNums"></p>
 
 							<input id="InputHours"> : 
 							<input id="InputMinutes"> : 
