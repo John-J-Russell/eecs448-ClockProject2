@@ -69,9 +69,14 @@
 			if(Clock.getMinutes() == 59)
 			{	//If 59 sec and 59 mins
 				Clock.setMinutes(0);
+				if((Clock.getHours() == MaxHour - 1) && !Clock.getMilitaryTime())
+				{
+					Clock.changeAM_PM();
+				}
 				if(Clock.getHours() == MaxHour)
 				{	//If 59 sec, 59mins, and 12 hrs
 					Clock.setHours(MinHour);
+					
 				}
 				else
 				{
@@ -93,6 +98,7 @@
 		document.getElementById("hClock").innerHTML = Clock.getHours();
 		document.getElementById("mClock").innerHTML = checkTime(Clock.getMinutes());
 		document.getElementById("sClock").innerHTML = checkTime(Clock.getSeconds());
+		document.getElementById("am_pm").innerHTML = Clock.getAM_PM()
 
 		//Clears the previous setTimeout and Calls the start Clock function every 1 second.
 		clearTimeout(i);
@@ -149,6 +155,9 @@
 			document.getElementById("mClock").innerHTML = Clock.getMinutes();
 			
 			document.getElementById("sClock").innerHTML = Clock.getSeconds();
+			
+			
+			Clock.setAM_PM(document.getElementById("amORpm").options[document.getElementById("amORpm").selectedIndex].value)
 					
 			startClock(MaxHour, MinHour);//Start the clock (Only Once when user Presses button everytime)
 		}
@@ -165,18 +174,41 @@
 		dropDown = document.getElementById("Hour clock");
 		
 		MaxHour = dropDown.options[dropDown.selectedIndex].value;
+		MinHour = 0
+		if(MaxHour == 12)
+		{
+			MinHour = 1
+		}
+		
+		var Hour = parseInt(document.getElementById("hClock").innerHTML);
 		
 		if (MaxHour == 12)
 		{
 			document.getElementById("whatNums").innerHTML = "Please input a number between 1 and 12:";
+			if (Hour > 12) 
+			{
+				Clock.setHours(Hours - 12)
+				Clock.setAM_PM("pm")
+			}
+			else
+			{
+				Clock.setAM_PM("am")
+			}
+			
 		}
 		else if (MaxHour == 23)
 		{		
 			document.getElementById("whatNums").innerHTML = "Please input a number between 0 and 23:";
+			if(Clock.getAM_PM() == "pm")
+			{
+				Clock.setHours(Hour+ 12)
+			}
+			Clock.setAM_PM(" ")
 		}
-
+		
 	}
 
+		//Author: Luke Weber
 		var Clock =
 		{	
 	
@@ -288,13 +320,37 @@
 			},
 			getAM_PM : function()
 			{
-				if(!this.getMilitaryTime())
+				
+				return(this.AM_PM)
+				
+			},
+			setAM_PM : function(AM_PM)
+			{
+				if(AM_PM == "am" || AM_PM == "pm")
 				{
-					return(this.AM_PM)
+					if(!this.getMilitaryTime())
+					{
+					this.AM_PM = AM_PM
+					}
+					else
+					{
+						this.AM_PM = " "
+					}
 				}
 				else
 				{
-					"Military Time"
+					this.AM_PM = AM_PM
+				}
+			},
+			changeAM_PM : function ()
+			{
+				if (this.getAM_PM() == "am")
+				{
+					this.setAM_PM("pm")
+				}
+				else if (this.getAM_PM() == "pm")
+				{
+					this.setAM_PM("am")
 				}
 			}
 			
