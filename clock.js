@@ -46,9 +46,9 @@
 				
 		//Get Current time in the clock that is being Displayed to user 
 
-			m = document.getElementById("mClock").innerHTML; 
-			s = document.getElementById("sClock").innerHTML; 
-			h = document.getElementById("hClock").innerHTML;
+			m = Clock.getMinutes; 
+			s = Clock.getSeconds; 
+			h = Clock.getHours;
 
 			h=parseInt(h);
 			m=parseInt(m);
@@ -63,37 +63,36 @@
 		}
 		
 		//This function will run every 1 second. All it does is increment second variable and check if it affects mins and hours
-		if(s==59)
+		if(Clock.getSeconds() == 59)
 		{	//If 59 sec
-			s=0;
-			if(m==59)
+			Clock.setSeconds(0);
+			if(Clock.getMinutes() == 59)
 			{	//If 59 sec and 59 mins
-				m=0;
-				if(h==MaxHour)
+				Clock.setMinutes(0);
+				if(Clock.getHours() == MaxHour)
 				{	//If 59 sec, 59mins, and 12 hrs
-					h=MinHour;
+					Clock.setHours(MinHour);
 				}
 				else
 				{
-					h=h+1;
+					Clock.setHours(Clock.getHours()+1);
 				}
 			}
 			else
 			{
-				m=m+1;
+				Clock.setHours(Clock.getHours()+1);
 			}
 		}
 		else
 		{
-			s=s+1;
+			Clock.setSeconds(Clock.getSeconds()+1);
 		}
-		m = checkTime(m);
-		s = checkTime(s);
+		
 
 		//Set the new time on clock
-		document.getElementById("hClock").innerHTML = h;
-		document.getElementById("mClock").innerHTML = m;
-		document.getElementById("sClock").innerHTML = s;
+		document.getElementById("hClock").innerHTML = Clock.getHours();
+		document.getElementById("mClock").innerHTML = checkTime(Clock.getMinutes());
+		document.getElementById("sClock").innerHTML = checkTime(Clock.getSeconds());
 
 		//Clears the previous setTimeout and Calls the start Clock function every 1 second.
 		clearTimeout(i);
@@ -109,17 +108,17 @@
 	//Author: Luke Dercher, Sri, and Luke Weber 
 	function clockBuild()
 	{
-		alert("setting")
+		
 		Clock.setHours(document.getElementById("InputHours").value)
-		alert(Clock.getHours())
+		
 			var h,m,s,text; 
 		
 		counter = 0;
 
 		// Get the value of the input fields 
-		m = document.getElementById("InputMinutes").value; 
-		s = document.getElementById("InputSeconds").value; 
-		h = document.getElementById("InputHours").value;
+		var Works = Clock.setMinutes(document.getElementById("InputMinutes").value); 
+		Works = Works && Clock.setSeconds(document.getElementById("InputSeconds").value); 
+		Works = Works && Clock.setHours(document.getElementById("InputHours").value);
 
 		//Convert the strings to int
 		h=parseInt(h);
@@ -138,34 +137,24 @@
 		}
 		
 		
-		// If x is Not a Number or less than one or greater than 10 
-		if (isNaN(h) || h < MinHour || h > MaxHour||isNaN(m) || m < 0 || m > 59||isNaN(s) || s < 0 || s > 59)  
-		{ 
-			text= "Input not valid"; 
-			
-			document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
-			
-			document.getElementById("mClock").innerHTML = "00";
-			
-			document.getElementById("sClock").innerHTML = "00";
-			
-			init_blink(MaxHour, MinHour);
-		}  
-		else
-		{ 
+		
+		if(Works)
+		{
 			text = "Your digital clock"; 
 			
 			counter = "stop";
 			
-			document.getElementById("hClock").innerHTML = h;//Set User's time on Clock
+			document.getElementById("hClock").innerHTML = Clock.getHours();//Set User's time on Clock
 			
-			document.getElementById("mClock").innerHTML = m;
+			document.getElementById("mClock").innerHTML = Clock.getMinutes();
 			
-			document.getElementById("sClock").innerHTML = s;
+			document.getElementById("sClock").innerHTML = Clock.getSeconds();
 					
 			startClock(MaxHour, MinHour);//Start the clock (Only Once when user Presses button everytime)
+		}
+			
 		
-		} 
+		 
 		 
 			document.getElementById("valid").innerHTML = text;
 	}
@@ -195,11 +184,11 @@
 		Seconds : document.getElementById("InputSeconds").value,
 		Hours : document.getElementById("InputHours").value,
 		MilitaryTime : false,
-		
+		AM_PM : "AM",
 		
 			getHours: function ()
 			{
-				return(this.Hours);
+				return(parseInt(this.Hours));
 			},
 			setHours: function (aHours)
 			{
@@ -213,28 +202,75 @@
 				}
 				if (aHours <= MaxHour && aHours >= MinHour)
 				{
-					
+						
 						this.Hours = aHours
+						return(true)
 				}
 				else
 				{
 					var text= "Input not valid"; 
+					
+					document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
+			
+					document.getElementById("mClock").innerHTML = "00";
+					
+					document.getElementById("sClock").innerHTML = "00";
+					
+					init_blink(12,1);
+					return(false)
 				}
 				
 			},
 			getMinutes: function ()
 			{
-				return(this.Minutes);
+				return(parseInt(this.Minutes));
 			},
 			setMinutes: function (aMinutes)
 			{
-				if (aMinutes < 60 && aMinutes > 0)
+				if (aMinutes < 60 && aMinutes >= 0)
 				{
-						this.Minutes = aMinutes
+					
+					this.Minutes = aMinutes
+					return(true)
 				}
 				else
 				{
 					var text= "Input not valid"; 
+					
+					document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
+			
+					document.getElementById("mClock").innerHTML = "00";
+					
+					document.getElementById("sClock").innerHTML = "00";
+					
+					init_blink(12, 1);
+					return(false)
+				}
+			},
+			getSeconds: function ()
+			{
+				return(parseInt(this.Seconds));
+			},
+			setSeconds: function (aSeconds)
+			{
+				if (aSeconds < 60 && aSeconds >= 0)
+				{
+					
+					this.Seconds = aSeconds
+					return(true)
+				}
+				else
+				{
+					var text= "Input not valid"; 
+					
+					document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
+			
+					document.getElementById("mClock").innerHTML = "00";
+					
+					document.getElementById("sClock").innerHTML = "00";
+					
+					init_blink(12, 1);
+					return(false)
 				}
 			},
 			getMilitaryTime: function()
@@ -249,7 +285,19 @@
 						return(true)
 					}
 			
+			},
+			getAM_PM : function()
+			{
+				if(!this.getMilitaryTime())
+				{
+					return(this.AM_PM)
+				}
+				else
+				{
+					"Military Time"
+				}
 			}
+			
 			
 			
 		}
