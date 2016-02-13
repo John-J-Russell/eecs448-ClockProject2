@@ -1,6 +1,6 @@
 
 	var i,counter;
-	
+	"use strict"
 	// Author: Luke Dercher and Luke Weber
 	function init_blink(MaxHour, MinHour)
 	{
@@ -109,6 +109,9 @@
 	//Author: Luke Dercher, Sri, and Luke Weber 
 	function clockBuild()
 	{
+		alert("setting")
+		Clock.setHours(document.getElementById("InputHours").value)
+		alert(Clock.getHours())
 			var h,m,s,text; 
 		
 		counter = 0;
@@ -150,7 +153,7 @@
 		}  
 		else
 		{ 
-			text = "Input valid"; 
+			text = "Your digital clock"; 
 			
 			counter = "stop";
 			
@@ -166,4 +169,89 @@
 		 
 			document.getElementById("valid").innerHTML = text;
 	}
+	//Author: Luke Dercher
+	function chngDisp()
+	{
+
+		dropDown = document.getElementById("Hour clock");
+		
+		MaxHour = dropDown.options[dropDown.selectedIndex].value;
+		
+		if (MaxHour == 12)
+		{
+			document.getElementById("whatNums").innerHTML = "Please input a number between 1 and 12:";
+		}
+		else if (MaxHour == 23)
+		{		
+			document.getElementById("whatNums").innerHTML = "Please input a number between 0 and 23:";
+		}
+
+	}
+		var Clock =
+		{	
+	
+		Minutes : document.getElementById("InputMinutes").value,
+		Seconds : document.getElementById("InputSeconds").value,
+		Hours : document.getElementById("InputHours").value,
+		MilitaryTime : false,
+		
+		
+			getHours: function ()
+			{
+				return(this.Hours);
+			},
+			setHours: function (aHours)
+			{
+				
+				var MaxHour = 12
+				var MinHour = 1
+				if(this.getMilitaryTime())
+				{
+					var MaxHour = 23
+					var MinHour = 0
+				}
+				if (aHours <= MaxHour && aHours >= MinHour)
+				{
+					
+						this.Hours = aHours
+				}
+				else
+				{
+					var text= "Input not valid"; 
+				}
+				
+			},
+			getMinutes: function ()
+			{
+				return(this.Minutes);
+			},
+			setMinutes: function (aMinutes)
+			{
+				if (aMinutes < 60 && aMinutes > 0)
+				{
+						this.Minutes = aMinutes
+				}
+				else
+				{
+					var text= "Input not valid"; 
+				}
+			},
+			getMilitaryTime: function()
+			{
+				var MaxHour = document.getElementById("Hour clock").options[document.getElementById("Hour clock").selectedIndex].value
+					if(MaxHour == 12)
+					{
+						return(false)
+					}
+					else
+					{
+						return(true)
+					}
+			
+			}
+			
+			
+		}
+	
+
  
