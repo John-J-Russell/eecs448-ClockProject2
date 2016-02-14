@@ -140,9 +140,9 @@
 		{ 
 			text= "Input not valid"; 
 			
-			document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
+			document.getElementById("hClock").innerHTML = "12 : ";//display invalid when bad input is given
 			
-			document.getElementById("mClock").innerHTML = "00";
+			document.getElementById("mClock").innerHTML = "00 : ";
 			
 			document.getElementById("sClock").innerHTML = "00";
 			
