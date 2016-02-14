@@ -174,10 +174,10 @@
 		dropDown = document.getElementById("Hour clock");
 		
 		MaxHour = dropDown.options[dropDown.selectedIndex].value;
-		MinHour = 0
+		MinHour = 0;
 		if(MaxHour == 12)
 		{
-			MinHour = 1
+			MinHour = 1;
 		}
 		
 		var Hour = parseInt(document.getElementById("hClock").innerHTML);
@@ -187,13 +187,15 @@
 			document.getElementById("whatNums").innerHTML = "Please input a number between 1 and 12:";
 			if (Hour > 12) 
 			{
-				Clock.setHours(Hours - 12)
-				Clock.setAM_PM("pm")
+				Clock.setHours(Hours - 12);
+				Clock.setAM_PM("pm");
 			}
 			else
 			{
-				Clock.setAM_PM("am")
+				Clock.setAM_PM("am");
 			}
+			
+			document.getElementById('amORpm').style.display = '';//show am or pm scrolldown when 12hrtime selected
 			
 		}
 		else if (MaxHour == 23)
@@ -201,9 +203,11 @@
 			document.getElementById("whatNums").innerHTML = "Please input a number between 0 and 23:";
 			if(Clock.getAM_PM() == "pm")
 			{
-				Clock.setHours(Hour+ 12)
+				Clock.setHours(Hour+ 12);
 			}
-			Clock.setAM_PM(" ")
+			Clock.setAM_PM(" ");
+			
+			document.getElementById('amORpm').style.display = 'none';//hides the am_pm scrolldown bar when military time selected
 		}
 		
 	}
