@@ -78,16 +78,20 @@
 			{	//If 59 sec and 59 mins
 				Clock.setMinutes(0);
 				
-				Clock.setHours(Clock.getHours()+1);
+				
 							
 				if((Clock.getHours() == MaxHour-1) && !Clock.getMilitaryTime())
 				{
 					Clock.changeAM_PM();
 				}
-				if(Clock.getHours() > MaxHour)
+				if(Clock.getHours() == MaxHour)
 				{	//If 59 sec, 59mins, and 12 hrs
 					Clock.setHours(MinHour);
 					
+				}
+				else
+				{
+					Clock.setHours(Clock.getHours()+1);
 				}
 			}
 		}
@@ -260,7 +264,7 @@
 				var MaxHour = 23
 				var MinHour = 0
 			}
-			if (aHours <= MaxHour+1 && aHours >= MinHour)
+			if (aHours <= MaxHour && aHours >= MinHour)
 			{
 					
 					this.Hours = aHours
