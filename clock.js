@@ -157,9 +157,9 @@
 			counter = "stop";
 			
 			
-			document.getElementById("hClock").innerHTML = Clock.getHours() + ":";//Set User's time on Clock
+			document.getElementById("hClock").innerHTML = Clock.getHours();//Set User's time on Clock
 			
-			document.getElementById("mClock").innerHTML = Clock.getMinutes() + ":";
+			document.getElementById("mClock").innerHTML = Clock.getMinutes();
 			
 			document.getElementById("sClock").innerHTML = Clock.getSeconds();
 			

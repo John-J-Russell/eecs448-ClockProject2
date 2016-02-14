@@ -5,7 +5,7 @@
 }	
 
  .header {
-	height: 230px; background-color: #B4AEFD;
+	height: 300px; background-color: #B4AEFD;
 	font-family:Arial, Helvetica, sans-serif;
  }
  
@@ -37,8 +37,15 @@
  .button {
 	 background-color: #000099; color: white; font-size: 20px; text-align: center; 
 	 margin: 5px 0 0 30px; border-radius: 10px; padding: 6px;
-	 
+	 animation-name: button;
+    animation-duration: 20s;
  }
+ @keyframes button {
+    0%   {background-color: #00004d;}
+    25%  {background-color: #00b300;}
+    50%  {background-color: #cc0000;}
+    100% {background-color: #990099;}
+}
  /** right-sided setTime div **/
  #setTime {
 	padding: 20px 30px 20px 50px;
