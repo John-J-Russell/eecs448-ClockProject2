@@ -34,6 +34,7 @@
 			  
 			document.getElementById("sClock").style.color = 'black';
 			
+			invalid = false
 			startClock(MaxHour, MinHour);
 		}
 		counter = counter + 1;
@@ -64,16 +65,20 @@
 		
 		
 		//This function will run every 1 second. All it does is increment second variable and check if it affects mins and hours
-		if(Clock.getSeconds() == 59)
+		Clock.setSeconds(Clock.getSeconds()+1);
+		
+		if(Clock.getSeconds() == 60)
 		{	//If 59 sec
 			Clock.setSeconds(0);
 			
 			Clock.setMinutes( Clock.getMinutes() + 1 );//increments minutes by 1
 			
-			if(Clock.getMinutes() == 59)
+			
+			if(Clock.getMinutes() == 60)
 			{	//If 59 sec and 59 mins
 				Clock.setMinutes(0);
 				
+				Clock.setHours(Clock.getHours()+1);
 							
 				if((Clock.getHours() == MaxHour-1) && !Clock.getMilitaryTime())
 				{
@@ -84,19 +89,7 @@
 					Clock.setHours(MinHour);
 					
 				}
-				else
-				{
-					Clock.setHours(Clock.getHours()+1);
-				}
 			}
-			else
-			{
-				Clock.setMinutes(Clock.getMinutes()+1);
-			}
-		}
-		else
-		{
-			Clock.setSeconds(Clock.getSeconds()+1);
 		}
 		
 
@@ -108,7 +101,7 @@
 
 		//Clears the previous setTimeout and Calls the start Clock function every 1 second.
 		clearTimeout(i);
-			i = setTimeout(function() { startClock(MaxHour, MinHour); }, 1000);
+		i = setTimeout(function() { startClock(MaxHour, MinHour); }, 1000);
 	}
 	//Author: Sri 
 	function checkTime(i) 
@@ -172,7 +165,10 @@
 					
 			startClock(MaxHour, MinHour);//Start the clock (Only Once when user Presses button everytime)
 		}
-			
+		else
+		{
+			return
+		}			
 		
 			document.getElementById("valid").innerHTML = text;
 	}
@@ -253,16 +249,7 @@
 				}
 				else
 				{
-					var text= "Input not valid"; 
-					
-					document.getElementById("hClock").innerHTML = "12 :";//display invalid when bad input is given
-			
-					document.getElementById("mClock").innerHTML = "00 :";
-					
-					document.getElementById("sClock").innerHTML = "00";
-					
-					init_blink(12,1);
-					return(false)
+					return(InvalidEntry())
 				}
 				
 			},
@@ -272,7 +259,7 @@
 			},
 			setMinutes: function (aMinutes)
 			{
-				if (aMinutes < 60 && aMinutes >= 0)
+				if (aMinutes <= 60 && aMinutes >= 0)
 				{
 					
 					this.Minutes = aMinutes
@@ -280,16 +267,7 @@
 				}
 				else
 				{
-					var text= "Input not valid"; 
-					
-					document.getElementById("hClock").innerHTML = "12 :";//display invalid when bad input is given
-			
-					document.getElementById("mClock").innerHTML = "00 :";
-					
-					document.getElementById("sClock").innerHTML = "00";
-					
-					init_blink(12, 1);
-					return(false)
+					return(InvalidEntry())
 				}
 			},
 			getSeconds: function ()
@@ -298,7 +276,7 @@
 			},
 			setSeconds: function (aSeconds)
 			{
-				if (aSeconds < 60 && aSeconds >= 0)
+				if (aSeconds <= 60 && aSeconds >= 0)
 				{
 					
 					this.Seconds = aSeconds
@@ -306,16 +284,7 @@
 				}
 				else
 				{
-					var text= "Input not valid"; 
-					
-					document.getElementById("hClock").innerHTML = "12 :";//display invalid when bad input is given
-			
-					document.getElementById("mClock").innerHTML = "00 :";
-					
-					document.getElementById("sClock").innerHTML = "00";
-					
-					init_blink(12, 1);
-					return(false)
+					return(InvalidEntry())
 				}
 			},
 			getMilitaryTime: function()
@@ -368,7 +337,20 @@
 			}
 			
 			
+		}
+		function InvalidEntry()
+		{
+			var text= "Input not valid"; 
+					
+			document.getElementById("hClock").innerHTML = "12 :";//display invalid when bad input is given
+	
+			document.getElementById("mClock").innerHTML = "00 :";
 			
+			document.getElementById("sClock").innerHTML = "00";
+			
+			counter = 0
+			init_blink(12, 1);
+			return(false)
 		}
 	
 
