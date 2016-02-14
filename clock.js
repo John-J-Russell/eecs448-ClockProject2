@@ -264,7 +264,7 @@
 				var MaxHour = 23
 				var MinHour = 0
 			}
-			if (aHours <= MaxHour && aHours >= MinHour)
+			if (!isNaN(aHours) && (aHours <= MaxHour && aHours >= MinHour))
 			{
 					
 					this.Hours = aHours
@@ -282,7 +282,7 @@
 		},
 		setMinutes: function (aMinutes)
 		{
-			if (aMinutes <= 60 && aMinutes >= 0)
+			if (!isNaN(aMinutes) && aMinutes <= 60 && aMinutes >= 0)
 			{
 				
 				this.Minutes = aMinutes
@@ -299,7 +299,7 @@
 		},
 		setSeconds: function (aSeconds)
 		{
-			if (aSeconds <= 60 && aSeconds >= 0)
+			if (!isNaN(aSeconds) && aSeconds <= 60 && aSeconds >= 0)
 			{
 				
 				this.Seconds = aSeconds
