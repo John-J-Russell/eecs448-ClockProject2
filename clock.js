@@ -84,7 +84,7 @@
 				{
 					Clock.changeAM_PM();
 				}
-				if(Clock.getHours() == MaxHour)
+				if(Clock.getHours() > MaxHour)
 				{	//If 59 sec, 59mins, and 12 hrs
 					Clock.setHours(MinHour);
 					
@@ -254,7 +254,7 @@
 				var MaxHour = 23
 				var MinHour = 0
 			}
-			if (aHours <= MaxHour && aHours >= MinHour)
+			if (aHours <= MaxHour+1 && aHours >= MinHour)
 			{
 					
 					this.Hours = aHours
