@@ -12,11 +12,11 @@
 		
 		if (counter%2 == 0 )
 		{
-			  document.getElementById("hClock").style.color = 'white';
+			  document.getElementById("hClock").style.color = 'red';
 			  
-			  document.getElementById("mClock").style.color = 'white';
+			  document.getElementById("mClock").style.color = 'red';
 			  
-			  document.getElementById("sClock").style.color = 'white';
+			  document.getElementById("sClock").style.color = 'red';
 		}	  
 		else if(counter%2 == 1)
 		{
@@ -114,9 +114,8 @@
 	function clockBuild()
 	{
 		
-		Clock.setHours(document.getElementById("InputHours").value)
-		
-			var h,m,s,text; 
+				
+		var h,m,s,text; 
 		
 		counter = 0;
 
@@ -141,7 +140,9 @@
 			MinHour = 1
 		}
 		
-		
+		document.getElementById("colon").innerHTML = ":"
+			
+		document.getElementById("colon2").innerHTML = ":"
 		
 		if(Works)
 		{
@@ -157,10 +158,7 @@
 			
 			document.getElementById("sClock").innerHTML = Clock.getSeconds();
 			
-			document.getElementById("colon").innerHTML = ":"
-			
-			document.getElementById("colon2").innerHTML = ":"
-			
+						
 			Clock.setAM_PM(document.getElementById("amORpm").options[document.getElementById("amORpm").selectedIndex].value)
 					
 			startClock(MaxHour, MinHour);//Start the clock (Only Once when user Presses button everytime)
@@ -216,142 +214,144 @@
 		}
 		
 	}
-
-		//Author: Luke Weber
-		var Clock =
-		{	
 	
-		Minutes : document.getElementById("InputMinutes").value,
-		Seconds : document.getElementById("InputSeconds").value,
-		Hours : document.getElementById("InputHours").value,
-		MilitaryTime : false,
-		AM_PM : "AM",
+	function InvalidEntry()
+	{
+		var text= "Input not valid"; 
+				
+		document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
+
+		document.getElementById("mClock").innerHTML = "00";
 		
-			getHours: function ()
-			{
-				return(parseInt(this.Hours));
-			},
-			setHours: function (aHours)
-			{
-				
-				var MaxHour = 12
-				var MinHour = 1
-				if(this.getMilitaryTime())
-				{
-					var MaxHour = 23
-					var MinHour = 0
-				}
-				if (aHours <= MaxHour && aHours >= MinHour)
-				{
-						
-						this.Hours = aHours
-						return(true)
-				}
-				else
-				{
-					return(InvalidEntry())
-				}
-				
-			},
-			getMinutes: function ()
-			{
-				return(parseInt(this.Minutes));
-			},
-			setMinutes: function (aMinutes)
-			{
-				if (aMinutes <= 60 && aMinutes >= 0)
-				{
-					
-					this.Minutes = aMinutes
-					return(true)
-				}
-				else
-				{
-					return(InvalidEntry())
-				}
-			},
-			getSeconds: function ()
-			{
-				return(parseInt(this.Seconds));
-			},
-			setSeconds: function (aSeconds)
-			{
-				if (aSeconds <= 60 && aSeconds >= 0)
-				{
-					
-					this.Seconds = aSeconds
-					return(true)
-				}
-				else
-				{
-					return(InvalidEntry())
-				}
-			},
-			getMilitaryTime: function()
-			{
-				var MaxHour = document.getElementById("Hour clock").options[document.getElementById("Hour clock").selectedIndex].value
-					if(MaxHour == 12)
-					{
-						return(false)
-					}
-					else
-					{
-						return(true)
-					}
+		document.getElementById("sClock").innerHTML = "00";
+		
+		counter = 0
+		init_blink(12, 1);
+		return(false)
+	}
+	
+	//Author: Luke Weber
+	var Clock =
+	{	
+
+	Minutes : document.getElementById("InputMinutes").value,
+	Seconds : document.getElementById("InputSeconds").value,
+	Hours : document.getElementById("InputHours").value,
+	MilitaryTime : false,
+	AM_PM : "AM",
+	
+		getHours: function ()
+		{
+			return(parseInt(this.Hours));
+		},
+		setHours: function (aHours)
+		{
 			
-			},
-			getAM_PM : function()
+			var MaxHour = 12
+			var MinHour = 1
+			if(this.getMilitaryTime())
 			{
-				
-				return(this.AM_PM)
-				
-			},
-			setAM_PM : function(AM_PM)
+				var MaxHour = 23
+				var MinHour = 0
+			}
+			if (aHours <= MaxHour && aHours >= MinHour)
 			{
-				if(AM_PM == "am" || AM_PM == "pm")
-				{
-					if(!this.getMilitaryTime())
-					{
-					this.AM_PM = AM_PM
-					}
-					else
-					{
-						this.AM_PM = " "
-					}
-				}
-				else
-				{
-					this.AM_PM = AM_PM
-				}
-			},
-			changeAM_PM : function ()
+					
+					this.Hours = aHours
+					return(true)
+			}
+			else
 			{
-				if (this.getAM_PM() == "am")
-				{
-					this.setAM_PM("pm")
-				}
-				else if (this.getAM_PM() == "pm")
-				{
-					this.setAM_PM("am")
-				}
+				return(InvalidEntry())
 			}
 			
-			
-		}
-		function InvalidEntry()
+		},
+		getMinutes: function ()
 		{
-			var text= "Input not valid"; 
-					
-			document.getElementById("hClock").innerHTML = "12 :";//display invalid when bad input is given
-	
-			document.getElementById("mClock").innerHTML = "00 :";
+			return(parseInt(this.Minutes));
+		},
+		setMinutes: function (aMinutes)
+		{
+			if (aMinutes <= 60 && aMinutes >= 0)
+			{
+				
+				this.Minutes = aMinutes
+				return(true)
+			}
+			else
+			{
+				return(InvalidEntry())
+			}
+		},
+		getSeconds: function ()
+		{
+			return(parseInt(this.Seconds));
+		},
+		setSeconds: function (aSeconds)
+		{
+			if (aSeconds <= 60 && aSeconds >= 0)
+			{
+				
+				this.Seconds = aSeconds
+				return(true)
+			}
+			else
+			{
+				return(InvalidEntry())
+			}
+		},
+		getMilitaryTime: function()
+		{
+			var MaxHour = document.getElementById("Hour clock").options[document.getElementById("Hour clock").selectedIndex].value
+				if(MaxHour == 12)
+				{
+					return(false)
+				}
+				else
+				{
+					return(true)
+				}
+		
+		},
+		getAM_PM : function()
+		{
 			
-			document.getElementById("sClock").innerHTML = "00";
+			return(this.AM_PM)
 			
-			counter = 0
-			init_blink(12, 1);
-			return(false)
+		},
+		setAM_PM : function(AM_PM)
+		{
+			if(AM_PM == "am" || AM_PM == "pm")
+			{
+				if(!this.getMilitaryTime())
+				{
+				this.AM_PM = AM_PM
+				}
+				else
+				{
+					this.AM_PM = " "
+				}
+			}
+			else
+			{
+				this.AM_PM = AM_PM
+			}
+		},
+		changeAM_PM : function ()
+		{
+			if (this.getAM_PM() == "am")
+			{
+				this.setAM_PM("pm")
+			}
+			else if (this.getAM_PM() == "pm")
+			{
+				this.setAM_PM("am")
+			}
 		}
+		
+		
+	}
+		
 	
 
  
