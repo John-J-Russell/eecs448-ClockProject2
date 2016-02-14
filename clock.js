@@ -187,7 +187,7 @@
 			document.getElementById("whatNums").innerHTML = "Please input a number between 1 and 12:";
 			if (Hour > 12) 
 			{
-				Clock.setHours(Hours - 12);
+				Clock.setHours(Hour - 12);
 				Clock.setAM_PM("pm");
 			}
 			else
