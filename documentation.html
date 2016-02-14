@@ -34,47 +34,47 @@
 	<h3> Pre and post conditions of the code functions: </h3>
 	
 	<p>function init_blink(MaxHour, MinHour) </br>
-	-Precondition: </br>
-	-Postcondition: </br>
+	-Precondition: Must have a valid MaxHour and MinHour to pass to startClock() to start the clock back up again when valid input is entered</br>
+	-Postcondition: Calls the blink method over and over again until correct input is given</br>
 	-Authors: Luke Dercher, Sri Gayatri, Luke Weber.
 	</p>
 	
 	<p>function blink(MaxHour, MinHour) </br>
-	-Precondition: </br>
-	-Purpose: </br>
-	-Postcondition: </br>
+	-Precondition: Must have a valid MaxHour and MinHour to pass to startClock() to start the clock back up again when valid input is entered  </br>
+	-Purpose:changes the color of the 1200 text from black and white </br>
+	-Postcondition: exits the function when counter is set to stop</br>
 	-Authors: Luke Dercher, Sri Gayatri, Luke Weber.
 	</p>
 	
 	<p>function startClock(MaxHour, MinHour) </br> 
-	-Precondition: </br>
-	-Purpose: </br>
-	-Postcondition: </br>
+	-Precondition: Must have a valid MaxHour and MinHour to decide whether to display 24 hr or 12 hr time</br>
+	-Purpose: starts the clock. Called recursively. Adds one second every time called and then increments minutes and hours</br>
+	-Postcondition: Must display inputted time and change to am or pm when nesseccary </br>
 	- Author: Sri Gayatri & Luke Weber.
 	</p>
 	
 	<p>function checkTime(i)  </br>
-	-Precondition: </br>
-	-Purpose: </br>
+	-Precondition: feeds in an int</br>
+	-Purpose: adds a zero in front of numbers when needed </br>
 	-Postcondition: </br>
 	-Author: Sri Gayatri.
 	</p>
 	
 	<p>function clockBuild() </br>
 	-Precondition: </br>
-	-Purpose: </br>
-	-Postcondition: </br>
+	-Purpose: checks for good input </br>
+	-Postcondition: send that input to startClock() </br>
 	-Author: Luke Dercher, Sri, and Luke Weber.
 	</p>
 	
 	<p>function chngDisp() </br>
-	-Precondition: </br>
-	-Purpose: </br>
+	-Precondition: must read in value from 12hr or 24 hr drop box</br>
+	-Purpose: change display of what kind of input is acceptable</br>
 	-Postcondition: </br>
 	-Author: Luke Dercher and Luke Weber.
 	</p>
 	
 	<p> Work cited list: </br> </p>
-	
+	<p> functions learned from W3schools.com, though all variable names where changed and functions where used for our own purposes.</p>
 </body> 
 </html>
