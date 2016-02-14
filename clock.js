@@ -197,8 +197,7 @@
 			{
 				
 				Clock.setAM_PM("pm");
-				
-				
+								
 			}
 			else 
 			{
@@ -211,7 +210,7 @@
 		else if (MaxHour == 23)
 		{		
 			document.getElementById("whatNums").innerHTML = "Please input a number between 0 and 23:";
-			if(Clock.getAM_PM() == "pm")
+			if(Clock.getAM_PM() == "pm" && ! Hour==12)
 			{
 				Clock.setHours(Hour+ 12);
 			}
