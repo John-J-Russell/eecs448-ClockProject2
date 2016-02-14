@@ -66,9 +66,15 @@
 		if(Clock.getSeconds() == 59)
 		{	//If 59 sec
 			Clock.setSeconds(0);
+			
+			Clock.setMinutes( Clock.getMinutes + 1 );//increments minutes by 1
+			
 			if(Clock.getMinutes() == 59)
 			{	//If 59 sec and 59 mins
 				Clock.setMinutes(0);
+				
+				Clock.setHours( Clock.getHours + 1 );//increments hours by 1
+				
 				if((Clock.getHours() == MaxHour-1) && !Clock.getMilitaryTime())
 				{
 					Clock.changeAM_PM();
@@ -186,7 +192,7 @@
 			document.getElementById("whatNums").innerHTML = "Please input a number between 1 and 12:";
 			if (Hour > 12) 
 			{
-				Clock.setHours(Hours - 12);
+				Clock.setHours(Hour - 12);
 				Clock.setAM_PM("pm");
 			}
 			else
