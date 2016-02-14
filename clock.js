@@ -74,8 +74,7 @@
 			{	//If 59 sec and 59 mins
 				Clock.setMinutes(0);
 				
-				Clock.setHours( Clock.getHours() + 1 );//increments hours by 1
-				
+							
 				if((Clock.getHours() == MaxHour-1) && !Clock.getMilitaryTime())
 				{
 					Clock.changeAM_PM();
@@ -92,7 +91,7 @@
 			}
 			else
 			{
-				Clock.setHours(Clock.getHours()+1);
+				Clock.setMinutes(Clock.getMinutes()+1);
 			}
 		}
 		else
