@@ -1,10 +1,10 @@
 
-	var i,counter;
+	var i,counter, invalid=false;
 	"use strict"
 	// Author: Luke Dercher and Luke Weber
 	function init_blink(MaxHour, MinHour)
 	{
-		
+		invalid = true
 		window.setInterval(blink, 500, MaxHour, MinHour)
 	}
 	function blink(MaxHour, MinHour)
@@ -57,10 +57,11 @@
 				
 		var valid = document.getElementById("valid").innerHTML;
 		
-		if (valid == "Input not valid")
+		if (invalid)
 		{
 		return;
 		}
+		
 		
 		//This function will run every 1 second. All it does is increment second variable and check if it affects mins and hours
 		if(Clock.getSeconds() == 59)
@@ -156,6 +157,7 @@
 			
 			counter = "stop";
 			
+			invalid = false;
 			
 			document.getElementById("hClock").innerHTML = Clock.getHours();//Set User's time on Clock
 			
@@ -163,6 +165,9 @@
 			
 			document.getElementById("sClock").innerHTML = Clock.getSeconds();
 			
+			document.getElementById("colon").innerHTML = ":"
+			
+			document.getElementById("colon2").innerHTML = ":"
 			
 			Clock.setAM_PM(document.getElementById("amORpm").options[document.getElementById("amORpm").selectedIndex].value)
 					
