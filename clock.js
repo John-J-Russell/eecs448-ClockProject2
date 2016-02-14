@@ -150,9 +150,10 @@
 			
 			counter = "stop";
 			
-			document.getElementById("hClock").innerHTML = Clock.getHours();//Set User's time on Clock
 			
-			document.getElementById("mClock").innerHTML = Clock.getMinutes();
+			document.getElementById("hClock").innerHTML = Clock.getHours() + ":";//Set User's time on Clock
+			
+			document.getElementById("mClock").innerHTML = Clock.getMinutes() + ":";
 			
 			document.getElementById("sClock").innerHTML = Clock.getSeconds();
 			
@@ -163,8 +164,6 @@
 		}
 			
 		
-		 
-		 
 			document.getElementById("valid").innerHTML = text;
 	}
 	//Author: Luke Dercher
@@ -246,9 +245,9 @@
 				{
 					var text= "Input not valid"; 
 					
-					document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
+					document.getElementById("hClock").innerHTML = "12 :";//display invalid when bad input is given
 			
-					document.getElementById("mClock").innerHTML = "00";
+					document.getElementById("mClock").innerHTML = "00 :";
 					
 					document.getElementById("sClock").innerHTML = "00";
 					
@@ -273,9 +272,9 @@
 				{
 					var text= "Input not valid"; 
 					
-					document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
+					document.getElementById("hClock").innerHTML = "12 :";//display invalid when bad input is given
 			
-					document.getElementById("mClock").innerHTML = "00";
+					document.getElementById("mClock").innerHTML = "00 :";
 					
 					document.getElementById("sClock").innerHTML = "00";
 					
@@ -299,9 +298,9 @@
 				{
 					var text= "Input not valid"; 
 					
-					document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
+					document.getElementById("hClock").innerHTML = "12 :";//display invalid when bad input is given
 			
-					document.getElementById("mClock").innerHTML = "00";
+					document.getElementById("mClock").innerHTML = "00 :";
 					
 					document.getElementById("sClock").innerHTML = "00";
 					

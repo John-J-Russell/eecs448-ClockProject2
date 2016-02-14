@@ -1,42 +1,44 @@
 
 .container {
 	margin: 0; padding: 0; 
-	font-family:Arial, Helvetica, sans-serif;
 	position: relative;
 }	
 
  .header {
 	height: 230px; background-color: #B4AEFD;
- 
+	font-family:Arial, Helvetica, sans-serif;
  }
  
  #leftBlock {
 	background-color: none;
-	height: 100px; width: 30%; float: left;
+	height: 100px; width: 24%; float: left;
  }
  #rightBlock {
 	background-color: none;
-	height: 100px; width: 65%; float: right;
+	height: 100px; width: 70%; float: right;
  }
  .main {
-	background-color: yellow;
-	height: 400px; margin: auto; width: 1000px; 
-
-
+	background-color: #e6ffff;
+	border-radius: 100px; border: 10px dashed #e6f7ff;
+	height: 480px; width: 850px; margin: auto;
 }
- /** Right sided clock mode **/
+ /** left sided clock mode **/
  #clockMode {
 	background-color: transparent;
-	height: 70%; width: 70%; margin: 50px 0 0 100px;
+	height: 70%; width: 70%; margin: 50px 0 0 50px;
 	position: relative; padding: 10px; 
  }
  select {
 	background-color: #EFEEFE;
 	width: 230px; height: 100%; 
 	font-size: 25px; text-align: center;
-	margin: 50px 0 0 25px; padding: 5px 0 5px 5px;
+	margin: 30px 0 0 20px; padding: 5px 0 5px 5px; border-radius: 10px;
  }
- 
+ .button {
+	 background-color: #000099; color: white; font-size: 20px; text-align: center; 
+	 margin: 5px 0 0 30px; border-radius: 10px; padding: 6px;
+	 
+ }
  /** right-sided setTime div **/
  #setTime {
 	padding: 20px 30px 20px 50px;
@@ -51,6 +53,21 @@
  #InputSeconds {
 	padding: 5px; font-size: 20px; text-align: center;
  }
-		 
-		 
+#amORpm {
+	background-color: #EFEEFE; border-radius: 10px;
+	width: 100px; height: 50px; 
+	font-size: 20px; text-align: center;
+	margin: 0 0 0 20px; 
+	
+}
+
+#valid {
+	color: #0033cc; font-size: 60px; text-align: center;
+}
+#clock {
+	color: black; 
+	font-size: 100px; text-align: center; padding: 30px 0 0 0;
+	
+}		 
+
 			
