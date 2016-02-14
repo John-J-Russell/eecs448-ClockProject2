@@ -193,7 +193,14 @@
 				Clock.setHours(Hour - 12);
 				Clock.setAM_PM("pm");
 			}
-			else
+			else if(Hour == 12)
+			{
+				
+				Clock.setAM_PM("pm");
+				
+				
+			}
+			else 
 			{
 				Clock.setAM_PM("am");
 			}
