@@ -24,7 +24,7 @@
 			
 				<div id="leftBlock">
 					<div id="clockMode">
-						<div class="select">
+						<div id="selectClock">
 							<select id="Hour clock" onchange="chngDisp()">
 								<option value="12"> 12-hour clock</option>
 								<option value="23"> 24-hour clock</option>
@@ -42,7 +42,11 @@
 
 							<input id="InputHours"> : 
 							<input id="InputMinutes"> : 
-							<input id="InputSeconds"> seconds
+							<input id="InputSeconds"> 
+							<select id="amORpm">
+								<option value="am">am</option>
+								<option value="pm">pm</option>
+							</select>	
 							
 							<button class="button" onclick="clockBuild()">Click to run! </button>
 							
@@ -53,14 +57,15 @@
 			</div>
 			
 			<div class="main">
-				<div id="clock">
-					<p id="valid"></p> 
 				
-					<span id="hClock"></span>
-					
-					<span id="mClock"></span>
-					
-					<span id="sClock"></span>
+					<p id="valid"></p> 
+				<div id="clock">
+					<span id="hClock"> </span>
+					<span id ="colon"> </span>
+					<span id="mClock"> </span>
+					<span id ="colon2"> </span>
+					<span id="sClock"> </span>
+					<span id="am_pm"> </span>
 				</div> 
 			</div>
 		</div>
