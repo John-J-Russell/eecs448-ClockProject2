@@ -1,3 +1,9 @@
+/*
+** EECS 448 Project #1: Clock
+** Authors: Luke Dercher, Sri Gayatri, Luke Weber.
+** Last update: Feb 14, 2016.
+*/
+
 
 	var i,counter, invalid=false;
 	"use strict"
