@@ -1,12 +1,13 @@
-
+/*Author: Vuong Nguyen.
+** Last changed: Feb 14, 2016.
+*/
 .container {
 	margin: 0; padding: 0; 
-	position: relative;
+	position: relative; font-family:Arial, Helvetica, sans-serif;
 }	
 
  .header {
-	height: 300px; background-color: #B4AEFD;
-	font-family:Arial, Helvetica, sans-serif;
+	height: 270px; background-color: #B4AEFD;
  }
  
  #leftBlock {
@@ -18,9 +19,9 @@
 	height: 100px; width: 70%; float: right;
  }
  .main {
-	background-color: #e6ffff;
+	background-color: #DAE3FA;
 	border-radius: 100px; border: 10px dashed #e6f7ff;
-	height: 480px; width: 850px; margin: auto;
+	height: 400px; width: 850px; margin: auto;
 }
  /** left sided clock mode **/
  #clockMode {
@@ -65,22 +66,13 @@
 	width: 100px; height: 50px; 
 	font-size: 20px; text-align: center;
 	margin: 0 0 0 20px; 
-	
 }
 
 #valid {
-	color: #0033cc; font-size: 60px; text-align: center;
+	color: #040C62; font-size: 60px; text-align: center;
 }
 #clock {
 	color: black; 
-	font-size: 100px; text-align: center; padding: 30px 0 0 0;
-
-#valid {
-	color: #0033cc; font-size: 60px; text-align: center;
-}
-#clock {
-	color: black; 
-	font-size: 100px; text-align: center; padding: 30px 0 0 0;
-	
+	font-size: 100px; text-align: center; 
 }		 
 
