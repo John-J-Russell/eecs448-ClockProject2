@@ -1,76 +1,105 @@
-
 <!-- EECS 448 Class project : Clock Display on a Web application.
 ** Author: Vuong Nguyen.
 ** Contributor: Luke Weber
-** Laste update: Feb 05, 2016.
+** More Contributers: Alec Knutsen 
+** Laste update: Feb 29, 2016.
 -->
 
 <!DOCTYPE html>
 <html>
 	<head>
+	
+		<!-- The <meta> tag provides metadata about the HTML document. Metadata will not be displayed on the page, but will be machine parsable. Meta elements are typically used to specify page description, keywords, author of the document, last modified, and other metadata. -->
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- jqueray API --> 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		
+		<!-- Title of Webpage --> 
 		<title>My digital Clock</title>
 		
+		<!-- Link to css stylesheet --> 
 		<link rel="stylesheet" type="text/css" href="clock.css" />
+		
 	</head>
 
 	<body>
 		<div class="container">
 			<div class="header">
 			
+			
+				<!-- Left half of webpage --> 
 				<div id="leftBlock">
+				
 					<div id="clockMode">
+						<!-- HTML element to form dropdown menu  for 12/24 hour clock --> 
+						
 						<div id="selectClock">
+						
 							<select id="Hour clock" onchange="chngDisp()">
 								<option value="12"> 12-hour clock</option>
 								<option value="23"> 24-hour clock</option>
 							</select>	
+							
 						</div>
+						
 					</div>
 					
 				
 				</div>
 				
+				<!-- Right block of html code --> 
 				<div id="rightBlock"> 
+				
 					<div id="setTime">
+					
+						<!-- Some HTML text to guide the user --> 
 						<h2> Select the clock hour and set your time </h2>
 						<p id="whatNums"></p>
 
-							<input id="InputHours"> : 
-							<input id="InputMinutes"> : 
-							<input id="InputSeconds"> 
-							<select id="amORpm">
-								<option value="am">am</option>
-								<option value="pm">pm</option>
-							</select>	
-							
-							<button class="button" onclick="clockBuild()">Click to run! </button>
-							
-							
+						<!-- HTML element to set the hours : minutes: seconds of the clock  --> 
+						<input id="InputHours"> : 
+						<input id="InputMinutes"> : 
+						<input id="InputSeconds"> 
+						
+						<!-- HTML Option to select AM or PM  --> 
+						<select id="amORpm">
+							<option value="am">am</option>
+							<option value="pm">pm</option>
+						</select>	
+						
+						<!-- Button that class the  clockBuild method of the javascript file when clicked   --> 
+						<button class="button" onclick="clockBuild()">Click to run! </button>
 						
 					</div>
+					
 				</div>
+				
 			</div>
 			
+			<!-- Main display elemnt --> 
 			<div class="main">
 				
+					<!-- Text to let the user no when the input is valid or not --> 
 					<p id="valid"></p> 
-				<div id="clock">
-					<span id="hClock"> </span>
-					<span id ="colon"> </span>
-					<span id="mClock"> </span>
-					<span id ="colon2"> </span>
-					<span id="sClock"> </span>
-					<span id="am_pm"> </span>
-				</div> 
+					
+					<!-- Elements to display clock --> 
+					<div id="clock">
+						<span id="hClock"> </span>
+						<span id ="colon"> </span>
+						<span id="mClock"> </span>
+						<span id ="colon2"> </span>
+						<span id="sClock"> </span>
+						<span id="am_pm"> </span>
+					</div> 
 			</div>
+			
 		</div>
 		
+		<!-- Line to clock.js javascript file --> 
 		<script type="text/javascript" src= "clock.js"> </script>	
 		
 	</body>
+	
 </html>
