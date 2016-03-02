@@ -18,9 +18,9 @@
 function startTimer()
 {
 	timer.reset();
-	var h=document.getElementById("hourField").value;
-	var m=document.getElementById("minField").value;
-	var s=document.getElementById("secField").value;
+	var h=document.getElementById("InputHours").value;
+	var m=document.getElementById("InputMinutes").value;
+	var s=document.getElementById("InputSeconds").value;
 	
 	//If empty fields, just use zeros there.
 	if(h=='')
@@ -109,9 +109,11 @@ function countdown()
 //Subject to change.
 function displayTime()
 {
-	var out=document.getElementById("timeDisplay");
+	//var out=document.getElementById("timeDisplay");
 	//.innerHTML changes content of <p> tag
-	out.innerHTML=makeTimeString();
+	//out.innerHTML=makeTimeString();
+	//This is a bit stupid, but saves time.
+	var throwaway=makeTimeString();
 }
 
 //turns the time into a string for easy displayment
@@ -134,6 +136,13 @@ function makeTimeString()
 		tempSec="0"+timer.sec;
 	}
 	var prettyTimeString=tempHour+":"+tempMin+":"+tempSec;
+	
+	//Changes display
+	document.getElementById("hClock").innerHTML=tempHour;
+	document.getElementById("mClock").innerHTML=tempMin;
+	document.getElementById("sClock").innerHTML=tempSec;
+	
+	//This is a legacy for the decrementer, which uses this to check if time has run out.
 	return(prettyTimeString);
 }
 

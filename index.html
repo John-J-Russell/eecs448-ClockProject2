@@ -59,9 +59,9 @@
 						<p id="whatNums"></p>
 
 						<!-- HTML element to set the hours : minutes: seconds of the clock  --> 
-						<input id="InputHours"> : 
-						<input id="InputMinutes"> : 
-						<input id="InputSeconds"> 
+						<input type="number" id="InputHours"> : 
+						<input type="number" id="InputMinutes"> : 
+						<input type="number" id="InputSeconds"> 
 						
 						<!-- HTML Option to select AM or PM  --> 
 						<select id="amORpm">
@@ -74,6 +74,9 @@
 						<button class="button" onclick="stopWatchBuild()">Start StopWatch! </button>
 						<button class="button" onclick="stopWatchPause()">Pause/Resume StopWatch! </button>
 						<button class="button" onclick="stopWatchReset()">Reset StopWatch! </button>
+						<button class="button" onClick="startTimer()">Start Timer</button>
+						<button class="button" onClick="switchTickTockOrNot()">Pause/Resume</button>
+						<button class="button" onClick="resetTimer()">Reset Timer</button>
 						
 					</div>
 					
@@ -102,7 +105,8 @@
 		
 		<!-- Line to clock.js javascript file --> 
 		<script type="text/javascript" src= "clock.js"> </script>
-		<script type="text/javascript" src= "stopWatch.js"> </script>		
+		<script type="text/javascript" src= "stopWatch.js"> </script>	
+		<script type="text/javascript" src="Timer.js"></script>
 		
 	</body>
 	
