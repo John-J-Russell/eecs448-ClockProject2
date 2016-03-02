@@ -142,7 +142,25 @@ function makeTimeString()
 }
 
 
+//Switches if timer should keep decrementing or not
+function switchTickTockOrNot()
+{
+	if(timer.tickTockOrNot==true)
+	{
+		timer.tickTockOrNot=false;
+	}
+	else
+	{
+		timer.tickTockOrNot=true;
+		countdown();
+	}
+}
 
+//As name implies, resets the timer to zero.
+function resetTimer()
+{
+	timer.reset();
+}
 
 //I'm doing the massive object thing too, fuck it
 var timer=
