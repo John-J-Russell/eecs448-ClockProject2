@@ -9,11 +9,17 @@
 
 //TODO:
 //Set time DONE
-//Start timer
-//Pause time
-//Resume timer
-//Reset timer
+//Start timer: DONE
+//Pause time: DONE?
+//Resume timer: DONE KINDA
+//Reset timer: RIGHT
 //Display remaining time: DONE
+//FIX WEIRD STUTTER BUG
+//clicking pause/resume twice in rapid succession messes with timer tickdown speed.
+//Also rapidly clicking "gib" messes things up.
+
+//Make a timer variable that handles the delay, and activate a clear on each instantiation?
+//Lazy option: onClick activates a method that delays 1 second before doing the rest?
 
 //Personal notes:
 //undefined var == ""
@@ -21,6 +27,7 @@
 
 function startTimer()
 {
+	timer.reset();
 	var h=document.getElementById("hourField").value;
 	var m=document.getElementById("minField").value;
 	var s=document.getElementById("secField").value;
@@ -55,7 +62,7 @@ function startTimer()
 		//start fucking about with a timer countdown
 		displayTime();
 		
-		countdown();
+		setTimeout(countdown, 1000);
 	}
 	
 	//console.log(timer);
@@ -159,7 +166,7 @@ function switchTickTockOrNot()
 	else
 	{
 		timer.tickTockOrNot=true;
-		countdown();
+		setTimeout(countdown, 1000);
 	}
 }
 
