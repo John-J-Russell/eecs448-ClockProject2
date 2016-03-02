@@ -96,9 +96,12 @@ function countdown()
 			}
 			
 		}
+		displayTime();
+		//ticker++;
+		//console.log(ticker);
+		setTimeout( countdown , 1000 );
 	}
-	displayTime();
-	setTimeout(countdown(),1000)
+	
 	
 }
 
@@ -134,7 +137,7 @@ function makeTimeString()
 		//console.log(tempSec);
 	}
 	var prettyTimeString=tempHour+":"+tempMin+":"+tempSec;
-	console.log(prettyTimeString);
+	//console.log(prettyTimeString);
 	return(prettyTimeString);
 }
 
