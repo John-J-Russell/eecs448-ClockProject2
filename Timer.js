@@ -25,12 +25,26 @@ function startTimer()
 	var m=document.getElementById("minField").value;
 	var s=document.getElementById("secField").value;
 	
+	//If empty fields, just use zeros there.
+	if(h=='')
+	{
+		h=0;
+	}
+	if(m=='')
+	{
+		m=0;
+	}
+	if(s=='')
+	{
+		s=0;
+	}
 	
 	if((m<0||m>59) || (s<0||s>59) || h<0)
 	{
 		alert("Invalid entry");
 		
 	}
+	
 	else
 	{
 		timer.hour=h;
@@ -43,17 +57,9 @@ function startTimer()
 		
 		countdown();
 	}
-	//console.log(h+":"+m+":"+s);
-	if(s=="")
-	{
-		console.log("nothing");
-	}
-	console.log(timer);
-	//timer.reset();
+	
 	//console.log(timer);
-	//test
-	//var i, q, invalid = false;
-	//console.log(i+" "+q+" "+invalid);
+	
 }
 
 //Takes it down a second
@@ -65,7 +71,8 @@ function countdown()
 		if(makeTimeString()=="00:00:00")
 		{
 			//Play a thing if possible
-			timer.tickTockOrNot==false;
+			timer.tickTockOrNot=false;
+			alert("It's done, now go save your cake");
 		}
 		else
 		{
@@ -160,6 +167,7 @@ function switchTickTockOrNot()
 function resetTimer()
 {
 	timer.reset();
+	displayTime();
 }
 
 //I'm doing the massive object thing too, fuck it
