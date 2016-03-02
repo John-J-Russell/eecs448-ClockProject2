@@ -49,7 +49,7 @@ function startTimer()
 		timer.min=m;
 		timer.sec=s;
 		timer.tickTockOrNot=true;
-		console.log(timer);
+		//console.log(timer);
 		displayTime();
 		
 		setTimeout(countdown, 1000);
