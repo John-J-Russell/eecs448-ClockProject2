@@ -8,22 +8,12 @@
 
 
 //TODO:
-//Set time DONE
-//Start timer: DONE
-//Pause time: DONE?
-//Resume timer: DONE KINDA
-//Reset timer: RIGHT
-//Display remaining time: DONE
 //FIX WEIRD STUTTER BUG
 //clicking pause/resume twice in rapid succession messes with timer tickdown speed.
 //Also rapidly clicking "gib" messes things up.
 
 //Make a timer variable that handles the delay, and activate a clear on each instantiation?
 //Lazy option: onClick activates a method that delays 1 second before doing the rest?
-
-//Personal notes:
-//undefined var == ""
-//
 
 function startTimer()
 {
@@ -54,19 +44,16 @@ function startTimer()
 	
 	else
 	{
+		//put variables in timer, start ticking down.
 		timer.hour=h;
 		timer.min=m;
 		timer.sec=s;
 		timer.tickTockOrNot=true;
 		console.log(timer);
-		//start fucking about with a timer countdown
 		displayTime();
 		
 		setTimeout(countdown, 1000);
 	}
-	
-	//console.log(timer);
-	
 }
 
 //Takes it down a second
@@ -111,8 +98,6 @@ function countdown()
 			
 		}
 		displayTime();
-		//ticker++;
-		//console.log(ticker);
 		setTimeout( countdown , 1000 );
 	}
 	
@@ -121,6 +106,7 @@ function countdown()
 
 
 //Put that time onto the page
+//Subject to change.
 function displayTime()
 {
 	var out=document.getElementById("timeDisplay");
@@ -138,20 +124,16 @@ function makeTimeString()
 	if(timer.hour<10)
 	{
 		tempHour="0"+timer.hour;
-		//console.log(tempHour);
 	}
 	if(timer.min<10)
 	{
 		tempMin="0"+timer.min;
-		//console.log(tempMin);
 	}
 	if(timer.sec<10)
 	{
 		tempSec="0"+timer.sec;
-		//console.log(tempSec);
 	}
 	var prettyTimeString=tempHour+":"+tempMin+":"+tempSec;
-	//console.log(prettyTimeString);
 	return(prettyTimeString);
 }
 
@@ -165,6 +147,7 @@ function switchTickTockOrNot()
 	}
 	else
 	{
+		//timeout delay here makes it take a second before decreasing.
 		timer.tickTockOrNot=true;
 		setTimeout(countdown, 1000);
 	}
@@ -177,13 +160,12 @@ function resetTimer()
 	displayTime();
 }
 
-//I'm doing the massive object thing too, fuck it
+//Global timer object
 var timer=
 {
 	hour:0,
 	min:0,
 	sec:0,
-	//determines whether to decrement or not, subject to change
 	tickTockOrNot:false,
 	reset:function()
 	{
