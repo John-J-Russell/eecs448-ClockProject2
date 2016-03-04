@@ -1,17 +1,32 @@
-function zoom_size() {
-	size = document.getElementById("zoom_input").value;
+zoom_array = ["25%","50%","75%","100%","125%","150%","175%","200%"];
+index = 3;
+function zoom_down() {
 	
-	
-	
-	if(size != "25%" && size!= "50%" && size != "75%" && size != "100%" && size != "125%"  && size != "150%"  && size != "175%" && size != "200%") {
-		var inputVal = document.getElementById("zoom_input");
-		inputVal.style.backgroundColor = "red";
-
+	if(index == 0) {
+		index =0;
 	}
 	else {
-		var inputVal = document.getElementById("zoom_input");
-		inputVal.style.backgroundColor = "green";
-		document.body.style.zoom=size;
+		index = index-1;
+		alert(zoom_array[index]);
+		document.body.style.zoom=zoom_array[index-1];
+		
+		
+	}
+
+	
+	
+}
+
+function zoom_up() {
+	
+	
+	if(index ==7) {
+		index =7;
+	}
+	else {
+		index = index+1;
+		alert(zoom_array[index]);
+		document.body.style.zoom=zoom_array[index+1];
 		
 		
 	}
