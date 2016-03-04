@@ -3,11 +3,37 @@ var day = 20;
 var month = 3;
 var month_key_value = [1,4,4,0,2,5,0,3,6,1,4,6];
 
-
-function getDate()
+//Function to handle next day transitions
+function nextDay()
 {
+	switch(month){
+		case 2:
+		if(day == 29)
+		{
+			month++;
+			day = 0;
+		}
+		break
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+		if(day == 30)
+		{
+			month++;
+			day = 0;
+		}
+		break;
+		default:
+		if(day == 31)
+		{
+			month++;
+			day = 0;
+		}
+		break;
+	}
+	//After changing the day, set the date
 	setDate();
-	return date;
 }
 
 //Sets the string variable date with the current day of the week
@@ -27,25 +53,25 @@ function setDate()
 	switch(formula)
 	{
 		case 1:
-		day = "Sunday";
+		date = "Sunday";
 		break;
 		case 2:
-		day = "Monday";
+		date = "Monday";
 		break;
 		case 3:
-		day = "Tuesday";
+		date = "Tuesday";
 		break;
 		case 4:
-		day = "Wednesday";
+		date = "Wednesday";
 		break;
 		case 5:
-		day = "Thursday";
+		date = "Thursday";
 		break;
 		case 6:
-		day = "Friday";
+		date = "Friday";
 		break;
 		case 0:
-		day = "Saturday";
+		date = "Saturday";
 		break;
 	}
 }

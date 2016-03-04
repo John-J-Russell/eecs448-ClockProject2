@@ -1,4 +1,7 @@
 
+// By Yarden
+
+
 //var shouldRun = false;
 
 var secs =0;
@@ -18,12 +21,12 @@ function stopWatchRun()
 
 	
 	
-
-	document.getElementById("hClock").innerHTML = checkTime(hours);
+	/*document.getElementById("hClock").innerHTML = checkTime(hours);
 	document.getElementById("mClock").innerHTML =  checkTime(min);
 	document.getElementById("sClock").innerHTML = checkTime(secs);
 	document.getElementById("colon").innerHTML = ":";
 	document.getElementById("colon2").innerHTML = ":";
+	*/
 	//Display to the webpage the current time
 	secs += 1;
 	//increment the seconds by 1 second
@@ -80,12 +83,18 @@ function stopWatchReset()
 	min=0;
 	secs=0;
 	//resets the times to 0
-	document.getElementById("hClock").innerHTML = checkTime(hours);
+	/*document.getElementById("hClock").innerHTML = checkTime(hours);
 	document.getElementById("mClock").innerHTML =  checkTime(min);
 	document.getElementById("sClock").innerHTML = checkTime(secs);
 	document.getElementById("colon").innerHTML = ":";
 	document.getElementById("colon2").innerHTML = ":";
-	//Displays that it has reset
+	//Displays that it has reset*/
+
+}
+
+function stopWatchDisplay(stopWatchDiv)
+{
+	stopWatchDiv.innerHTML = checkTime(hours) + ":" + checkTime(min) + ":" + checkTime(secs);
 }
 
 function checkTime(a) 

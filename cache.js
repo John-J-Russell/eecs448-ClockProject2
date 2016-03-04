@@ -4,15 +4,11 @@
 //this new access, offset the clock by this, doing so will
 //effectively allow the clock to run in the background
 
-var oldtime = document.getElementById("oldtime");
-var newtime = document.getElementById("newtime");
-var elapsedtime = document.getElementById("elapsedtime");
-
 //At the start of the app, before everything else loads
 //check if there is any program cache.
 function isThereAnyStorage(type)
 {
-		try	
+		try
 		{
 			var storage = window[type];
 			x = '_is_this_thing_on?';
@@ -25,7 +21,6 @@ function isThereAnyStorage(type)
 		}
 }
 
-
 function loadConfig()
 {
 	if(isThereAnyStorage('localStorage'))
@@ -35,10 +30,8 @@ function loadConfig()
 			var oldDate	    = localStorage.getItem('exit_time');
 			var currentDate = new Date();
 			var elapsed = Date.now() - localStorage.getItem('exit_time');
-			oldtime.innerHTML = oldDate;
-			newtime.innerHTML = Date.now();
-			elapsedtime.innerHTML = elapsed;
-			console.log(oldDate);
+			Clock.setTime(localStorage.getItem("exit_hours"), localStorage.getItem("exit_minutes"), localStorage.getItem("exit_seconds"));
+			offsetTime(elapsed);
 		}		
 		else
 		{
@@ -55,12 +48,15 @@ function loadConfig()
 function saveConfig()
 {
 	var exit_time = Date.now();
-	localStorage.setItem('exit_time', exit_time);
-}
 
-window.onload = function()
-{
-	loadConfig();
+	localStorage.setItem('exit_seconds', exit_seconds);
+	localStorage.setItem('exit_minutes', exit_minutes);
+	localStorage.setItem('exit_hours', exit_hours);
+	//Yes I could do this with JSON, what are you a cop? Get out of here, shoo.
+	localStorage.setItem('exit_time', exit_time);
+	localStorage.setItem('exit_day' , day);
+	localStorage.setItem('exit_date', date);
+	localStorage.setItem('exit_month', month);
 }
 
 window.addEventListener('unload', function(event) {
