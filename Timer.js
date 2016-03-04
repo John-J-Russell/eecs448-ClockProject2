@@ -66,7 +66,10 @@ function countdown()
 		{
 			//Play a thing if possible
 			timer.tickTockOrNot=false;
-			alert("It's done, now go save your cake");
+			//Taken from StackOverflow user "URI"
+			//http://stackoverflow.com/questions/9419263/playing-audio-with-javascript
+			var audio = new Audio('STOP.mp3');
+			audio.play();
 		}
 		else
 		{
