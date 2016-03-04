@@ -10,7 +10,7 @@ var stopWatchBtnToggle = false;
 //To make things smarter we will define variables to redefine things, yet still retain functionality
 //The idea is since everything is inside a single tick, a higher tick rate should make 
 //things react faster
-var tickRate = 250; //rate at which the tick action will be executed (in ms)
+var tickRate = 100; //rate at which the tick action will be executed (in ms)
 var clockCounterLimit = (1000 / tickRate) - 1;
 var clockCounter 	 = 0;
 var stopWatchCounter = 0;
@@ -23,6 +23,11 @@ var hourDIV	 	 = document.getElementById("clock-hour");
 //var minuteDIV	 = document.getElementById("clock-minute");
 //var secondDIV	 = document.getElementById("clock-second");
 
+var timerHourDIV	 = document.getElementById("timer-hour");
+var timerMinuteDIV	 = document.getElementById("timer-minute");
+var timerSecondDIV	 = document.getElementById("timer-second");
+
+
 var oneInstanceStopWatch = 0;
 
 function intializeClockValues()
@@ -30,13 +35,13 @@ function intializeClockValues()
 	var now = new Date();
 }
 
-
 //Initialize everything once the page loads, to avoid referencing unloaded things
 window.onload = function()
 {
 	loadConfig();
 	setDate();
 	setInterval(tick, tickRate);
+	displayClock(clockDIV, hourDIV);
 }
 
 function frontEndStopWatchCheck()
@@ -47,35 +52,65 @@ function frontEndStopWatchCheck()
 	}
 }
 
-// tick function is called 
-function tick()
+function clockHandling()
 {
-	//Check counters
-
 	if(clockCounter >= clockCounterLimit)
 	{
 		clockCounter = 0;
 		Clock.tick();
-		displayClock(clockDIV, hourDIV);
 	}
 	else
 	{
 		clockCounter++;
 	}
-	if(stopWatchCounter >= clockCounterLimit && stopWatchEnable && stopWatchBtnToggle)
+}
+
+function stopWatchHandling()
+{
+	if(stopWatchBtnToggle)
 	{
-		stopWatchRun();
-		stopWatchDisplay(stopWatchDIV);
-	}
-	else if(stopWatchEnable && stopWatchBtnToggle)
-	{
-		stopWatchCounter++;
+		if(stopWatchCounter >= clockCounterLimit)
+		{
+			stopWatchCounter = 0;
+			stopWatchRun();
+		}
+		else
+		{
+			stopWatchCounter++;
+		}
 	}
 	else
 	{
-		//nothing
+		stopWatchCounter = 0;
 	}
-	//Display Clock
+}
+
+function timerHandling()
+{
+	if(timerBtnToggle)
+	{
+		if(timerCounter >= clockCounterLimit)
+		{
+			timerCounter = 0;
+			countdown();
+		}
+		else
+		{
+			timerCounter++;
+		}
+	}
+}
+
+// tick function is called 
+function tick()
+{
+	//Execute Handlers
+	clockHandling();
+	stopWatchHandling();
+	
+	//Display Clock, Timer and StopWatch
+	displayClock(clockDIV, hourDIV);
+	stopWatchDisplay(stopWatchDIV);
 }
 
 function stopWatchPlayPauseButton()
@@ -89,7 +124,7 @@ function stopWatchPlayPauseButton()
 	}
 	else
 	{
+		stopWatchCounter = 0;
 		stopWatchBtnToggle = true;
-
 	}
 }

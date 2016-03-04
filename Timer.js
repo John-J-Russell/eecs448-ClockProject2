@@ -15,12 +15,12 @@
 //Make a timer variable that handles the delay, and activate a clear on each instantiation?
 //Lazy option: onClick activates a method that delays 1 second before doing the rest?
 
-function startTimer()
+function startTimer(hoursDiv, minutesDiv, secondsDiv)
 {
 	timer.reset();
-	var h=document.getElementById("InputHours").value;
-	var m=document.getElementById("InputMinutes").value;
-	var s=document.getElementById("InputSeconds").value;
+	var h=hoursDiv.value;
+	var m=minutesDiv.value;
+	var s=secondsDiv.value;
 	
 	//If empty fields, just use zeros there.
 	if(h=='')
@@ -52,7 +52,7 @@ function startTimer()
 		//console.log(timer);
 		displayTime();
 		
-		setTimeout(countdown, 1000);
+		//setTimeout(countdown, 1000);
 	}
 }
 
@@ -98,7 +98,7 @@ function countdown()
 			
 		}
 		displayTime();
-		setTimeout( countdown , 1000 );
+		//setTimeout( countdown , 1000 );
 	}
 	
 	
@@ -117,7 +117,7 @@ function displayTime()
 }
 
 //turns the time into a string for easy displayment
-function makeTimeString()
+function makeTimeString(hoursDiv, minutesDiv, secondsDiv)
 {
 	//gussy this up later with the extra zeros where applicable
 	var tempHour=timer.hour;
@@ -138,9 +138,9 @@ function makeTimeString()
 	var prettyTimeString=tempHour+":"+tempMin+":"+tempSec;
 	
 	//Changes display
-	document.getElementById("hClock").innerHTML=tempHour;
-	document.getElementById("mClock").innerHTML=tempMin;
-	document.getElementById("sClock").innerHTML=tempSec;
+	hoursDiv.innerHTML=tempHour;
+	minutesDiv.innerHTML=tempMin;
+	secondsDiv.innerHTML=tempSec;
 	
 	//This is a legacy for the decrementer, which uses this to check if time has run out.
 	return(prettyTimeString);

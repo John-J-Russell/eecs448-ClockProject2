@@ -27,16 +27,25 @@
 	}
 	#stopWatchBtn
 	{
-		width: 30%;
-		height: 30%;
+		width: 10%;
+		height: 10%;
+		font-size: 50pt;
+	}
+	#stopWatch
+	{
+		width: 40%;
+		margin: 0 auto;
+		background-color: #1B5581;
+		text-align: center;
+		font-size: 30pt;
 	}
 	</style>
 </head>
 <body>
 	<div id="main-content">	
-	<button id="stopWatchBtn" onclick="stopWatchPlayPauseButton()">Run/Pause Stopwatch</button>
+	<button id="stopWatchBtn" onclick="stopWatchPlayPauseButton()">	&#9654;</button>
 	<button id="clockBtn"></button>
-	<button id="timerBtn"></button>
+	<button id="timerBtn"> Start Timer</button>
 		<div id="clock">
 			<div id="clock-hour"></div>
 		</div>
@@ -46,6 +55,9 @@
 		</div>
 
 		<div id="timer">
+		<div id="timer-hour"></div>
+		<div id="timer-minute"></div>
+		<div id="timer-second"></div>
 
 		</div>
 
