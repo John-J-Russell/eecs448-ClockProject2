@@ -197,12 +197,13 @@ function setClockButton()
 	var tempHour = document.getElementById("InputHours").value;
 	var tempMin  = document.getElementById("InputMinutes").value;
 	var tempSec  = document.getElementById("InputSeconds").value;
-	if(checkValidTimeInput(tempHour, tempMin, tempSec))
+	var tempampm = document.getElementById("amORpm").value;
+	if(checkValidTimeInput(tempHour, tempMin, tempSec,tempampm))
 	{
 		Clock.setHours(tempHour);
 		Clock.setMinutes(tempMin); 
 		Clock.setSeconds(tempSec); 
-		Clock.setMilitary(Military);
+		Clock.setAM_PM(tempampm);
 	}
 	
 }
