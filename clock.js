@@ -241,7 +241,7 @@
 			{
 				offset += 12;
 			} 
-			return _hours + offset;
+			return parseInt(_hours) + offset;
 		},
 
 		toCivilianTime:	function(_hours)
