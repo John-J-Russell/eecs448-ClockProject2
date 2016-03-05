@@ -5,52 +5,59 @@
 		<link rel="stylesheet" type="text/css" href="clock.css" />
 
 </head>
-<body id = >
-	<div class="main-content">
+<body>
+	<div id="main-content">
 	<div id="time-content" class="controls">
-			<input type="number" placeholder="Hours"class="timeIn"id="InputHours"> : 
+			<input type="number" placeholder="Hours"class="timeIn" id="InputHours"> : 
 			<input type="number" placeholder="Minutes"class="timeIn"id="InputMinutes"> : 
 			<input type="number" placeholder="Seconds"class="timeIn"id="InputSeconds"> 
 			<select id="amORpm">
 					<option value="am">am</option>
 					<option value="pm">pm</option>
 			</select>	<br>
-	<button id="clockSetBtn" onclick="setClockButton()">Set Time</button>
-	<button id="clockMilBtn" onclick="setClockMilitary()">Military Time</button>
+	<div class="button-content">
+		<button id="clockSetBtn" onclick="setClockButton()">Set Time</button>
+		<button id="clockMilBtn" onclick="setClockMilitaryButton()">Military Time</button>
+	</div>
 	<div id="clock" class="clockMode">
 		<div id="clock-hour" class="object"></div>
 	</div>
 	</div>
 	<div id="calendar-content" class="controls"> 
 		<div id="calendar" align="center" class="object"></div>
-		<input type="number" id="InputDay" placeholder="Day"> : 
-		<input type="number" id="InputMonth" placeholder="Month"> 
+		<input type="number" id="InputDay" placeholder="Day" class="timeIn"> : 
+		<input type="number" id="InputMonth" placeholder="Month" class="timeIn"> 
 		<button id="calendarSetBtn" onclick="calendarSetButton()">Set Date</button>
 	</div>
 
-	<div id="timer-content" class="controls"> <h1 align="center">Timer</h1> 
-			<div id="timer" align="center" class="object"></div>		
-			<input type="number" id="hourField" name="hF" placeholder="Hours"> :
-			<input type="number" id="minField" name="mF" placeholder="Minutes"> :
-			<input type="number" id="secField" name="sF" placeholder="Seconds">
-			<button type="button" onClick="timerStartButton()"> Set timer </button>
-			<button type="button" onClick="switchTickTockOrNot()"> Pause/Resume</button>
-			<button type="button" onClick="timerResetButton()"> Reset</button>
+	<div id="timer-content" class="controls"> <h1 align="center">Timer</h1> <br>
+			<div id="timer" align="center" class="object"></div>	
+				<input type="number" id="hourField" name="hF" placeholder="Hours" class="timeIn"> :
+				<input type="number" id="minField" name="mF" placeholder="Minutes" class="timeIn"> :
+				<input type="number" id="secField" name="sF" placeholder="Seconds" class="timeIn">
+				<br>
+				<div align="center">
+					<button type="button" onClick="timerStartButton()"> Set timer </button>
+					<button type="button" onClick="timerPauseButton()" id="pauseTimerBtn" > Pause </button>
+					<button type="button" onClick="timerResetButton()"> Reset </button>
+				</div>
 	</div>
 
 	<div id="stopwatch-content" class="controls"><h1 align="center"> Stopwatch </h1>
-	<div id="stopWatch" align="center" class="object"></div>
-	<button id="stopWatchBtn" onclick="stopWatchPlayPauseButton()">	Start </button>
-	<button id="resetStopWatchBtn" onclick="stopWatchResetButton()"> Reset</button>	
-	</div>
-
+		<div id="stopWatch" align="center" class="object"></div>
+			<div align="center">
+				<button id="stopWatchBtn" onclick="stopWatchPlayPauseButton()">	Start </button>
+				<button id="resetStopWatchBtn" onclick="stopWatchResetButton()"> Reset</button>	
+			</div>
+		</div>
 	</div>
 	
 	<div id="display-content">
 		<button id="magnify" onclick="zoom_up()">Zoom In</button>
 		<button id="magnify" onclick="zoom_down()">Zoom Out</button>
-
 	</div>
+	</div>
+		<button id="shutDown" onclick="shutDownThisJointButton()"> Shut Down This Joint </button>
 
 </body>
 <script type="text/javascript" src="calendar.js"></script>

@@ -74,7 +74,6 @@ function setDate()
 		date = "Saturday";
 		break;
 	}
-	console.log(date);
 }
 
 

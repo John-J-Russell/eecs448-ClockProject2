@@ -146,14 +146,7 @@
 					return(true)
 				}
 				*/
-			if(this.AM_PM == "am")
-			{
-				return (this.hour - 1);
-			}
-			else
-			{
-				return (this.hour - 12);
-			}
+			return this.MilitaryTime;
 		},
 
 		setMilitary: function(_mil)
@@ -168,18 +161,6 @@
 			this.Seconds += _seconds;
 		},
 
-		checkTime: function()
-		{
-			if(this.Seconds >= 59)
-			{
-				this.Seconds = 0;
-			}
-			if(this.Minutes >= 59)
-			{
-				this.Minutes = 0;
-			}
-		},
-
 		//Get method for class variable AM_PM
 		getAM_PM : function()
 		{
@@ -191,30 +172,7 @@
 		//Set method for class variable AM_PM 
 		setAM_PM : function(AM_PM)
 		{
-			//If we previously had a value stored in AM_PM 
-			if(AM_PM == "am" || AM_PM == "pm")
-			{
-				//If we are not in military time, keep the previous value of AM_PM
-				if(!this.getMilitaryTime())
-				{
-					
-				this.AM_PM = AM_PM
-				
-				}
-				
-				//If we are in military time, set the AM_PM string to  the empty string 
-				else
-				{
-					this.AM_PM = " "
-				}
-			}
-			
-			//If no previous value is stored in AM or PM, store the previous value 
-			else
-			{
-				this.AM_PM = AM_PM
-			}
-			
+			this.AM_PM = AM_PM;
 		},
 		
 		//Helper function to change from am to pm or change from pm to am
@@ -232,21 +190,7 @@
 				this.setAM_PM("am")
 			}
 			
-		},
-
-		checkMilitaryMode: function()
-		{
-			if(this.MilitaryTime)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		},
-
-		
+		},	
 		//Function to handle the hour changes depending on the mode
 		hourIncrement: function()
 		{
@@ -290,6 +234,41 @@
 			}
 		},
 
+		toMilitaryTime: function(_hours)
+		{
+			var offset = 0;
+			if(this.AM_PM == "pm")
+			{
+				offset += 12;
+			} 
+			return _hours + offset;
+		},
+
+		toCivilianTime:	function(_hours)
+		{
+			if(_hours >= 12)
+			{
+				this.AM_PM = "pm";	
+			}	
+			else
+			{
+				this.AM_PM = "am";
+			}
+		return (_hours + 24) % 12 || 12;
+		},
+
+		transformToCorrectMode: function()
+		{
+			if(this.MilitaryTime)
+			{
+				this.Hours = this.toMilitaryTime(this.Hours);
+			}
+			else
+			{
+				this.Hours = this.toCivilianTime(this.Hours);
+			}
+		},
+
 		//Generic funtion to make the clock tick
 		tick: function()
 		{
@@ -316,21 +295,15 @@
 	
 	//Generic function to display clock in HTML
 	//Based on the function below by Gayarati and Weber
-	//Removed any instances of anything doing something else than 
-	//just showing the time, anything else is not your job.
-	function displayClock(clockDiv, hourDiv, minuteDiv, secondDiv)
+	function displayClock(clockDiv, hourDiv)
 	{
-		var optionalText = "";
-		var tempHour = checkTime(Clock.getMilitaryTime());
-		if(!Clock.checkMilitaryTime)
+		var modeText = "";
+		var tempHour = Clock.getHours();
+		if(Clock.getMilitaryTime() == false)
 		{
-			optionalText = " " +Clock.getAM_PM();
- 			tempHour = checkTime(Clock.getHours());
+			modeText = " " + Clock.getAM_PM();
 		}
-		hourDiv.innerHTML =  tempHour + ":" + checkTime(Clock.getMinutes()) + ":" + checkTime(Clock.getSeconds()) + optionalText;
-		//minuteDiv.innerHTML = checkTime(Clock.getMinutes());
-		//secondDiv.innerHTML = checkTime(Clock.getSeconds());
-		//secondDiv.innerHTML = Clock.getAM_PM()
+		hourDiv.innerHTML =  formatTimeString(tempHour) + ":" + formatTimeString(Clock.getMinutes()) + ":" + formatTimeString(Clock.getSeconds()) + modeText;
 	}
 
 	// Author: Sri Gayatri & Luke Weber
@@ -412,8 +385,8 @@
 
 		//Set the new time on clock
 		document.getElementById("hClock").innerHTML = Clock.getHours();
-		document.getElementById("mClock").innerHTML = checkTime(Clock.getMinutes());
-		document.getElementById("sClock").innerHTML = checkTime(Clock.getSeconds());
+		document.getElementById("mClock").innerHTML = formatTimeString(Clock.getMinutes());
+		document.getElementById("sClock").innerHTML = formatTimeString(Clock.getSeconds());
 		document.getElementById("am_pm").innerHTML = Clock.getAM_PM()
 
 		//Clears the previous setTimeout and Calls the start Clock function every 1 second.
@@ -513,7 +486,7 @@
 	//Author: Sri 
 	//Called in setClock method 
 	//Helper method adds 0 in front of numbers 
-	function checkTime(i) 
+	function formatTimeString(i) 
 	{
 		if (i < 10) {
 			i = "0" + i
@@ -699,5 +672,5 @@ function offsetTime(_offset)
 		}
 	}
 	Clock.addTime(offsetHours, offsetMinutes, offsetSeconds); 
-	//Clock.checkTime();
+	//Clock.formatTimeString();
 }

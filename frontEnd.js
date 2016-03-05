@@ -9,6 +9,7 @@ var stopWatchBtnToggle = false;
 var timerEnabledFlag = false; 
 
 var Military = false;
+var isThisGinJointVisible = true;
 
 //To make things smarter we will define variables to redefine things, yet still retain functionality
 //The idea is since everything is inside a single tick, a higher tick rate should make 
@@ -38,42 +39,35 @@ var calendarDIV   	 = document.getElementById("calendar");
 
 var clockModeMenu 	 = document.getElementById("amORpm");
 
-
 //Dynamic Button Text Changing Variablesß
-var stopWatchRunButton = document.getElementById("stopWatchBtn");
+var stopWatchRunButton  = document.getElementById("stopWatchBtn");
 var clockMilitaryButton = document.getElementById("clockMilBtn");
+var stopTimerButton   	= document.getElementById("pauseTimerBtn");
 
+// Initialize Clock to the system time
 function intializeClockValues()
 {
 	var now = new Date();
-	Clock.setTime(now.getHours(), now.getMinutes(), now.getSeconds());
+	var tempHour = Clock.toCivilianTime(now.getHours());
+	Clock.setTime(tempHour, now.getMinutes(), now.getSeconds());
 }
 
 //Initialize everything once the page loads, to avoid referencing unloaded things
 window.onload = function()
 {
 	loadConfig();
+	intializeClockValues();
 	setDate();
 	setInterval(tick, tickRate);
-
 	//Display initial
 	displayClock(clockDIV, hourDIV);
 	displayDate(calendarDIV);
 	displayTimer(timerDIV);
 }
 
-function frontEndStopWatchCheck()
-{
-	if(stopWatchEnable)
-	{
-
-	}
-}
-
 // Handling functions are defined as those which perform
 // a form of check particular to a module, in order to elicit
 // different behaviors.
-
 function clockHandling()
 {
 	if(clockCounter >= clockCounterLimit)
@@ -124,7 +118,7 @@ function timerHandling()
 }
 
 // the tick function is called by setInterval to be executed every
-// tickRate rate. 
+// tickRate rate.
 function tick()
 {
 	//Execute Handlers
@@ -160,6 +154,12 @@ function stopWatchPlayPauseButton()
 	}
 }
 
+function stopWatchResetButton()
+{
+		stopWatchReset();
+		stopWatchCounter = 0; // Reset the counter as well
+}
+
 function timerStartButton()
 {
 	if(!timerEnabledFlag)
@@ -177,6 +177,20 @@ function timerResetButton()
 		resetTimer();
 		timerEnabledFlag = false;
 	}
+}
+
+function timerPauseButton()
+{
+	//Handle the dynamic button text
+	if(timer.tickTockOrNot)
+	{
+		stopTimerButton.innerHTML = " Resume ";
+	}
+	else
+	{
+		stopTimerButton.innerHTML = " Pause ";
+	}
+	switchTickTockOrNot();
 }
 
 function calendarSetButton()
@@ -205,29 +219,41 @@ function setClockButton()
 		Clock.setSeconds(tempSec); 
 		Clock.setAM_PM(tempampm);
 	}
+	clockCounter = 0;
 	
 }
 
-function setClockMilitary()
+function setClockMilitaryButton()
 {
 	if(!Military)
 	{
 		Military = true;
 		clockModeMenu.style.display = 'none';
 		clockMilitaryButton.innerHTML = "Civilian Time";
+		Clock.setMilitary(true);
 	}
 	else
 	{
 		Military = false;
 		clockMilitaryButton.innerHTML = "Military Time";
 		clockModeMenu.style.display = 'inline-block';
+		Clock.setMilitary(false);
 	}
-	Clock.setMilitary = Military;
+	Clock.transformToCorrectMode();
 }
 
-function stopWatchResetButton()
+function shutDownThisJointButton()
 {
-		stopWatchReset();
+	if(isThisGinJointVisible)
+	{
+		document.getElementById("main-content").style.visible = 'none';
+		isThisGinJointVisible = false;
+	}
+	else
+	{
+		document.getElementById("main-content").style.visible = 'inline-block';
+		isThisGinJointVisible = true;
+	}
 }
 
 //Input sanitizing functions - Temp location
