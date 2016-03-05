@@ -5,13 +5,8 @@
 		<link rel="stylesheet" type="text/css" href="clock.css" />
 
 </head>
-<body>
+<body id = >
 	<div class="main-content">
-	<div id="display-content">
-		<button id="magnify" onclick="zoomIn()">Zoom In</button>
-		<button id="magnify" onclick="zoomOut()">Zoom Out</button>
-
-	</div>
 	<div id="time-content" class="controls">
 			<input type="number" placeholder="Hours"class="timeIn"id="InputHours"> : 
 			<input type="number" placeholder="Minutes"class="timeIn"id="InputMinutes"> : 
@@ -50,10 +45,17 @@
 	</div>
 
 	</div>
+	
+	<div id="display-content">
+		<button id="magnify" onclick="zoom_up()">Zoom In</button>
+		<button id="magnify" onclick="zoom_down()">Zoom Out</button>
+
+	</div>
 
 </body>
 <script type="text/javascript" src="calendar.js"></script>
 <script type="text/javascript" src="clock.js"></script>
+<script type="text/javascript" src="my_zoom.js"></script>
 <script type="text/javascript" src="timer.js"></script>
 <script type="text/javascript" src="stopWatch.js"></script>
 <script type="text/javascript" src="cache.js"></script>
