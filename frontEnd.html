@@ -7,7 +7,11 @@
 </head>
 <body>
 	<div class="main-content">
+	<div id="display-content">
+		<button id="magnify" onclick="zoomIn()">Zoom In</button>
+		<button id="magnify" onclick="zoomOut()">Zoom Out</button>
 
+	</div>
 	<div id="time-content" class="controls">
 			<input type="number" placeholder="Hours"class="timeIn"id="InputHours"> : 
 			<input type="number" placeholder="Minutes"class="timeIn"id="InputMinutes"> : 
@@ -15,21 +19,22 @@
 			<select id="amORpm">
 					<option value="am">am</option>
 					<option value="pm">pm</option>
-			</select>	
+			</select>	<br>
 	<button id="clockSetBtn" onclick="setClockButton()">Set Time</button>
+	<button id="clockMilBtn" onclick="setClockMilitary()">Military Time</button>
 	<div id="clock" class="clockMode">
-		<div id="clock-hour"></div>
+		<div id="clock-hour" class="object"></div>
 	</div>
 	</div>
 	<div id="calendar-content" class="controls"> 
-		<div id="calendar" align="center"></div>
+		<div id="calendar" align="center" class="object"></div>
 		<input type="number" id="InputDay" placeholder="Day"> : 
 		<input type="number" id="InputMonth" placeholder="Month"> 
 		<button id="calendarSetBtn" onclick="calendarSetButton()">Set Date</button>
 	</div>
 
 	<div id="timer-content" class="controls"> <h1 align="center">Timer</h1> 
-			<div id="timer" align="center"></div>		
+			<div id="timer" align="center" class="object"></div>		
 			<input type="number" id="hourField" name="hF" placeholder="Hours"> :
 			<input type="number" id="minField" name="mF" placeholder="Minutes"> :
 			<input type="number" id="secField" name="sF" placeholder="Seconds">
@@ -39,11 +44,9 @@
 	</div>
 
 	<div id="stopwatch-content" class="controls"><h1 align="center"> Stopwatch </h1>
-	<div id="stopWatch" align="center"></div>
+	<div id="stopWatch" align="center" class="object"></div>
 	<button id="stopWatchBtn" onclick="stopWatchPlayPauseButton()">	Start </button>
-	<button id="resetStopWatchBtn" onclick="stopWatchResetButton()"></button>
-	<button id="timerBtn"> Start Timer</button>
-
+	<button id="resetStopWatchBtn" onclick="stopWatchResetButton()"> Reset</button>	
 	</div>
 
 	</div>

@@ -69,9 +69,9 @@ function stopWatchBuild()
 	if (flag ==true)
 	{
 		//recurces through the function at 1 seconds intervals and call the stopwatchrun()
-		clearTimeout(setimeoutvar);
+		//clearTimeout(setimeoutvar);
 		stopWatchRun();
-		setimeoutvar = setTimeout(function() { stopWatchBuild(); }, 1000);
+		//setimeoutvar = setTimeout(function() { stopWatchBuild(); }, 1000);
 	}
 
 }

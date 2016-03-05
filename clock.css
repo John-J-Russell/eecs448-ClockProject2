@@ -7,6 +7,7 @@
 /*
 * Style for div tab that contains all main elements of the  HTML file 
 */
+
 .container {
 	margin: 0; padding: 0; 
 	position: relative; font-family:Arial, Helvetica, sans-serif;
@@ -67,9 +68,9 @@
 	margin-bottom: -1%;
 }
 
-#timer, #calendar, #stopWatch	
+.object
 {
-	font-size: 3em;
+	font-size: 60px;
 } 
 /*
 * More specific html element. See HTML file 

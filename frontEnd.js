@@ -8,6 +8,8 @@ var stopWatchEnable = false;
 var stopWatchBtnToggle = false;
 var timerEnabledFlag = false; 
 
+var Military = false;
+
 //To make things smarter we will define variables to redefine things, yet still retain functionality
 //The idea is since everything is inside a single tick, a higher tick rate should make 
 //things react faster
@@ -16,6 +18,8 @@ var clockCounterLimit = (1000 / tickRate) - 1;
 var clockCounter 	 = 0;
 var stopWatchCounter = 0;
 var timerCounter = 0;
+
+var currentZoomLevel = 2;
 
 // Declare the window elements
 var clockDIV	 = document.getElementById("clock");
@@ -30,9 +34,14 @@ var timerHourDIV	 = document.getElementById("timer-hour");
 var timerMinuteDIV	 = document.getElementById("timer-minute");
 var timerSecondDIV	 = document.getElementById("timer-second");
 
-var calendarDIV 	= document.getElementById("calendar");
+var calendarDIV   	 = document.getElementById("calendar");
 
+var clockModeMenu 	 = document.getElementById("amORpm");
+
+
+//Dynamic Button Text Changing Variablesß
 var stopWatchRunButton = document.getElementById("stopWatchBtn");
+var clockMilitaryButton = document.getElementById("clockMilBtn");
 
 function intializeClockValues()
 {
@@ -132,7 +141,6 @@ function tick()
 }
 
 // Button functions
-
 function stopWatchPlayPauseButton()
 {
 	if(!stopWatchBtnToggle)
@@ -146,7 +154,7 @@ function stopWatchPlayPauseButton()
 	else
 	{
 		stopWatchCounter = 0;
-		stopWatchBtnToggle = false;
+		stopWatchBtnToggle = false	;
 		stopWatchRunButton.innerHTML = "Start"
 
 	}
@@ -186,15 +194,88 @@ function calendarSetButton()
 
 function setClockButton()
 {
-	Clock.setMinutes(document.getElementById("InputMinutes").value); 
-	Clock.setSeconds(document.getElementById("InputSeconds").value); 
-	Clock.setHours(document.getElementById("InputHours").value);
+	var tempHour = document.getElementById("InputHours").value;
+	var tempMin  = document.getElementById("InputMinutes").value;
+	var tempSec  = document.getElementById("InputSeconds").value;
+	if(checkValidTimeInput(tempHour, tempMin, tempSec))
+	{
+		Clock.setHours(tempHour);
+		Clock.setMinutes(tempMin); 
+		Clock.setSeconds(tempSec); 
+		Clock.setMilitary(Military);
+	}
+	
 }
 
+function setClockMilitary()
+{
+	if(!Military)
+	{
+		Military = true;
+		clockModeMenu.style.display = 'none';
+		clockMilitaryButton.innerHTML = "Civilian Time";
+	}
+	else
+	{
+		Military = false;
+		clockMilitaryButton.innerHTML = "Military Time";
+		clockModeMenu.style.display = 'inline-block';
+
+	}
+}
 
 function stopWatchResetButton()
 {
 		stopWatchReset();
+}
+
+//Input sanitizing functions - Temp location
+//May be a bit too specific to be defined here
+function checkValidTimeInput(_hour, _min,_sec)
+{
+	if(Clock.getMilitary == true)
+	{
+		if(_hour >= 0 && _hour < 24)
+		{
+			if(_min >= 0 && _min < 60)
+			{
+				if(_sec >= 0 && _sec < 60)
+				{
+					return true;
+				}
+			}
+		}
+	}
+	else
+	{
+		if(_hour > 0 && _hour < 13)
+		{
+			if(_min >= 0 && _min < 60)
+			{
+				if(_sec >= 0 && _sec < 60)
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+
+function zoomIn()
+{
+	currentZoomLevel++;
+	resizeTextElements();
+}
+
+function zoomOut()
+{
+	if(currentZoomLevel > 0)
+	{
+		currentZoomLevel--;
+		resizeTextElements();
+	}
 }
 
 //Generic function that checks if a value is within certain range (including)
@@ -209,4 +290,11 @@ function checkLimit(value, min, max)
 	{
 		return false;
 	}
+}
+
+function resizeTextElements()
+{
+	document.querySelector('.controls h1').style.fontSize = (20 * currentZoomLevel)+"px";
+	document.querySelector('.object').style.fontSize = (30 * currentZoomLevel)+"px";
+
 }

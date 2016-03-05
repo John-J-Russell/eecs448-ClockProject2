@@ -148,6 +148,11 @@
 				*/
 		
 		},
+
+		setMilitary: function(_mil)
+		{
+			this.MilitaryTime = _mil;
+		},
 		
 		addTime: function(_hours, _minutes, _seconds)
 		{
