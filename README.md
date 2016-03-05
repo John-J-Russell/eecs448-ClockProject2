@@ -3,4 +3,4 @@ which has the functions of setting up the time and changing between standard hou
 
 Adding more features [timer, stopwatch, calendar, and zoom] to this clock project. Our team is Alec Knutsen, Yarden Tamir, John Russell, and Cesar Avalos.
 
-
+The entry point of this program is frontend.html
