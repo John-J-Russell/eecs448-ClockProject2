@@ -221,8 +221,8 @@ function setClockMilitary()
 		Military = false;
 		clockMilitaryButton.innerHTML = "Military Time";
 		clockModeMenu.style.display = 'inline-block';
-
 	}
+	Clock.setMilitary = Military;
 }
 
 function stopWatchResetButton()

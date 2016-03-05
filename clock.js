@@ -31,7 +31,7 @@
 		MilitaryTime : false,
 		
 		//Local String for time mode 
-		AM_PM : "AM",
+		AM_PM : "am",
 	
 		//Get method for class variable hours 
 		getHours: function ()
@@ -146,7 +146,14 @@
 					return(true)
 				}
 				*/
-		
+			if(this.AM_PM == "am")
+			{
+				return (this.hour - 1);
+			}
+			else
+			{
+				return (this.hour - 12);
+			}
 		},
 
 		setMilitary: function(_mil)
@@ -257,22 +264,22 @@
 			}
 			else
 			{
-				if(this.Hours == 11 && this.AM_PM == "PM")
+				if(this.Hours == 11 && this.AM_PM == "am")
 				{
 					this.Hours = 12;
-					this.AM_PM = "AM";
+					this.AM_PM = "am";
 					nextDay();
 				}
-				else if(this.Hours == 12 && this.AM_PM == "AM")
+				else if(this.Hours == 12 && this.AM_PM == "am")
 				{
 					this.Hours = 1;
 				}
-				else if(this.Hours == 11 && this.AM_PM == "AM")
+				else if(this.Hours == 11 && this.AM_PM == "am")
 				{
 					this.Hours = 12
-					this.AM_PM == "PM";
+					this.AM_PM == "pm";
 				}
-				else if(this.Hours == 12 && this.AM_PM == "PM")
+				else if(this.Hours == 12 && this.AM_PM == "pm")
 				{
 					this.Hours = 1;
 				}
@@ -314,11 +321,13 @@
 	function displayClock(clockDiv, hourDiv, minuteDiv, secondDiv)
 	{
 		var optionalText = "";
+		var tempHour = checkTime(Clock.getMilitaryTime());
 		if(!Clock.checkMilitaryTime)
 		{
 			optionalText = " " +Clock.getAM_PM();
+ 			tempHour = checkTime(Clock.getHours());
 		}
-		hourDiv.innerHTML = checkTime(Clock.getHours()) + ":" + checkTime(Clock.getMinutes()) + ":" + checkTime(Clock.getSeconds()) + optionalText;
+		hourDiv.innerHTML =  tempHour + ":" + checkTime(Clock.getMinutes()) + ":" + checkTime(Clock.getSeconds()) + optionalText;
 		//minuteDiv.innerHTML = checkTime(Clock.getMinutes());
 		//secondDiv.innerHTML = checkTime(Clock.getSeconds());
 		//secondDiv.innerHTML = Clock.getAM_PM()
