@@ -8,19 +8,19 @@
 
 
 //TODO:
-//FIX WEIRD STUTTER BUG
+//FIX WEIRD STUTTER BUG-
 //clicking pause/resume twice in rapid succession messes with timer tickdown speed.
 //Also rapidly clicking "gib" messes things up.
 
 //Make a timer variable that handles the delay, and activate a clear on each instantiation?
 //Lazy option: onClick activates a method that delays 1 second before doing the rest?
 
-function startTimer()
+function startTimer(hoursDiv, minutesDiv, secondsDiv)
 {
 	timer.reset();
-	var h=document.getElementById("InputHours").value;
-	var m=document.getElementById("InputMinutes").value;
-	var s=document.getElementById("InputSeconds").value;
+	var h=hoursDiv.value;
+	var m=minutesDiv.value;
+	var s=secondsDiv.value;
 	
 	//If empty fields, just use zeros there.
 	if(h=='')
@@ -50,26 +50,23 @@ function startTimer()
 		timer.sec=s;
 		timer.tickTockOrNot=true;
 		//console.log(timer);
-		displayTime();
+		//displayTime();
 		
-		setTimeout(countdown, 1000);
+		//setTimeout(countdown, 1000);
 	}
 }
 
 //Takes it down a second
-function countdown()
+function countdown(timerDiv)
 {
 	if(timer.tickTockOrNot==true)
 	{
 		
-		if(makeTimeString()=="00:00:00")
+		if(makeTimeString(timerDiv)=="00:00:00")
 		{
 			//Play a thing if possible
 			timer.tickTockOrNot=false;
-			//Taken from StackOverflow user "URI"
-			//http://stackoverflow.com/questions/9419263/playing-audio-with-javascript
-			var audio = new Audio('STOP.mp3');
-			audio.play();
+			alert("It's done, now go save your cake");
 		}
 		else
 		{
@@ -78,7 +75,7 @@ function countdown()
 			{
 				timer.sec=59;
 				if(timer.min==0)
-				{
+				{12
 					timer.min=59;
 					if(timer.hour==0)
 					{
@@ -100,8 +97,8 @@ function countdown()
 			}
 			
 		}
-		displayTime();
-		setTimeout( countdown , 1000 );
+		//displayTime();
+		//setTimeout( countdown , 1000 );
 	}
 	
 	
@@ -119,8 +116,15 @@ function displayTime()
 	var throwaway=makeTimeString();
 }
 
+
+//For consistency sake, displays the current timer values in a div.
+function displayTimer(timerDiv)
+{
+	makeTimeString(timerDiv);
+}
+
 //turns the time into a string for easy displayment
-function makeTimeString()
+function makeTimeString(timerDiv)
 {
 	//gussy this up later with the extra zeros where applicable
 	var tempHour=timer.hour;
@@ -141,10 +145,8 @@ function makeTimeString()
 	var prettyTimeString=tempHour+":"+tempMin+":"+tempSec;
 	
 	//Changes display
-	document.getElementById("hClock").innerHTML=tempHour;
-	document.getElementById("mClock").innerHTML=tempMin;
-	document.getElementById("sClock").innerHTML=tempSec;
-	
+	timerDiv.innerHTML = prettyTimeString;
+
 	//This is a legacy for the decrementer, which uses this to check if time has run out.
 	return(prettyTimeString);
 }
@@ -161,7 +163,7 @@ function switchTickTockOrNot()
 	{
 		//timeout delay here makes it take a second before decreasing.
 		timer.tickTockOrNot=true;
-		setTimeout(countdown, 1000);
+	//	setTimeout(countdown, 1000);
 	}
 }
 
@@ -169,7 +171,7 @@ function switchTickTockOrNot()
 function resetTimer()
 {
 	timer.reset();
-	displayTime();
+	//displayTime();
 }
 
 //Global timer object

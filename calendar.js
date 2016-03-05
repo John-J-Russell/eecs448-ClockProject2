@@ -1,13 +1,39 @@
 var date = " ";
-var day = 20;
-var month = 3;
+var day = 6;
+var month = 6;
 var month_key_value = [1,4,4,0,2,5,0,3,6,1,4,6];
-
-
-function getDate()
+var monthText = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+//Function to handle next day transitions
+function nextDay()
 {
+	switch(month){
+		case 2:
+		if(day == 29)
+		{
+			month++;
+			day = 0;
+		}
+		break
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+		if(day == 30)
+		{
+			month++;
+			day = 0;
+		}
+		break;
+		default:
+		if(day == 31)
+		{
+			month++;
+			day = 0;
+		}
+		break;
+	}
+	//After changing the day, set the date
 	setDate();
-	return date;
 }
 
 //Sets the string variable date with the current day of the week
@@ -23,29 +49,70 @@ function setDate()
 
 	//Modified Gauss method
 	//formula is [(year / 4) + day + month + leap + century + last digits of year] mod 7
-	var formula = (4 + day + month_key_value[month - 1] + leap + 6 + 16) % 7;
+	var formula = Math.floor((4 + day + month_key_value[month - 1] + leap + 6 + 16) % 7);
 	switch(formula)
 	{
 		case 1:
-		day = "Sunday";
+		date = "Sunday";
 		break;
 		case 2:
-		day = "Monday";
+		date = "Monday";
 		break;
 		case 3:
-		day = "Tuesday";
+		date = "Tuesday";
 		break;
 		case 4:
-		day = "Wednesday";
+		date = "Wednesday";
 		break;
 		case 5:
-		day = "Thursday";
+		date = "Thursday";
 		break;
 		case 6:
-		day = "Friday";
+		date = "Friday";
 		break;
 		case 0:
-		day = "Saturday";
+		date = "Saturday";
 		break;
 	}
+	console.log(date);
+}
+
+
+//Checks if the input day and month are within the appropriate
+//range, like not allowing February 30, etc, etc. 
+function checkValidDay(inDay, inMonth)
+{
+	if(inDay > 0 && inMonth <= 12 && inMonth >= 0 )
+	{
+		switch(inMonth){
+		case 2:
+		if(inDay <= 29)
+		{
+			return true;
+		}
+		break
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+		if(inDay <= 30)
+		{
+			return true;
+		}
+		break;
+		default:
+		if(inDay <= 31)
+		{
+			return true;
+		}
+		break;
+	}
+		return false;
+	}
+}
+
+//Displays time onto a div.
+function displayDate(calendarDiv)
+{
+	calendarDiv.innerHTML = date + ", " + monthText[month - 1]+ ", "+ day;
 }

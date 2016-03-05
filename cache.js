@@ -4,15 +4,14 @@
 //this new access, offset the clock by this, doing so will
 //effectively allow the clock to run in the background
 
-var oldtime = document.getElementById("oldtime");
-var newtime = document.getElementById("newtime");
-var elapsedtime = document.getElementById("elapsedtime");
+//Should work in theory, hopefully
 
 //At the start of the app, before everything else loads
 //check if there is any program cache.
+//Return true if localstorage is writable
 function isThereAnyStorage(type)
 {
-		try	
+		try
 		{
 			var storage = window[type];
 			x = '_is_this_thing_on?';
@@ -25,44 +24,46 @@ function isThereAnyStorage(type)
 		}
 }
 
-
 function loadConfig()
 {
 	if(isThereAnyStorage('localStorage'))
 	{
+		//Assume if exit_time exists, so does everything else.
 		if(localStorage.getItem('exit_time'))
 		{
 			var oldDate	    = localStorage.getItem('exit_time');
 			var currentDate = new Date();
-			var elapsed = Date.now() - localStorage.getItem('exit_time');
-			oldtime.innerHTML = oldDate;
-			newtime.innerHTML = Date.now();
-			elapsedtime.innerHTML = elapsed;
-			console.log(oldDate);
+			var elapsed = parseInt(Date.now()) - parseInt(oldDate);
+			console.log(elapsed + " ms has happend, old value " + oldDate );
+			Clock.setTime(localStorage.getItem("exit_hours"), localStorage.getItem("exit_minutes"), localStorage.getItem("exit_seconds"));
+			offsetTime(elapsed);
 		}		
 		else
 		{
-			console.log("no storage of this m8");
-			// run this thing normally
+			intializeClockValues();
 		}
 	}
 	else
 	{
 		console.log("need a new browser m8");
+		intializeClockValues();
 	}	
 }
 
 function saveConfig()
 {
-	var exit_time = Date.now();
-	localStorage.setItem('exit_time', exit_time);
-}
+	var exit_time = parseInt(Date.now());
 
-window.onload = function()
-{
-	loadConfig();
+	localStorage.setItem('exit_seconds', exit_seconds);
+	localStorage.setItem('exit_minutes', exit_minutes);
+	localStorage.setItem('exit_hours', exit_hours);
+	//Yes I could do this with JSON, what are you, Johnny Law? Get out of here, shoo.
+	localStorage.setItem('exit_time', exit_time);
+	localStorage.setItem('exit_day' , day);
+	localStorage.setItem('exit_date', date);
+	localStorage.setItem('exit_month', month);
 }
 
 window.addEventListener('unload', function(event) {
-	saveConfig();
+		saveConfig();
 });

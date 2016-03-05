@@ -2,6 +2,8 @@
 ** EECS 448 Project #1: Clock
 ** Authors: Luke Dercher, Sri Gayatri, Luke Weber.
 ** More Authors: Alec Knutsen 
+** Annotated by Alec Knusten, the patience on this man is hereby
+** immortalized
 ** Last update: Feb 29, 2016.
 */
 
@@ -21,9 +23,9 @@
 
 		//Local Variables for object Clock
 		//Initialized to values passed in from HTML elements input boxes 
-		Minutes : document.getElementById("InputMinutes").value,
-		Seconds : document.getElementById("InputSeconds").value,
-		Hours : document.getElementById("InputHours").value,
+		Minutes : 0,
+		Seconds : 0,
+		Hours : 0,
 		
 		//Local boolean for time mode
 		MilitaryTime : false,
@@ -69,6 +71,13 @@
 			
 		},
 		
+		setTime: function(_hours, _minutes, _seconds)
+		{
+			this.Hours = _hours;
+			this.Minutes = _minutes;
+			this.Seconds = _seconds;
+		},
+
 		//Get method for class variable minutes 
 		getMinutes: function ()
 		{
@@ -93,7 +102,7 @@
 				return(InvalidEntry())
 			}
 		},
-		
+
 		//Get method for class variable seconds 
 		getSeconds: function ()
 		{
@@ -123,7 +132,7 @@
 		getMilitaryTime: function()
 		{
 			//Get the element value for 12/24 for hour mode from the HTML element
-			var MaxHour = document.getElementById("Hour clock").options[document.getElementById("Hour clock").selectedIndex].value
+			/*var MaxHour = document.getElementById("Hour clock").options[document.getElementById("Hour clock").selectedIndex].value
 			
 				//If the value is 12, return false for military time
 				if(MaxHour == 12)
@@ -136,9 +145,29 @@
 				{
 					return(true)
 				}
+				*/
 		
 		},
 		
+		addTime: function(_hours, _minutes, _seconds)
+		{
+			this.Hours += _hours;
+			this.Minutes += _minutes;
+			this.Seconds += _seconds;
+		},
+
+		checkTime: function()
+		{
+			if(this.Seconds >= 59)
+			{
+				this.Seconds = 0;
+			}
+			if(this.Minutes >= 59)
+			{
+				this.Minutes = 0;
+			}
+		},
+
 		//Get method for class variable AM_PM
 		getAM_PM : function()
 		{
@@ -191,12 +220,105 @@
 				this.setAM_PM("am")
 			}
 			
+		},
+
+		checkMilitaryMode: function()
+		{
+			if(this.MilitaryTime)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		},
+
+		
+		//Function to handle the hour changes depending on the mode
+		hourIncrement: function()
+		{
+			if(this.MilitaryTime)
+			{
+				if(this.Hours == 23)
+				{
+					this.Hours = 0;
+					nextDay();
+				}
+				else
+				{
+					this.Hours++;
+				}
+			}
+			else
+			{
+				if(this.Hours == 11 && this.AM_PM == "PM")
+				{
+					this.Hours = 12;
+					this.AM_PM = "AM";
+					nextDay();
+				}
+				else if(this.Hours == 12 && this.AM_PM == "AM")
+				{
+					this.Hours = 1;
+				}
+				else if(this.Hours == 11 && this.AM_PM == "AM")
+				{
+					this.Hours = 12
+					this.AM_PM == "PM";
+				}
+				else if(this.Hours == 12 && this.AM_PM == "PM")
+				{
+					this.Hours = 1;
+				}
+				else
+				{
+					this.Hours++;
+				}
+			}
+		},
+
+		//Generic funtion to make the clock tick
+		tick: function()
+		{
+			if(this.Seconds == 59)
+			{
+				if(this.Minutes == 59)
+				{
+					this.hourIncrement;
+					this.Minutes = 0;
+				}
+				else
+				{
+					this.Minutes++;
+				}
+				this.Seconds = 0;
+			}
+			else
+			{
+				this.Seconds++;
+			}
 		}
-		
-		
 	} // End Class Object 
 	
 	
+	//Generic function to display clock in HTML
+	//Based on the function below by Gayarati and Weber
+	//Removed any instances of anything doing something else than 
+	//just showing the time, anything else is not your job.
+	function displayClock(clockDiv, hourDiv, minuteDiv, secondDiv)
+	{
+		var optionalText = "";
+		if(!Clock.checkMilitaryTime)
+		{
+			optionalText = " " +Clock.getAM_PM();
+		}
+		hourDiv.innerHTML = checkTime(Clock.getHours()) + ":" + checkTime(Clock.getMinutes()) + ":" + checkTime(Clock.getSeconds()) + optionalText;
+		//minuteDiv.innerHTML = checkTime(Clock.getMinutes());
+		//secondDiv.innerHTML = checkTime(Clock.getSeconds());
+		//secondDiv.innerHTML = Clock.getAM_PM()
+	}
+
 	// Author: Sri Gayatri & Luke Weber
 	//Method called in blink method and called recursively 
 	//If the time is invalid, returns false
@@ -545,4 +667,23 @@
 		}
 		
 	}
-	
+
+//Function to offset time, whenever the delta time is calculated
+//offset the clock by that amount of time
+function offsetTime(_offset)
+{
+	var offsetSeconds = Math.floor((_offset)/1000 % 60);
+	var offsetMinutes = Math.floor((_offset)/(60 * 1000) % 60);
+	var offsetHours   = Math.floor((_offset)/(60 * 60 * 1000) % 24);
+	console.log("approximately "+offsetHours+" hours, " + offsetMinutes + " minutes " + offsetSeconds + " transpired. ");
+	if((offsetHours / 24) > 1)
+	{
+		//Not really in the mood to think, but this should offset days.
+		for(i = 0; i < (offsetHours / 24); i++)
+		{
+			nextDay();
+		}
+	}
+	Clock.addTime(offsetHours, offsetMinutes, offsetSeconds); 
+	//Clock.checkTime();
+}

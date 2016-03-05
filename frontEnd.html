@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Forked Clock</title>
+		<link rel="stylesheet" type="text/css" href="clock.css" />
+
+</head>
+<body>
+	<div class="main-content">
+
+	<div id="time-content" class="controls">
+			<input type="number" placeholder="Hours"class="timeIn"id="InputHours"> : 
+			<input type="number" placeholder="Minutes"class="timeIn"id="InputMinutes"> : 
+			<input type="number" placeholder="Seconds"class="timeIn"id="InputSeconds"> 
+			<select id="amORpm">
+					<option value="am">am</option>
+					<option value="pm">pm</option>
+			</select>	
+	<button id="clockSetBtn" onclick="setClockButton()">Set Time</button>
+	<div id="clock" class="clockMode">
+		<div id="clock-hour"></div>
+	</div>
+	</div>
+	<div id="calendar-content" class="controls"> 
+		<div id="calendar" align="center"></div>
+		<input type="number" id="InputDay" placeholder="Day"> : 
+		<input type="number" id="InputMonth" placeholder="Month"> 
+		<button id="calendarSetBtn" onclick="calendarSetButton()">Set Date</button>
+	</div>
+
+	<div id="timer-content" class="controls"> <h1 align="center">Timer</h1> 
+			<div id="timer" align="center"></div>		
+			<input type="number" id="hourField" name="hF" placeholder="Hours"> :
+			<input type="number" id="minField" name="mF" placeholder="Minutes"> :
+			<input type="number" id="secField" name="sF" placeholder="Seconds">
+			<button type="button" onClick="timerStartButton()"> Set timer </button>
+			<button type="button" onClick="switchTickTockOrNot()"> Pause/Resume</button>
+			<button type="button" onClick="timerResetButton()"> Reset</button>
+	</div>
+
+	<div id="stopwatch-content" class="controls"><h1 align="center"> Stopwatch </h1>
+	<div id="stopWatch" align="center"></div>
+	<button id="stopWatchBtn" onclick="stopWatchPlayPauseButton()">	Start </button>
+	<button id="resetStopWatchBtn" onclick="stopWatchResetButton()"></button>
+	<button id="timerBtn"> Start Timer</button>
+
+	</div>
+
+	</div>
+
+</body>
+<script type="text/javascript" src="calendar.js"></script>
+<script type="text/javascript" src="clock.js"></script>
+<script type="text/javascript" src="timer.js"></script>
+<script type="text/javascript" src="stopWatch.js"></script>
+<script type="text/javascript" src="cache.js"></script>
+<script type="text/javascript" src="frontEnd.js"></script>
+</html>
