@@ -6,6 +6,7 @@ var monthText = ["January", "February", "March", "April", "May", "June", "July",
 //Function to handle next day transitions
 function nextDay()
 {
+	day++;
 	switch(month){
 		case 2:
 		if(day == 29)

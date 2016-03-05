@@ -211,17 +211,17 @@
 				if(this.Hours == 11 && this.AM_PM == "am")
 				{
 					this.Hours = 12;
+					this.AM_PM = "pm";
+				}
+				else if(this.Hours == 11 && this.AM_PM == "pm")
+				{
+					this.Hours = 12
 					this.AM_PM = "am";
 					nextDay();
 				}
 				else if(this.Hours == 12 && this.AM_PM == "am")
 				{
 					this.Hours = 1;
-				}
-				else if(this.Hours == 11 && this.AM_PM == "am")
-				{
-					this.Hours = 12
-					this.AM_PM == "pm";
 				}
 				else if(this.Hours == 12 && this.AM_PM == "pm")
 				{
@@ -276,7 +276,7 @@
 			{
 				if(this.Minutes == 59)
 				{
-					this.hourIncrement;
+					this.hourIncrement();
 					this.Minutes = 0;
 				}
 				else

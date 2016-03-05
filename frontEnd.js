@@ -129,9 +129,8 @@ function tick()
 	//Display Clock, Timer and StopWatch
 	displayClock(clockDIV, hourDIV);
 	stopWatchDisplay(stopWatchDIV);
-	displayTimer(timerDIV);	
-
-
+	displayTimer(timerDIV);
+	displayDate(calendarDIV);
 }
 
 // Button functions
