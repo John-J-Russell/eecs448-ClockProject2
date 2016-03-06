@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>frontEnd.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>frontEnd.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*
+** EECS 448 Project #2: Clock
+** Most methods from this file are connected with frontEnd.html to handle button clicks 
+** Authors: Alec Knutsen, Cesar Avalos, John Russell, Yarden Tamir 
+** Last update: March 5, 2016.
+*/</span>
+
+<span class="hljs-comment">/**
+* Flag variable for the stop watch
+*/</span>
+<span class="hljs-keyword">var</span> stopWatchFlag = <span class="hljs-literal">false</span>;
+<span class="hljs-comment">/**
+* Flag variable for the clock
+*/</span>
+<span class="hljs-keyword">var</span> clockFlag	  = <span class="hljs-literal">true</span>;
+<span class="hljs-comment">/**
+* Flag variable for the timer 
+*/</span>
+<span class="hljs-keyword">var</span> timerFlag     = <span class="hljs-literal">false</span>;
+<span class="hljs-comment">/**
+* Flag variable for the stop watch
+*/</span>
+<span class="hljs-keyword">var</span> stopWatchEnable = <span class="hljs-literal">false</span>;
+<span class="hljs-comment">/**
+* Flag variable for the stop watch
+*/</span>
+<span class="hljs-keyword">var</span> stopWatchBtnToggle = <span class="hljs-literal">false</span>;
+<span class="hljs-comment">/**
+* Flag variable for the timer
+*/</span>
+
+<span class="hljs-keyword">var</span> timerEnabledFlag = <span class="hljs-literal">false</span>; 
+<span class="hljs-comment">/**
+* Flag variable for military/civilian time 
+*/</span>
+
+<span class="hljs-keyword">var</span> Military = <span class="hljs-literal">false</span>;
+<span class="hljs-comment">/**
+* Flag variable for page visibility 
+*/</span>
+<span class="hljs-keyword">var</span> isThisGinJointVisible = <span class="hljs-literal">true</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>To make things smarter we will define variables to redefine things, yet still retain functionality
+The idea is since everything is inside a single tick, a higher tick rate should make 
+things react faster</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/**
+* tickRate - 100ms 
+*/</span>
+<span class="hljs-keyword">var</span> tickRate = <span class="hljs-number">100</span>; <span class="hljs-comment">// rate at which the tick action will be executed (in ms)</span>
+<span class="hljs-comment">/**
+* clockCounterLimit is 10 --&gt; 10 * 100ms = 1 second 
+*/</span>
+<span class="hljs-keyword">var</span> clockCounterLimit = (<span class="hljs-number">1000</span> / tickRate) - <span class="hljs-number">1</span>; <span class="hljs-comment">// We will take in ten clock ticks 10 * 100 ms =1000 ms until we preform an action </span>
+<span class="hljs-comment">/**
+* clockCounter will go from 1 to 10 then reset to run every one second 
+*/</span>
+<span class="hljs-keyword">var</span> clockCounter 	 = <span class="hljs-number">0</span>;
+<span class="hljs-comment">/**
+* stopWatchCounter will go from 1 to 10 then reset to run every one second 
+*/</span>
+<span class="hljs-keyword">var</span> stopWatchCounter = <span class="hljs-number">0</span>;
+<span class="hljs-comment">/**
+* timerCounter will go from 1 to 10 then reset to run every one second 
+*/</span>
+<span class="hljs-keyword">var</span> timerCounter = <span class="hljs-number">0</span>;
+
+
+<span class="hljs-comment">/**
+* Wrapper element for clockDisplay 
+*/</span>
+<span class="hljs-keyword">var</span> clockDIV	 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"clock"</span>); 
+<span class="hljs-comment">/**
+* HTML Element where the clock is actually displayed 
+*/</span>
+<span class="hljs-keyword">var</span> hourDIV	 	 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"clock-hour"</span>); 
+<span class="hljs-comment">/**
+* HTML Element for where the stopwatch time is displayed 
+*/</span>
+<span class="hljs-keyword">var</span> stopWatchDIV = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"stopWatch"</span>); 
+<span class="hljs-comment">/**
+* HTML Element for where the timer is displayed
+*/</span>
+<span class="hljs-keyword">var</span> timerDIV	 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"timer"</span>); 
+<span class="hljs-comment">/**
+* HTML Element where the date is displayed 
+*/</span>
+<span class="hljs-keyword">var</span> calendarDIV   	 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"calendar"</span>); 
+
+
+
+<span class="hljs-comment">/**
+* Dropdown select item for am_pm 
+*/</span>
+<span class="hljs-keyword">var</span> clockModeMenu 	 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"amORpm"</span>); 
+<span class="hljs-comment">/**
+* Button to start pause stopwatch  
+*/</span>
+<span class="hljs-keyword">var</span> stopWatchRunButton  = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"stopWatchBtn"</span>); 
+<span class="hljs-comment">/**
+* Button to swtich from civilian to military time and vice versa 
+*/</span>
+<span class="hljs-keyword">var</span> clockMilitaryButton = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"clockMilBtn"</span>); 
+<span class="hljs-comment">/**
+* Button to pause/restart Timer 
+*/</span>
+<span class="hljs-keyword">var</span> stopTimerButton   	= <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"pauseTimerBtn"</span>); 
+
+<span class="hljs-comment">/**
+	 * Uses the current date to set the clock using toCivilianTime and setTime functions from clock.js 
+	 * Called in the window.onload() function below 
+	 * @author  Cesar Avalos 
+	 * @see - clock.js, window.onload()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">intializeClockValues</span>(<span class="hljs-params"></span>)
+</span>{
+	<span class="hljs-keyword">var</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(); <span class="hljs-comment">// Get the current date </span>
+	
+	<span class="hljs-keyword">var</span> tempHour = Clock.toCivilianTime(now.getHours()); <span class="hljs-comment">// Convert the time to civilian time using the method from Clock.js </span>
+	
+	Clock.setTime(tempHour, now.getMinutes(), now.getSeconds()); <span class="hljs-comment">// Call the setTime method from Clock.js to set the time </span>
+}
+
+<span class="hljs-comment">/**
+	 * Initialize everything once the page loads, to avoid referencing unloaded things. Calls methods from aLl other javascript files 
+	 * @author  Cesar Avalos 
+	 * @see - cache.js, calendar.js, clock.js, timer.js 
+*/</span>
+<span class="hljs-built_in">window</span>.onload = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)
+</span>{
+	loadConfig(); <span class="hljs-comment">// Function from cache.js </span>
+	
+	intializeClockValues(); <span class="hljs-comment">// Function from this file to initialize clock </span>
+	
+	setDate(); <span class="hljs-comment">// Function from calendar.js o initialize the date </span>
+	
+	setInterval(tick, tickRate); <span class="hljs-comment">// Generic javascript function. Calls the tick method at frequency of tickRate </span>
+	
+	displayClock(clockDIV, hourDIV); <span class="hljs-comment">// Call displayClock method from clock.js to initially display the clock </span>
+	
+	displayDate(calendarDIV); <span class="hljs-comment">// Call the displayDate method from calendar.js to display the date </span>
+	
+	displayTimer(timerDIV); <span class="hljs-comment">// Call the displayTimer method from timer.js to display the timer time </span>
+}
+
+
+<span class="hljs-comment">/**
+	 * Handling functions are defined as those which perform a form of check particular to a module, in order to elicit different behaviors.
+	 * Uses the clock.tick method from the clock.js file.
+	 * Called in the tick method from this file 
+	 * @author Cesar Avalos 
+	 * @see - clock.js, tick()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clockHandling</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>If our counter has gone over the limit, reset the counter and call the tick method from the clock.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(clockCounter &gt;= clockCounterLimit)
+	{
+		clockCounter = <span class="hljs-number">0</span>;
+		Clock.tick();
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>If our counter is not over the limite, reiterate the counter </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span>
+	{
+		clockCounter++;
+	}
+}
+
+<span class="hljs-comment">/**
+	 * Handling functions are defined as those which perform a form of check particular to a module, in order to elicit different behaviors.
+	 * Uses the stopWatchRun() method from the stopWatch.js file.
+	 * Called in the tick method from this file 
+	 * @author Cesar Avalos 
+	 * @see - stopwatch.js, tick()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stopWatchHandling</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>If the stopwatch is running </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(stopWatchBtnToggle)
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>If the counter has reached the limit, reset the counter and call the stopWatchRun method from the stopWatch.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(stopWatchCounter &gt;= clockCounterLimit)
+		{
+			stopWatchCounter = <span class="hljs-number">0</span>;
+			stopWatchRun();
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>If the counter has not reached the limit, iterate the counter </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{
+			stopWatchCounter++;
+		}
+	}
+}
+
+<span class="hljs-comment">/**
+	 * Handling functions are defined as those which perform a form of check particular to a module, in order to elicit different behaviors.
+	 * Uses the countdown(), resetTimer() methods from the timer.js file.
+	 * Called in the tick method from this file 
+	 * @author  Cesar Avalos 
+	 * @see - timer.js, tick()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timerHandling</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>If the timer is running </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(timerEnabledFlag)
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>If the timer has reached 0 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(isTimerZero())
+		{
+			<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"timer is 0"</span>); <span class="hljs-comment">// Log message </span>
+			
+			<span class="hljs-keyword">var</span> audio = <span class="hljs-keyword">new</span> Audio(<span class="hljs-string">'STOP.mp3'</span>); <span class="hljs-comment">// Create sound </span>
+			
+			audio.play(); <span class="hljs-comment">// Play sound </span>
+			
+			timer.tickTockOrNot = <span class="hljs-literal">false</span>; <span class="hljs-comment">// Call tickTockOrNot variable and set it to false to stop the clock from running </span>
+			
+			timerCounter = <span class="hljs-number">0</span>; <span class="hljs-comment">// Reset the counter variable from this file </span>
+			
+			resetTimer(); <span class="hljs-comment">// Call the resetTimer() method from the timer.js file </span>
+			
+			timerEnabledFlag = <span class="hljs-literal">false</span>; <span class="hljs-comment">// Set the timerEnabledFlag to false so that this file knows the clock is not running </span>
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>If the timer is running and has not reached 0, but the counter has reached the limit. Reset the counter, and call the countdown function from the timer.js file. </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(timerCounter &gt;= clockCounterLimit)
+		{
+			timerCounter = <span class="hljs-number">0</span>;
+			countdown(timerDIV);
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>If the timer is running, has not reached 0, and the counter has not reached the limit, iterate the counter </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{
+			timerCounter++;
+		}
+
+
+	}
+}
+
+
+<span class="hljs-comment">/**
+	 * The tick function is called by setInterval to be executed every tickRate rate.
+	 * Calls all handling functions and functions from other files to display clock, date, timer, and stopWatch 
+	 * @author  Cesar Avalos 
+	 * @see - clockHandling(),stopWatchHandling(), timerHandling(), clock.js, stopWatch.js, Timer.js, calendar.js 
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tick</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Execute Handlers</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	clockHandling();
+	stopWatchHandling();
+	timerHandling();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Display Clock, Date, Timer, and StopWatch</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	displayClock(clockDIV, hourDIV);
+	stopWatchDisplay(stopWatchDIV);
+	displayTimer(timerDIV);
+	displayDate(calendarDIV);
+}
+
+
+<span class="hljs-comment">/**
+	 * Called in the HTML file onClick. Used for the play/pause button of the stopWatch 
+	 * @author  Cesar Avalos 
+	 * @see - frontEnd.html, stopWatch.js
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stopWatchPlayPauseButton</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>If the stopwatch is not running </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(!stopWatchBtnToggle)
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Set the flag to start running </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		stopWatchEnable = <span class="hljs-literal">true</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Call the stopWatchRun() method from the stopWatch.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		stopWatchRun();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Set the flag </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		stopWatchBtnToggle = <span class="hljs-literal">true</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Swtich the button text </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		stopWatchRunButton.innerHTML = <span class="hljs-string">"Pause"</span>
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>If the stopWatch is running </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span>
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Reset the counter </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		stopWatchCounter = <span class="hljs-number">0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Set the flag </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		stopWatchBtnToggle = <span class="hljs-literal">false</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Swtich the button text </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		stopWatchRunButton.innerHTML = <span class="hljs-string">"Start"</span>
+
+	}
+}
+
+<span class="hljs-comment">/**
+	 * Called in the HTML file onClick. Used for the reset button of the stopWatch 
+	 * @author  Cesar Avalos 
+	 * @see - frontEnd.html, stopWatch.js
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stopWatchResetButton</span>(<span class="hljs-params"></span>)
+</span>{
+		stopWatchReset(); <span class="hljs-comment">// Call the stopWatchReset() button from the stopWatch.js file </span>
+		stopWatchCounter = <span class="hljs-number">0</span>; <span class="hljs-comment">// Reset the counter as well</span>
+}
+
+<span class="hljs-comment">/**
+	 * Called in the HTML file onClick. Used for the start button of the Timer 
+	 * @author Cesar Avalos 
+	 * @see - frontEnd.html, timer.js, checkValidTimerInput()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timerStartButton</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Get the input values from the HTML Textboxes from the HTML file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> _tempHour = <span class="hljs-built_in">parseInt</span>(hourField.value);
+	<span class="hljs-keyword">var</span> _tempMin  = <span class="hljs-built_in">parseInt</span>(minField.value);
+	<span class="hljs-keyword">var</span> _tempSec  = <span class="hljs-built_in">parseInt</span>(secField.value);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>If the timer is not enabled and the input is valid </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(!timerEnabledFlag &amp;&amp; checkValidTimerInput(_tempHour,_tempMin,_tempSec))
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Set the background colors of the textfields </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		secField.style.backgroundColor = <span class="hljs-string">"white"</span>;
+		minField.style.backgroundColor = <span class="hljs-string">"white"</span>;
+		hourField.style.backgroundColor = <span class="hljs-string">"white"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Call the startTimer, displayTimer functions from the timer.js file to start and display the timer </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		startTimer(_tempHour,_tempMin, _tempSec);
+		displayTimer(timerDIV);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Set the flag </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		timerEnabledFlag = <span class="hljs-literal">true</span>;
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>If the timer input is not valiid </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(!checkValidTimerInput(_tempHour,_tempMin,_tempSec)){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Set the background color of the input boxes to red to alert the user </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		secField.style.backgroundColor = <span class="hljs-string">"red"</span>;
+		minField.style.backgroundColor = <span class="hljs-string">"red"</span>;
+		hourField.style.backgroundColor = <span class="hljs-string">"red"</span>;
+		
+	}
+}
+
+<span class="hljs-comment">/**
+	 * Called in the HTML file onClick. Used for the reset button of the Timer 
+	 * @author  Cesar Avalos 
+	 * @see - frontEnd.html, timer.js
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timerResetButton</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>If the timer is running </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(timerEnabledFlag)
+	{
+		resetTimer(); <span class="hljs-comment">// Call the resetTimer() function from Timer.js</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>Reset the flag and counter </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		timerEnabledFlag = <span class="hljs-literal">false</span>;
+		timerCounter = <span class="hljs-number">0</span>;
+	}
+}
+
+<span class="hljs-comment">/**
+	 * Called in the HTML file onClick. Used for the pause button of the Timer 
+	 * @author  Cesar Avalos, Alec Knutsen 
+	 * @see - frontEnd.html, timer.js
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timerPauseButton</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>If the timer is on </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(timer.tickTockOrNot)
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>set the button text </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		stopTimerButton.innerHTML = <span class="hljs-string">" Resume "</span>;
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>If the timer is off </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span>
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>set the buttont text </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		stopTimerButton.innerHTML = <span class="hljs-string">" Pause "</span>;
+	}
+	switchTickTockOrNot(); <span class="hljs-comment">//Call the switchTickTockOrNot method to set the timer flag in the timer.js file </span>
+}
+
+<span class="hljs-comment">/**
+	 * Called in the HTML file onClick. Used for the set calendar button of the Calendar
+	 * @author  Cesar Avalos, Alec Knutsen 
+	 * @see - frontEnd.html, calendar.js
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">calendarSetButton</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>Convert the day input from the HTML Element to an integer</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	tempDay = <span class="hljs-built_in">parseInt</span>(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputDay"</span>).value)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>Convert the month input from the HTML input to an integer </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	tempMonth = <span class="hljs-built_in">parseInt</span>(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMonth"</span>).value);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>Call the checkValidDay() function from the calendar. js file to validate input </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(checkValidDay(tempDay, tempMonth))
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>Set the day and month variables from the calendar.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		day = tempDay;
+		month = tempMonth;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>Use the setDate() function from the calendar.js to set the date. Use the displayDate() function from the calendar.js file to display the date </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		setDate();
+		displayDate(calendarDIV);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>Clear the text inputs and set the color to white </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputDay"</span>).style.backgroundColor = <span class="hljs-string">"white"</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMonth"</span>).style.backgroundColor = <span class="hljs-string">"white"</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputDay"</span>).value = <span class="hljs-string">""</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMonth"</span>).value = <span class="hljs-string">""</span>;
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>If the date is invalid </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>Clear the text inputs and set the color to red</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputDay"</span>).style.backgroundColor = <span class="hljs-string">"red"</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMonth"</span>).style.backgroundColor = <span class="hljs-string">"red"</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputDay"</span>).value = <span class="hljs-string">""</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMonth"</span>).value = <span class="hljs-string">""</span>;
+	}
+}
+
+<span class="hljs-comment">/**
+	 * Called in the HTML file onClick. Used for the set clock button of the Clock
+	 * @author  Cesar Avalos, Alec Knutsen 
+	 * @see - frontEnd.html, clock.js
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setClockButton</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>Get the inputs from the HTML input elemnts and convert </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> tempHour = <span class="hljs-built_in">parseInt</span>(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputHours"</span>).value);
+	<span class="hljs-keyword">var</span> tempMin  = <span class="hljs-built_in">parseInt</span>(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMinutes"</span>).value);
+	<span class="hljs-keyword">var</span> tempSec  = <span class="hljs-built_in">parseInt</span>(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputSeconds"</span>).value);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>Get the am_pm value from the dropdown </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> tempampm = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"amORpm"</span>).value;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>Validate the time using checkValidTimeInput() function from the clock.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(checkValidTimeInput(tempHour, tempMin, tempSec))
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <p>Set the object variables of the Clock object in clock.js </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		Clock.setHours(tempHour);
+		Clock.setMinutes(tempMin); 
+		Clock.setSeconds(tempSec);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              <p>If we are not in military time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(!Military)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <p>Set the am_pm object variable of the Clock object </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			Clock.setAM_PM(tempampm);			
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>Initialize the clockCounter variable </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		clockCounter = <span class="hljs-number">0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p>Reset input texts and set background color to white </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputHours"</span>).style.backgroundColor = <span class="hljs-string">"white"</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMinutes"</span>).style.backgroundColor = <span class="hljs-string">"white"</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputSeconds"</span>).style.backgroundColor = <span class="hljs-string">"white"</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputHours"</span>).value = <span class="hljs-string">""</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMinutes"</span>).value = <span class="hljs-string">""</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputSeconds"</span>).value = <span class="hljs-string">""</span>;
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>If the clock time is not valid </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>Reset input texts and set background color to red </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputHours"</span>).style.backgroundColor = <span class="hljs-string">"red"</span>;
+			<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMinutes"</span>).style.backgroundColor = <span class="hljs-string">"red"</span>;
+			<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputSeconds"</span>).style.backgroundColor = <span class="hljs-string">"red"</span>;
+			<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputHours"</span>).value = <span class="hljs-string">""</span>;
+			<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputMinutes"</span>).value = <span class="hljs-string">""</span>;
+			<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"InputSeconds"</span>).value = <span class="hljs-string">""</span>;
+	}
+}
+
+
+<span class="hljs-comment">/**
+	 * Called in the HTML file onClick. Used for the converting between civilian/military time 
+	 * @author  Cesar Avalos
+	 * @see - frontEnd.html, clock.js
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setClockMilitaryButton</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-54">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-54">&#182;</a>
+              </div>
+              <p>If we are not in military time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(!Military)
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-55">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>Set the flag so that we are in military time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		Military = <span class="hljs-literal">true</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-56">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-56">&#182;</a>
+              </div>
+              <p>Get rid of the am_pm dropdown menu from the HTML element </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		clockModeMenu.style.display = <span class="hljs-string">'none'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-57">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-57">&#182;</a>
+              </div>
+              <p>Set the text of the military/civilian button</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		clockMilitaryButton.innerHTML = <span class="hljs-string">"Civilian Time"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-58">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-58">&#182;</a>
+              </div>
+              <p>Call the setMilitary function of the clock.js file to set the flag in the clock.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		Clock.setMilitary(<span class="hljs-literal">true</span>);
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-59">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-59">&#182;</a>
+              </div>
+              <p>If we are in military time</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span>
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-60">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-60">&#182;</a>
+              </div>
+              <p>Set the flag so that we are in military time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		Military = <span class="hljs-literal">false</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-61">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-61">&#182;</a>
+              </div>
+              <p>Set the text of the military/civilian button</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		clockMilitaryButton.innerHTML = <span class="hljs-string">"Military Time"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-62">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-62">&#182;</a>
+              </div>
+              <p>Readd the am_pm dropdown menu from the HTML element </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		clockModeMenu.style.display = <span class="hljs-string">'inline-block'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-63">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-63">&#182;</a>
+              </div>
+              <p>Call the setMilitary function of the clock.js file to set the flag in the clock.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		Clock.setMilitary(<span class="hljs-literal">false</span>);
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-64">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-64">&#182;</a>
+              </div>
+              <p>Call the transformToCorrectMode method from the clock.js file to convert the time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	Clock.transformToCorrectMode();
+}
+
+<span class="hljs-comment">/**
+	 * Hides all elements except the shutDownThisJointButton. Everything will run in the background 
+	 * Called in frontEnd.html
+	 * @author  Cesar Avalos, Alec Knutsen 
+	 * @see - frontEnd.html
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">shutDownThisJointButton</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-65">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-65">&#182;</a>
+              </div>
+              <p>If the page is visible </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(isThisGinJointVisible)
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-66">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-66">&#182;</a>
+              </div>
+              <p>Hide all main elements and zoom in, zoom out buttons </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"main-content"</span>).style.display = <span class="hljs-string">"none"</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"display-content"</span>).style.display = <span class="hljs-string">"none"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-67">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-67">&#182;</a>
+              </div>
+              <p>Set the flag </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		isThisGinJointVisible = <span class="hljs-literal">false</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-68">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-68">&#182;</a>
+              </div>
+              <p>Set the text </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"shutDown"</span>).innerHTML = <span class="hljs-string">"Make Visible"</span>;
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-69">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-69">&#182;</a>
+              </div>
+              <p>If the elements are not visible </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span>
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-70">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-70">&#182;</a>
+              </div>
+              <p>Reshow all main elemnts and zoom in, zoom out button </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"main-content"</span>).style.display = <span class="hljs-string">"inline"</span>;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"display-content"</span>).style.display = <span class="hljs-string">"inline"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-71">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-71">&#182;</a>
+              </div>
+              <p>Set the flag </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		isThisGinJointVisible = <span class="hljs-literal">true</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-72">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-72">&#182;</a>
+              </div>
+              <p>Set the text </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"shutDown"</span>).innerHTML = <span class="hljs-string">"Hide"</span>;
+	}
+}
+
+
+<span class="hljs-comment">/**
+	 * Checks if the time passed in to the clock is valid 
+	 * Called in setClockButton() function from this file. 
+	 * @author - Cesar Avalos 
+	 * @param {number} _hour - Hour value passed into the clock 
+	 * @param {number} _min - Minute value passed into the clock 
+	 * @param {number} _sec - Second value passed into the clock 
+	 * @return {number} boolean - Returns true if the time is valid, false otherwise 
+	 * @see - setClockButton()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkValidTimeInput</span>(<span class="hljs-params">_hour, _min,_sec</span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-73">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-73">&#182;</a>
+              </div>
+              <p>If we are in military time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(Clock.getMilitaryTime() == <span class="hljs-literal">true</span>)
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-74">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-74">&#182;</a>
+              </div>
+              <p>If the hour is between 0 and 23 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(_hour &gt;= <span class="hljs-number">0</span> &amp;&amp; _hour &lt; <span class="hljs-number">24</span>)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-75">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-75">&#182;</a>
+              </div>
+              <p>If the minute is between 0 and 59 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">if</span>(_min &gt;= <span class="hljs-number">0</span> &amp;&amp; _min &lt; <span class="hljs-number">60</span>)
+			{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-76">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-76">&#182;</a>
+              </div>
+              <p>If the second is between 0 and 59 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>				<span class="hljs-keyword">if</span>(_sec &gt;= <span class="hljs-number">0</span> &amp;&amp; _sec &lt; <span class="hljs-number">60</span>)
+				{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-77">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-77">&#182;</a>
+              </div>
+              <p>Return true </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>					<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+				}
+			}
+		}
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-78">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-78">&#182;</a>
+              </div>
+              <p>If we are not in military time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span>
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-79">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-79">&#182;</a>
+              </div>
+              <p>If the hour is between 0 and 12 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(_hour &gt; <span class="hljs-number">0</span> &amp;&amp; _hour &lt; <span class="hljs-number">13</span>)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-80">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-80">&#182;</a>
+              </div>
+              <p>If the minute is between 0 and 59 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">if</span>(_min &gt;= <span class="hljs-number">0</span> &amp;&amp; _min &lt; <span class="hljs-number">60</span>)
+			{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-81">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-81">&#182;</a>
+              </div>
+              <p>If the second is between 0 and 59 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>				<span class="hljs-keyword">if</span>(_sec &gt;= <span class="hljs-number">0</span> &amp;&amp; _sec &lt; <span class="hljs-number">60</span>)
+				{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-82">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-82">&#182;</a>
+              </div>
+              <p>Return true </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>					<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+				}
+			}
+		}
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-83">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-83">&#182;</a>
+              </div>
+              <p>IF all else fails, return false </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+
+
+<span class="hljs-comment">/**
+	 * Checks valid input to the timer. 
+	 * Called in timerStartButton() function from this file 
+	 * @author - Cesar Avalos, Alec Knutsen 
+	 * @param {number} _hour - Hour value passed into the timer 
+	 * @param {number} _min - Minute value passed into the timer
+	 * @param {number} _sec - Second value passed into the timer
+	 * @return {number} boolean - Returns true if the time is valid, false otherwise 
+	 * @see - timerStartButton();
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkValidTimerInput</span>(<span class="hljs-params">_hour, _min,_sec</span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-84">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-84">&#182;</a>
+              </div>
+              <p>If the hours is greater than 0, the minutes are between 0 and 59, and the seconds are between 1 and 59 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(_hour &gt;= <span class="hljs-number">0</span> &amp;&amp; _min &gt;= <span class="hljs-number">0</span> &amp;&amp; _min &lt;=<span class="hljs-number">59</span> &amp;&amp; _sec&lt;=<span class="hljs-number">59</span> &amp;&amp; _sec &gt;= <span class="hljs-number">1</span>)
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-85">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-85">&#182;</a>
+              </div>
+              <p>If no inputs are invalid, return true </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(!<span class="hljs-built_in">isNaN</span>(_hour) &amp;&amp;!<span class="hljs-built_in">isNaN</span>(_min) &amp;&amp; !<span class="hljs-built_in">isNaN</span>(_sec) )
+		{
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-86">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-86">&#182;</a>
+              </div>
+              <p>If inputs are invalid return false </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+		}
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-87">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-87">&#182;</a>
+              </div>
+              <p>If the timer time is not in the specified range, return false </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span> {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	}
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

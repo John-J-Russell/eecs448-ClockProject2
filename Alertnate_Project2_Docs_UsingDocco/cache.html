@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>cache.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>cache.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*
+** EECS 448 Project #1,2: Clock
+** @author: Cesar Avalos 
+** @description: Two functions that help zoom the HTML page in and out 
+** Last update: March 3, 2016.
+*/</span>
+
+
+
+<span class="hljs-comment">/**
+     * At the start of the app, before everything else loads check if there is any program cache. Return true if localstorage is writable.
+	 * Helper function called in the loadConfig() function from this file. 
+	 * @author Cesar Avalos 
+     * @param type  
+     * @return boolean - Returns true if storage is writable, false otherwise 
+	 * @see loadConfig()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isThereAnyStorage</span>(<span class="hljs-params">type</span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Try to see if storage is avaialble </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">try</span>
+		{
+			<span class="hljs-keyword">var</span> storage = <span class="hljs-built_in">window</span>[type];
+			x = <span class="hljs-string">'_is_this_thing_on?'</span>;
+			storage.setItem(x,x);
+			storage.removeItem(x);
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+		}<span class="hljs-keyword">catch</span>(e)
+		{
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+		}
+}
+
+<span class="hljs-comment">/**
+     * Gets the old time from the local storage. Gets the current date. Calculates the ealpsed time. Sets the clock to the values in storage. 
+	 * Calls the offset time method from the clock.js file and the setTime method of the Clock object from the clock.js file.
+	 * Called in the windows.onLoad function in the frontEnd.js file.
+	 * @author Cesar Avalos 
+	 * @see clock.js, frontEnd.js isThereAnyStorage()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loadConfig</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Check if storage is avaiable </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(isThereAnyStorage(<span class="hljs-string">'localStorage'</span>))
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Assume if exit_time exists, so does everything else.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(localStorage.getItem(<span class="hljs-string">'exit_time'</span>))
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Get the old date </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">var</span> oldDate	    = localStorage.getItem(<span class="hljs-string">'exit_time'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Get the current date </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">var</span> currentDate = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Calculate the elapsed time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">var</span> elapsed = <span class="hljs-built_in">parseInt</span>(<span class="hljs-built_in">Date</span>.now()) - <span class="hljs-built_in">parseInt</span>(oldDate);
+			<span class="hljs-built_in">console</span>.log(elapsed + <span class="hljs-string">" ms has happend, old value "</span> + oldDate );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Set the time of the Clock object in clock.js </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			Clock.setTime(localStorage.getItem(<span class="hljs-string">"exit_hours"</span>), localStorage.getItem(<span class="hljs-string">"exit_minutes"</span>), localStorage.getItem(<span class="hljs-string">"exit_seconds"</span>));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Call the offset time method from the Clock.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			offsetTime(elapsed);
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>If no exit time is in storage, call the intializeClockValues() method from the frontEnd.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{
+			intializeClockValues();
+		}
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>If no storage is avaiable, call the intializeClockValues() method from the frontEnd.js file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span>
+	{
+		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"need a new browser m8"</span>);
+		intializeClockValues();
+	}	
+}
+
+<span class="hljs-comment">/**
+     * Stores all time variables and date variables in storage from the current time 
+	 * @author Cesar Avalos 
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">saveConfig</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Get current time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> exit_time = <span class="hljs-built_in">parseInt</span>(<span class="hljs-built_in">Date</span>.now());</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Store everything </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	localStorage.setItem(<span class="hljs-string">'exit_seconds'</span>, exit_seconds);
+	localStorage.setItem(<span class="hljs-string">'exit_minutes'</span>, exit_minutes);
+	localStorage.setItem(<span class="hljs-string">'exit_hours'</span>, exit_hours);
+	localStorage.setItem(<span class="hljs-string">'exit_time'</span>, exit_time);
+	localStorage.setItem(<span class="hljs-string">'exit_day'</span> , day);
+	localStorage.setItem(<span class="hljs-string">'exit_date'</span>, date);
+	localStorage.setItem(<span class="hljs-string">'exit_month'</span>, month);
+}
+
+<span class="hljs-comment">/**
+     * Calls the saveConfig() function above 
+	 * @author - Cesar Avalos 
+     * @param {String} unload 
+     * @return {function} - Function passed in 
+	 * @see saveConfig();
+*/</span>
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'unload'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
+		saveConfig();
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

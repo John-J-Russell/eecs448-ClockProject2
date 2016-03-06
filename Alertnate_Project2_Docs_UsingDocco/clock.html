@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>clock.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>clock.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*
+** EECS 448 Project #1,2: Clock
+** One object and many helper methods mostly used in frontEnd.js 
+** Authors: Luke Dercher, Sri Gayatri, Luke Weber.
+** More Authors: Alec Knutsen, Cesar Avalos, John Russell, Yarden Tamir 
+** Last update: March 5, 2016.
+*/</span>
+
+
+
+
+<span class="hljs-comment">/**
+	* Global Variables i 
+*/</span>
+<span class="hljs-keyword">var</span> i;
+<span class="hljs-comment">/**
+	* Global Variables counter 
+*/</span>
+<span class="hljs-keyword">var</span> counter;
+
+<span class="hljs-comment">/**
+	* Global Variables for the clock if it has invalid values before running
+*/</span>
+<span class="hljs-keyword">var</span> invalid=<span class="hljs-literal">false</span>;
+<span class="hljs-meta">"use strict"</span>
+
+
+
+<span class="hljs-comment">/**
+	* The clock object contains a number of methods used in this file and used in frontEnd.js 
+	 * @type {Object} 
+	 * @author Luke Weber, Alec Knutsen, John Russell, Yarden Tamir, Cesar Avalos 
+	 * @namespace Clock 
+*/</span>
+<span class="hljs-keyword">var</span> Clock =
+{	
+
+	<span class="hljs-comment">/**
+		* Object variables for minutes
+		* @memberof Clock
+	*/</span>
+	Minutes : <span class="hljs-number">0</span>,
+	<span class="hljs-comment">/**
+		* Object variables for seconds
+		* @memberof Clock
+	*/</span>
+	Seconds : <span class="hljs-number">0</span>,
+	<span class="hljs-comment">/**
+		* Object variables for hours
+		* @memberof Clock
+	*/</span>
+	Hours : <span class="hljs-number">0</span>,
+	
+	
+	<span class="hljs-comment">/**
+		* Local boolean for time mode
+		* @memberof Clock
+	*/</span>
+	MilitaryTime : <span class="hljs-literal">false</span>,
+	
+	<span class="hljs-comment">/**
+		* Local String for time mode
+		* @memberof Clock
+	*/</span>
+	AM_PM : <span class="hljs-string">"am"</span>,
+
+	<span class="hljs-comment">/**
+		 * Get method for class variable hours. Called in clockDisplay() method from this file. 
+		 * @author Luke Weber 
+		 * @memberof Clock
+		 * @return {number} - Return integer variable of class hours 
+		 * @see - clockDisplay()
+	*/</span>
+	getHours: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)
+	</span>{
+		<span class="hljs-keyword">return</span>(<span class="hljs-built_in">parseInt</span>(<span class="hljs-keyword">this</span>.Hours));
+	},
+	
+	
+	<span class="hljs-comment">/**
+		 * Set method for class variable hours. 
+		 * Not used in our program
+		 * @author Luke Weber 
+		 * @memberof Clock
+		 * @param {number} aHours - Parameter used to set class variable hours 
+		 * @return - Returns true if the parameter passed in is a valid hour, else calls the InvalidEntry function 
+		 * @see invalidEntry() 
+	*/</span>
+	setHours: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">aHours</span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Set min/max hour for non military time</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">var</span> MaxHour = <span class="hljs-number">12</span>
+		<span class="hljs-keyword">var</span> MinHour = <span class="hljs-number">1</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>If in military time, change max, min hour </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.getMilitaryTime())
+		{
+			<span class="hljs-keyword">var</span> MaxHour = <span class="hljs-number">23</span>
+			<span class="hljs-keyword">var</span> MinHour = <span class="hljs-number">0</span>
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>If we we have a valid hour passed into the method </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span> (!<span class="hljs-built_in">isNaN</span>(aHours) &amp;&amp; (aHours &lt;= MaxHour &amp;&amp; aHours &gt;= MinHour))
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Set class variable to parameter passed in 
+Return true </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>				<span class="hljs-keyword">this</span>.Hours = aHours
+				<span class="hljs-keyword">return</span>(<span class="hljs-literal">true</span>)
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>If the hours is invalid call the InvalidEntry function</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{
+			<span class="hljs-keyword">return</span>(InvalidEntry())
+		}
+		
+	},
+	
+	<span class="hljs-comment">/**
+		 * Set method for object variables Hours, Minutes, and Seconds.
+		 * Called in initializeClockValues() function of the frontEnd.js file.
+		 * Called in the loadConfig() function of the cache.js file 
+		 * @author Luke Weber 
+		 * @memberof Clock
+		 * @param {number} _hours - Parameter used to set object variable Hours 
+		 * @param {number} _minutes - Parameter used to set object variable Minutes
+		 * @param {number} _seconds - Parameter used to set object variable Seconds
+		 * @see - clock.js, cache.js 
+	*/</span>
+	setTime: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_hours, _minutes, _seconds</span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Set all class variables </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">this</span>.Hours = _hours;
+		<span class="hljs-keyword">this</span>.Minutes = _minutes;
+		<span class="hljs-keyword">this</span>.Seconds = _seconds;
+	},
+
+	<span class="hljs-comment">/**
+		 * Get method for object variable minutes. Called in the clockDisplay() method from this file.
+		 * Called in the initializeClockValues() method from the frontEnd.js file. 
+		 * @author Luke Weber 
+		 * @memberof Clock
+		 * @return {number} - Returns integer value of Mintues Variable 
+		 * @see - clockDisplay(), frontEnd.js
+	*/</span>
+	getMinutes: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)
+	</span>{
+		<span class="hljs-keyword">return</span>(<span class="hljs-built_in">parseInt</span>(<span class="hljs-keyword">this</span>.Minutes));
+	},
+	
+	<span class="hljs-comment">/**
+		 * Set method for object variable minutes. Called in the setClockButton() method of the frontEnd.js file  
+		 * @author Luke Weber 
+		 * @memberof Clock
+		 * @param {number} aMinutes - Parameter representing variable that the class variable Minutes wil be set to 
+		 * @return {boolean} - Returns true if the parameter is a valid minute, returns the function invalidEntry() otherwise 
+		 * @see invalidEntry(), frontEnd.js 
+	*/</span>
+	setMinutes: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">aMinutes</span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>If we have a valid minutes passed in as parameter </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span> (!<span class="hljs-built_in">isNaN</span>(aMinutes) &amp;&amp; aMinutes &lt;= <span class="hljs-number">60</span> &amp;&amp; aMinutes &gt;= <span class="hljs-number">0</span>)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Set class variable minutes to the parameter and return true </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">this</span>.Minutes = aMinutes
+			<span class="hljs-keyword">return</span>(<span class="hljs-literal">true</span>)
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>If the parameter is invalid, call the InvalidEntry function</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{
+			<span class="hljs-keyword">return</span>(InvalidEntry())
+		}
+	},
+
+	<span class="hljs-comment">/**
+		 * Get method for class variable seconds. 
+		 * Called in the clockDisplay() function from this file.
+		 * Called in the initializeClockValues() function from the frontEnd.js file 
+		 * @author Luke Weber 
+		 * @memberof Clock
+		 * @return  - Returns integer value of object variable Seconds 
+		 * @see  clockDisplay(), frontEnd.js 
+	*/</span>
+	getSeconds: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)
+	</span>{
+		<span class="hljs-keyword">return</span>(<span class="hljs-built_in">parseInt</span>(<span class="hljs-keyword">this</span>.Seconds));
+	},
+	
+	<span class="hljs-comment">/**
+		 * Set method for object variable seconds.
+		 * Called in the setClockButton() method of the frontEnd.js file 
+		 * @author Luke Weber 
+		 * @param aSeconds - Value that object variable seconds will be set to 
+		 * @memberof Clock
+		 * @return - Returns true if the parameter is valid, returns the function invalidEntry if the parameter is invalid 
+		 * @see invalidEntry(), frontEnd.js
+	*/</span>
+	setSeconds: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">aSeconds</span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>If the seconds passed in as a parameter is valid</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span> (!<span class="hljs-built_in">isNaN</span>(aSeconds) &amp;&amp; aSeconds &lt;= <span class="hljs-number">60</span> &amp;&amp; aSeconds &gt;= <span class="hljs-number">0</span>)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Set the class variable seconds to the parameter and return true</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">this</span>.Seconds = aSeconds
+			<span class="hljs-keyword">return</span>(<span class="hljs-literal">true</span>)
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Else call the invalidEntry function if the entry is invalid</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{
+			<span class="hljs-keyword">return</span>(InvalidEntry())
+		}
+	},
+	
+	<span class="hljs-comment">/**
+		 * Get method for class variable  military_time.
+		 * Called in setHours() and clockDisplay() functions from this file 
+		 * Called in the checkValidTimeInput() function located in frontEnd.js 
+		 * @author Cesar Avalos 
+		 * @memberof Clock
+		 * @return {boolean} - Returns object variable MilitaryTime 
+		 * @see - setHours(), clockDisplay(), frontEnd.js 
+	*/</span>
+	getMilitaryTime: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)
+	</span>{
+	
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.MilitaryTime;
+	},
+
+	<span class="hljs-comment">/**
+		 * Set method for object variable MilitaryTime
+		 * Called in the setClockMilitaryButton() function of the frontEnd.js file 
+		 * @author Cesar Avalos 
+		 * @memberof Clock
+		 * @param {boolean} _mil - Parameter that will set value of MilitaryTime 
+		 * @see - frontEnd.js 
+	*/</span>
+	setMilitary: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_mil</span>)
+	</span>{
+		<span class="hljs-keyword">this</span>.MilitaryTime = _mil;
+	},
+	
+	<span class="hljs-comment">/**
+		 * Function that adds time to object variables hours, minutes, and seconds 
+		 * Called in the offsetTime() function from this file. 
+		 * @author Cesar Avalos 
+		 * @memberof Clock
+		 * @param {number} _hours - Parameter that will be added to object variable hours 
+		 * @param {number} _minutes - Parameter that will be added to object variable minutes
+		 * @param {number} _seconds - Parameter that will be added to object variable seconds
+		 * @see - offsetTime() 
+	*/</span>
+	addTime: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_hours, _minutes, _seconds</span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Add parameters to corresponding class variables </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">this</span>.Hours += _hours;
+		<span class="hljs-keyword">this</span>.Minutes += _minutes;
+		<span class="hljs-keyword">this</span>.Seconds += _seconds;
+	},
+
+	<span class="hljs-comment">/**
+		 * Get method for object variable AM_PM.
+		 * Called in the changeAM_PM() and clockDisplay() functions from this file. 
+		 * @author Luke Weber 
+		 * @memberof Clock
+		 * @return {number} - Return object variable AM_PM
+		 * @see - changeAM_PM(), clockDisplay() 
+	*/</span>
+	getAM_PM : <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)
+	</span>{
+		
+		<span class="hljs-keyword">return</span>(<span class="hljs-keyword">this</span>.AM_PM)
+		
+	},
+	
+	
+	<span class="hljs-comment">/**
+		 * Set method for class variable AM_PM.
+		 * @author Luke Weber 
+		 * @memberof Clock
+		 * @param {number} AM_PM - Parameter object variable AM_PM will be set to 
+	*/</span>
+	setAM_PM : <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">AM_PM</span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Set object variable </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">this</span>.AM_PM = AM_PM;
+	},
+	
+	<span class="hljs-comment">/**
+		 * Helper function to change from am to pm or change from pm to am
+		 * Called in the changeAM_PM() function from this file.
+		 * Called in the setClockButton() function in frontEnd.js 
+		 * @author Luke Weber 
+		 * @memberof Clock
+		 * @see - changeAM_PM(), frontEnd.js 
+	*/</span>
+	changeAM_PM : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>If the previous string is am, change to pm </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.getAM_PM() == <span class="hljs-string">"am"</span>)
+		{
+			<span class="hljs-keyword">this</span>.setAM_PM(<span class="hljs-string">"pm"</span>)
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>If the previous string is pm, change to am </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.getAM_PM() == <span class="hljs-string">"pm"</span>)
+		{
+			<span class="hljs-keyword">this</span>.setAM_PM(<span class="hljs-string">"am"</span>)
+		}
+		
+	},	
+	
+	<span class="hljs-comment">/**
+		 * Function to handle the hour changes depending on the mode.
+		 * Called in the tick function from this file.
+		 * @author Luke Weber, Cesar Avalos 
+		 * @memberof Clock
+		 * @see calendar.js, tick()
+	*/</span>
+	hourIncrement: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>If we are in military time</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.MilitaryTime)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>If we are at the last hour, reset the hours and call the next day function from the calendar.js file to iterate the day </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.Hours == <span class="hljs-number">23</span>)
+			{
+
+				<span class="hljs-keyword">this</span>.Hours = <span class="hljs-number">0</span>;
+				nextDay();
+			}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>If we are not at the last hour, iterate the hours </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">else</span>
+			{
+				<span class="hljs-keyword">this</span>.Hours++;
+			}
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>If we are not in military time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>If we are at 11 am, set the the hours to 12 and change to pm </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.Hours == <span class="hljs-number">11</span> &amp;&amp; <span class="hljs-keyword">this</span>.AM_PM == <span class="hljs-string">"am"</span>)
+			{
+				<span class="hljs-keyword">this</span>.Hours = <span class="hljs-number">12</span>;
+				<span class="hljs-keyword">this</span>.AM_PM = <span class="hljs-string">"pm"</span>;
+			}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>If we are at 11 pm, set the the hours to 12, change to am, and call the next day function to iterate the day </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.Hours == <span class="hljs-number">11</span> &amp;&amp; <span class="hljs-keyword">this</span>.AM_PM == <span class="hljs-string">"pm"</span>)
+			{
+				<span class="hljs-keyword">this</span>.Hours = <span class="hljs-number">12</span>
+				<span class="hljs-keyword">this</span>.AM_PM = <span class="hljs-string">"am"</span>;
+				nextDay();
+			}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>If we are at 12 am, reset hours to 1 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.Hours == <span class="hljs-number">12</span> &amp;&amp; <span class="hljs-keyword">this</span>.AM_PM == <span class="hljs-string">"am"</span>)
+			{
+				<span class="hljs-keyword">this</span>.Hours = <span class="hljs-number">1</span>;
+			}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>If we are at 12 pm, reset hours to 1 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.Hours == <span class="hljs-number">12</span> &amp;&amp; <span class="hljs-keyword">this</span>.AM_PM == <span class="hljs-string">"pm"</span>)
+			{
+				<span class="hljs-keyword">this</span>.Hours = <span class="hljs-number">1</span>;
+			}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>If we are not at 11 am,pm or 12 am,pm, just iterate the hours </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">else</span>
+			{
+				<span class="hljs-keyword">this</span>.Hours++;
+			}
+		}
+	},
+
+	<span class="hljs-comment">/**
+		 * Function that handles conversion from civilian time  to military time.
+		 * Used in the TransformtoCorrectMode() function from this file 
+		 * @author Cesar Avalos, Alec Knutsen 
+		 * @memberof Clock
+		 * @param {number} _hours - Current hour value of clock 
+		 * @return {number} - Returns converted hour 
+		 * @see - TransformtoCorrectMode()
+	*/</span>
+	toMilitaryTime: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_hours</span>)
+	</span>{
+		<span class="hljs-keyword">var</span> offset = <span class="hljs-number">0</span>; <span class="hljs-comment">// Offest used to set the time </span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>If we are in a pm hour </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.AM_PM == <span class="hljs-string">"pm"</span>)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>If we are at 12 pm, offset is 0 because 12 is the appropriate hour in military time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.Hours == <span class="hljs-number">12</span>)
+			{
+				offset = <span class="hljs-number">0</span>;
+			}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>If we are at any pm hour other than 12, the appropriate hour is hour +12 (set offset to 12)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">else</span>
+			{
+				offset = <span class="hljs-number">12</span>;
+			}
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>If we are in am mode, do not make any changes to hour except at 12 am </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.AM_PM == <span class="hljs-string">"am"</span>)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>If we are at 12 am, set hours to 0 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.Hours == <span class="hljs-number">12</span>) {
+				<span class="hljs-keyword">return</span>(<span class="hljs-number">0</span>);
+			}
+		}
+
+
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">parseInt</span>(_hours) + offset; <span class="hljs-comment">// Return the hours plus the offset </span>
+	},
+
+	<span class="hljs-comment">/**
+		 * Handles conversion from military time to civilian time.
+		 * Used in the transformToCorrectMode() mode function from this file. 
+		 * @author Cesar Avalos 
+		 * @memberof Clock
+		 * @param {number} _hours - Represents current hours in military time 
+		 * @return {number} - Returns converted hours in civilian time 
+		 * @see - transformToCorrectMode()
+	*/</span>
+	toCivilianTime:	<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_hours</span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>If we are at an hour greater than or equal 12, set AM_PM object variable to pm </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(_hours &gt;= <span class="hljs-number">12</span>)
+		{
+			<span class="hljs-keyword">this</span>.AM_PM = <span class="hljs-string">"pm"</span>;	
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>If we are at an hour less than 12, set AM_PM object variable to am</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{
+			<span class="hljs-keyword">this</span>.AM_PM = <span class="hljs-string">"am"</span>;
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>Return the appropriate hour conversion </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">return</span> (_hours + <span class="hljs-number">24</span>) % <span class="hljs-number">12</span> || <span class="hljs-number">12</span>;
+	},
+
+	<span class="hljs-comment">/**
+		 * Uses toMilitaryTime, toCivilianTime functions above to convert to the correct time based on the mode MilitaryTime.
+		 * Used in setClockMilitaryButton() function in frontEnd.js 
+		 * @author  Cesar Avalos 
+		 * @memberof Clock
+		 * @see toCivilianTime, toMilitaryTime, frontEnd.js 
+	*/</span>
+	transformToCorrectMode: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>If we want to convert to military time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.MilitaryTime)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>Set hours object variable using toMilitaryTime function</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">this</span>.Hours = <span class="hljs-keyword">this</span>.toMilitaryTime(<span class="hljs-keyword">this</span>.Hours);
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>If we want to convert to civilian time </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>Set hours object variable using toCivilianTime function</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">this</span>.Hours = <span class="hljs-keyword">this</span>.toCivilianTime(<span class="hljs-keyword">this</span>.Hours);
+		}
+	},
+
+	<span class="hljs-comment">/** 
+		 * Generic funtion to make the clock tick.
+		 * Called in the clockHandling() method of the frontEnd.js file
+		 * @author  Cesar Avalos 
+		 * @memberof Clock
+		 * @see  hourIncrement(), frontEnd.js 
+	*/</span>
+	tick: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)
+	</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>If we reached the max seconds </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.Seconds == <span class="hljs-number">59</span>)
+		{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>If we reached the max minutes </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.Minutes == <span class="hljs-number">59</span>)
+			{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>Increment the hour</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>				<span class="hljs-keyword">this</span>.hourIncrement();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>Reset the minutes </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>				<span class="hljs-keyword">this</span>.Minutes = <span class="hljs-number">0</span>;
+			}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>If we have not reached the max minutes, iterate the minutes </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">else</span>
+			{
+				<span class="hljs-keyword">this</span>.Minutes++;
+			}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>Reset the seconds </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">this</span>.Seconds = <span class="hljs-number">0</span>;
+		}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>If we have not reached the max seconds, iterate the seconds </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">else</span>
+		{
+			<span class="hljs-keyword">this</span>.Seconds++;
+		}
+	}
+} <span class="hljs-comment">// End Class Object </span>
+
+	
+
+<span class="hljs-comment">/**
+	 * Generic function to display clock in HTML. Based on the function below by Gayarati and Weber.
+	 * Called in the window.onload() function and tick function in frontEnd.js 
+	 * @author Cesar Avalos, Yarden Tamir 
+	 * @param  clockDiv 
+	 * @param  hourDiv - HTML Elemnt that will display the clock 
+	 * @see formatTimeString, getHours, frontEnd.js 
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">displayClock</span>(<span class="hljs-params">clockDiv, hourDiv</span>)
+</span>{
+	<span class="hljs-keyword">var</span> modeText = <span class="hljs-string">""</span>; <span class="hljs-comment">// String that either has am_pm attached or not </span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>Get the current hours of the clock </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> tempHour = Clock.getHours();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <p>If we are not in military time, attach the am,pm to modeText </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(Clock.getMilitaryTime() == <span class="hljs-literal">false</span>)
+	{
+		modeText = <span class="hljs-string">" "</span> + Clock.getAM_PM();
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              <p>Set the timer display hourDiv using the formatTimeString method from this file </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	hourDiv.innerHTML =  formatTimeString(tempHour) + <span class="hljs-string">":"</span> + formatTimeString(Clock.getMinutes()) + <span class="hljs-string">":"</span> + formatTimeString(Clock.getSeconds()) + modeText;
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/**
+	 * Function called in the clock object. Used to validate input 
+	 * Called in the setHours(), setMinutes(), setSeconds(), setTime() functions from this file 
+	 * Not super important in our clock 
+	 * @author Luke Weber 
+	 * @return - Returns false 
+	 * @see - setHours(), setMinutes(), setSeconds(), setTime()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">InvalidEntry</span>(<span class="hljs-params"></span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>Set html inputs to 12, 0,0 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"hClock"</span>).innerHTML = <span class="hljs-string">"12"</span>;<span class="hljs-comment">//display invalid when bad input is given</span>
+
+	<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"mClock"</span>).innerHTML = <span class="hljs-string">"00"</span>;
+	
+	<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"sClock"</span>).innerHTML = <span class="hljs-string">"00"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p>Set counter equal to 0 </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	counter = <span class="hljs-number">0</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>Return boolean false </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">return</span>(<span class="hljs-literal">false</span>)
+}
+
+
+	
+	
+<span class="hljs-comment">/**
+	 * Helper method adds 0 in front of numbers.
+	 * Called in the displayClock() method from this file 
+	 * @author - Sri 
+	 * @param {number} i - Value to add 0 in front of 
+	 * @return {number} - Returns value with zero in front 
+	 * @see - displayClock()
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">formatTimeString</span>(<span class="hljs-params">i</span>) 
+</span>{
+	<span class="hljs-keyword">if</span> (i &lt; <span class="hljs-number">10</span>) {
+		i = <span class="hljs-string">"0"</span> + i
+	};  <span class="hljs-comment">// add zero in front of numbers &lt; 10</span>
+	
+	<span class="hljs-keyword">return</span> i; <span class="hljs-comment">// Return edited value </span>
+}
+
+	
+	
+
+<span class="hljs-comment">/**
+	 * Function to offset time, whenever the delta time is calculated offset the clock by that amount of time. Called in cache.js 
+	 * NOT REALLY VITAL TO OUR CLOCK 
+	 * @author Cesar Avalos  
+	 * @param {number} _offset - Value to offset by 
+	 * @see cache.js
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">offsetTime</span>(<span class="hljs-params">_offset</span>)
+</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>Variables to hold propery offseet </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">var</span> offsetSeconds = <span class="hljs-built_in">Math</span>.floor((_offset)/<span class="hljs-number">1000</span> % <span class="hljs-number">60</span>);
+	<span class="hljs-keyword">var</span> offsetMinutes = <span class="hljs-built_in">Math</span>.floor((_offset)/(<span class="hljs-number">60</span> * <span class="hljs-number">1000</span>) % <span class="hljs-number">60</span>);
+	<span class="hljs-keyword">var</span> offsetHours   = <span class="hljs-built_in">Math</span>.floor((_offset)/(<span class="hljs-number">60</span> * <span class="hljs-number">60</span> * <span class="hljs-number">1000</span>) % <span class="hljs-number">24</span>);
+	
+	<span class="hljs-keyword">if</span>((offsetHours / <span class="hljs-number">24</span>) &gt; <span class="hljs-number">1</span>)
+	{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-54">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-54">&#182;</a>
+              </div>
+              <p>Offset days </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; (offsetHours / <span class="hljs-number">24</span>); i++)
+		{
+			nextDay();
+		}
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-55">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>Call addTime function of clock Object </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	Clock.addTime(offsetHours, offsetMinutes, offsetSeconds); 
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

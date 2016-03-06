@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>my_zoom.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>my_zoom.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*
+** EECS 448 Project #1,2: Clock
+** @author: Alec Knutsen 
+** @description: Two functions that help zoom the HTML page in and out 
+** Last update: March 5, 2016.
+*/</span>
+
+<span class="hljs-comment">/**
+	* Global variable used for valid zoom sizes
+*/</span>
+zoom_array = [<span class="hljs-string">"25%"</span>,<span class="hljs-string">"50%"</span>,<span class="hljs-string">"75%"</span>,<span class="hljs-string">"100%"</span>,<span class="hljs-string">"125%"</span>,<span class="hljs-string">"150%"</span>,<span class="hljs-string">"175%"</span>,<span class="hljs-string">"200%"</span>]; <span class="hljs-comment">// Stores valid zoom sizes </span>
+<span class="hljs-comment">/**
+	* Global variable used to store the index in the zoom_array 
+*/</span>
+index = <span class="hljs-number">3</span>; <span class="hljs-comment">// Stores index that we are at in the zoom array. Initially start at 100%</span>
+
+<span class="hljs-comment">/**
+     * Function takes the current zoom size and decreases it by 25% unless we are at the min. zooom size. 
+	 * Called as the onClick method of Zoom Out Button 
+	 * @author Alec Knutsen 
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">zoom_down</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>If we are at the minimum zoom size, do nothing </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(index == <span class="hljs-number">0</span>) {
+		index =<span class="hljs-number">0</span>;
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>If we are not at the min zoom size</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span> {
+		
+		index = index<span class="hljs-number">-1</span>; <span class="hljs-comment">// Decrease the index </span>
+		<span class="hljs-built_in">document</span>.body.style.zoom=zoom_array[index<span class="hljs-number">-1</span>]; <span class="hljs-comment">// Set the body size of the HTML Page to the corresponding array value </span>
+		
+		
+	}
+
+	
+	
+}
+
+
+<span class="hljs-comment">/**
+     * Function takes the current zoom size and increases it by 25% unless we are at the max. zooom size. 
+	 * Called as the onClick method of Zoom IN Button 
+	 * @author Alec Knutsen 
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">zoom_up</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>If we are at the max zoom size, do nothing </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">if</span>(index ==<span class="hljs-number">7</span>) {
+		
+		index =<span class="hljs-number">7</span>;
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>If we are not at the max zoom size</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">else</span> {
+		index = index+<span class="hljs-number">1</span>; <span class="hljs-comment">// Increase the index </span>
+		<span class="hljs-built_in">document</span>.body.style.zoom=zoom_array[index+<span class="hljs-number">1</span>]; <span class="hljs-comment">// Set the body size of the HTML Page to the corresponding array value </span>
+	}
+
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

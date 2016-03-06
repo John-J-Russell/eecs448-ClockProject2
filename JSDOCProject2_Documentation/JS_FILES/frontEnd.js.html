@@ -1,4 +1,32 @@
-/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: frontEnd.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: frontEnd.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
 ** EECS 448 Project #2: Clock
 ** Most methods from this file are connected with frontEnd.html to handle button clicks 
 ** Authors: Alec Knutsen, Cesar Avalos, John Russell, Yarden Tamir 
@@ -314,7 +342,7 @@ function timerStartButton()
 	var _tempSec  = parseInt(secField.value);
 
 	//If the timer is not enabled and the input is valid 
-	if(!timerEnabledFlag && checkValidTimerInput(_tempHour,_tempMin,_tempSec))
+	if(!timerEnabledFlag &amp;&amp; checkValidTimerInput(_tempHour,_tempMin,_tempSec))
 	{
 		//Set the background colors of the textfields 
 		secField.style.backgroundColor = "white";
@@ -556,13 +584,13 @@ function checkValidTimeInput(_hour, _min,_sec)
 	if(Clock.getMilitaryTime() == true)
 	{
 		//If the hour is between 0 and 23 
-		if(_hour >= 0 && _hour < 24)
+		if(_hour >= 0 &amp;&amp; _hour &lt; 24)
 		{
 			//If the minute is between 0 and 59 
-			if(_min >= 0 && _min < 60)
+			if(_min >= 0 &amp;&amp; _min &lt; 60)
 			{
 				//If the second is between 0 and 59 
-				if(_sec >= 0 && _sec < 60)
+				if(_sec >= 0 &amp;&amp; _sec &lt; 60)
 				{
 					//Return true 
 					return true;
@@ -574,13 +602,13 @@ function checkValidTimeInput(_hour, _min,_sec)
 	else
 	{
 		//If the hour is between 0 and 12 
-		if(_hour > 0 && _hour < 13)
+		if(_hour > 0 &amp;&amp; _hour &lt; 13)
 		{
 			//If the minute is between 0 and 59 
-			if(_min >= 0 && _min < 60)
+			if(_min >= 0 &amp;&amp; _min &lt; 60)
 			{
 				//If the second is between 0 and 59 
-				if(_sec >= 0 && _sec < 60)
+				if(_sec >= 0 &amp;&amp; _sec &lt; 60)
 				{
 					//Return true 
 					return true;
@@ -606,10 +634,10 @@ function checkValidTimeInput(_hour, _min,_sec)
 function checkValidTimerInput(_hour, _min,_sec)
 {
 	//If the hours is greater than 0, the minutes are between 0 and 59, and the seconds are between 1 and 59 
-	if(_hour >= 0 && _min >= 0 && _min <=59 && _sec<=59 && _sec >= 1)
+	if(_hour >= 0 &amp;&amp; _min >= 0 &amp;&amp; _min &lt;=59 &amp;&amp; _sec&lt;=59 &amp;&amp; _sec >= 1)
 	{
 		//If no inputs are invalid, return true 
-		if(!isNaN(_hour) &&!isNaN(_min) && !isNaN(_sec) )
+		if(!isNaN(_hour) &amp;&amp;!isNaN(_min) &amp;&amp; !isNaN(_sec) )
 		{
 			return true;
 		}
@@ -627,3 +655,26 @@ function checkValidTimerInput(_hour, _min,_sec)
 
 
 
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#calendarDIV">calendarDIV</a></li><li><a href="global.html#calendarSetButton">calendarSetButton</a></li><li><a href="global.html#checkValidTimeInput">checkValidTimeInput</a></li><li><a href="global.html#checkValidTimerInput">checkValidTimerInput</a></li><li><a href="global.html#clockCounter">clockCounter</a></li><li><a href="global.html#clockCounterLimit">clockCounterLimit</a></li><li><a href="global.html#clockDIV">clockDIV</a></li><li><a href="global.html#clockFlag">clockFlag</a></li><li><a href="global.html#clockHandling">clockHandling</a></li><li><a href="global.html#clockMilitaryButton">clockMilitaryButton</a></li><li><a href="global.html#clockModeMenu">clockModeMenu</a></li><li><a href="global.html#hourDIV">hourDIV</a></li><li><a href="global.html#intializeClockValues">intializeClockValues</a></li><li><a href="global.html#isThisGinJointVisible">isThisGinJointVisible</a></li><li><a href="global.html#Military">Military</a></li><li><a href="global.html#setClockButton">setClockButton</a></li><li><a href="global.html#setClockMilitaryButton">setClockMilitaryButton</a></li><li><a href="global.html#shutDownThisJointButton">shutDownThisJointButton</a></li><li><a href="global.html#stopTimerButton">stopTimerButton</a></li><li><a href="global.html#stopWatchBtnToggle">stopWatchBtnToggle</a></li><li><a href="global.html#stopWatchCounter">stopWatchCounter</a></li><li><a href="global.html#stopWatchDIV">stopWatchDIV</a></li><li><a href="global.html#stopWatchEnable">stopWatchEnable</a></li><li><a href="global.html#stopWatchFlag">stopWatchFlag</a></li><li><a href="global.html#stopWatchHandling">stopWatchHandling</a></li><li><a href="global.html#stopWatchPlayPauseButton">stopWatchPlayPauseButton</a></li><li><a href="global.html#stopWatchResetButton">stopWatchResetButton</a></li><li><a href="global.html#stopWatchRunButton">stopWatchRunButton</a></li><li><a href="global.html#tick">tick</a></li><li><a href="global.html#tickRate">tickRate</a></li><li><a href="global.html#timerCounter">timerCounter</a></li><li><a href="global.html#timerDIV">timerDIV</a></li><li><a href="global.html#timerEnabledFlag">timerEnabledFlag</a></li><li><a href="global.html#timerFlag">timerFlag</a></li><li><a href="global.html#timerHandling">timerHandling</a></li><li><a href="global.html#timerPauseButton">timerPauseButton</a></li><li><a href="global.html#timerResetButton">timerResetButton</a></li><li><a href="global.html#timerStartButton">timerStartButton</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Mar 06 2016 13:17:35 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
