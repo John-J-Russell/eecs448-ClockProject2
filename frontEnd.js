@@ -301,12 +301,14 @@ function shutDownThisJointButton()
 {
 	if(isThisGinJointVisible)
 	{
-		document.getElementById("main-content").style.visible = 'none';
+		document.getElementById("main-content").style.display = "none";
+		document.getElementById("display-content").style.display = "none";
 		isThisGinJointVisible = false;
 	}
 	else
 	{
-		document.getElementById("main-content").style.visible = 'inline-block';
+		document.getElementById("main-content").style.display = "inline";
+		document.getElementById("display-content").style.display = "inline";
 		isThisGinJointVisible = true;
 	}
 }
