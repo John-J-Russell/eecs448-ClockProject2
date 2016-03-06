@@ -7,14 +7,6 @@
 */
 
 
-//TODO:
-//FIX WEIRD STUTTER BUG-
-//clicking pause/resume twice in rapid succession messes with timer tickdown speed.
-//Also rapidly clicking "gib" messes things up.
-
-//Make a timer variable that handles the delay, and activate a clear on each instantiation?
-//Lazy option: onClick activates a method that delays 1 second before doing the rest?
-
 function startTimer(hoursDiv, minutesDiv, secondsDiv)
 {
 	timer.reset();
@@ -66,16 +58,19 @@ function countdown(timerDiv)
 		{
 			//Play a thing if possible
 			timer.tickTockOrNot=false;
-			alert("It's done, now go save your cake");
+			//alert("It's done, now go save your cake");
+			var audio = new Audio('STOP.mp3');
+			audio.play();
 		}
 		else
 		{
 			//decrement remaining time by one second
+			
 			if(timer.sec==0)
 			{
 				timer.sec=59;
 				if(timer.min==0)
-				{12
+				{
 					timer.min=59;
 					if(timer.hour==0)
 					{
