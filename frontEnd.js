@@ -173,13 +173,13 @@ function stopWatchResetButton()
 
 function timerStartButton()
 {
-	if(!timerEnabledFlag && checkValidTimerInput(hourField.value, minField.value, secField.value))
+	if(!timerEnabledFlag && checkValidTimerInput(document.getElementById("hourField").value,document.getElementById("minField").value, document.getElementById("secField").value))
 	{
 		
 		secField.style.backgroundColor = "white";
 		minField.style.backgroundColor = "white";
 		hourField.style.backgroundColor = "white";
-		startTimer(hourField, minField, secField);
+		startTimer(document.getElementById("hourField").value,document.getElementById("minField").value, document.getElementById("secField").value);
 		displayTimer(timerDIV);	
 		timerEnabledFlag = true;
 	}
@@ -349,7 +349,7 @@ function checkValidTimeInput(_hour, _min,_sec)
 
 function checkValidTimerInput(_hour, _min,_sec)
 {
-	if(_hour >= 0 && _min >= 0 && _min <=59 && sec<=59 && _sec >= 1)
+	if(_hour >= 0 && _min >= 0 && _min <=59 && _sec<=59 && _sec >= 1)
 	{
 		if(!isNaN(_hour) &&!isNaN(_min) && !isNaN(_sec) )
 		{
