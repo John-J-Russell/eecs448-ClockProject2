@@ -173,16 +173,23 @@ function stopWatchResetButton()
 
 function timerStartButton()
 {
-	var _tempHour = parseInt(hourField.value);
-	var _tempMin  = parseInt(minField.value);
-	var _tempSec  = parseInt(secField.value);
-
-
-	if(!timerEnabledFlag && checkValidTimerInput(_tempHour, _tempMin, _tempSec))
+	if(!timerEnabledFlag && checkValidTimerInput(hourField.value, minField.value, secField.value))
 	{
-		startTimer(_tempHour, _tempMin, _tempSec);
+		
+		secField.style.backgroundColor = "white";
+		minField.style.backgroundColor = "white";
+		hourField.style.backgroundColor = "white";
+		startTimer(hourField, minField, secField);
 		displayTimer(timerDIV);	
 		timerEnabledFlag = true;
+	}
+	
+	else {
+	
+		secField.style.backgroundColor = "red";
+		minField.style.backgroundColor = "red";
+		hourField.style.backgroundColor = "red";
+		
 	}
 }
 
