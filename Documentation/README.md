@@ -3,4 +3,7 @@ which has the functions of setting up the time and changing between standard hou
 
 Adding more features [timer, stopwatch, calendar, and zoom] to this clock project. Our team is Alec Knutsen, Yarden Tamir, John Russell, and Cesar Avalos.
 
-The entry point of this program is frontend.html
+Project 2:
+  Seven javasript files: my_zoom.js, stopWatch.js, Timer.js, calendar.js, cache.js, clock.js, frontEnd.js
+  One html file: The entry point of this program is frontend.html
+  One styling file: clock.css
