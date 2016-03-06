@@ -90,7 +90,7 @@ function checkValidDay(inDay, inMonth)
 		{
 			return true;
 		}
-		break
+		break;
 		case 4:
 		case 6:
 		case 9:

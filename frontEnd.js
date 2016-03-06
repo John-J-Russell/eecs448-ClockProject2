@@ -233,10 +233,13 @@ function calendarSetButton()
 		document.getElementById("InputMonth").value = "";
 	}
 	
-	document.getElementById("InputDay").style.backgroundColor = "red";
-	document.getElementById("InputMonth").style.backgroundColor = "red";
-	document.getElementById("InputDay").value = "";
-	document.getElementById("InputMonth").value = "";
+	else {
+	
+		document.getElementById("InputDay").style.backgroundColor = "red";
+		document.getElementById("InputMonth").style.backgroundColor = "red";
+		document.getElementById("InputDay").value = "";
+		document.getElementById("InputMonth").value = "";
+	}
 }
 
 function setClockButton()
