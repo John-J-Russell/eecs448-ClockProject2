@@ -99,26 +99,6 @@
  }
 
 
- 
-/*
-* More specific html element. See HTML file 
-*/
- button {
-	 background-color: #000099; color: white; font-size: 20px; text-align: center; 
-	 margin: 5px 0 0 30px; border-radius: 10px; padding: 6px;
-	 animation-name: button;
-    animation-duration: 20s;
- }
- 
-/*
-* More specific html element. See HTML file 
-*/
- @keyframes button {
-    0%   {background-color: #00004d;}
-    25%  {background-color: #00b300;}
-    50%  {background-color: #cc0000;}
-    100% {background-color: #990099;}
-}
 
 /*
 * More specific html element. See HTML file 
