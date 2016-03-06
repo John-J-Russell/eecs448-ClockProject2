@@ -248,6 +248,14 @@
 					offset = 12;
 				}
 			}
+			
+			else if(this.AM_PM == "am")
+			{
+				if(this.Hours == 12) {
+					return(0);
+				}
+			}
+
 
 			return parseInt(_hours) + offset;
 		},
