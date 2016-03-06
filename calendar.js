@@ -6,13 +6,16 @@ var monthText = ["January", "February", "March", "April", "May", "June", "July",
 //Function to handle next day transitions
 function nextDay()
 {
-	day++;
+	
 	switch(month){
 		case 2:
 		if(day == 29)
 		{
 			month++;
-			day = 0;
+			day = 1;
+		}
+		else {
+			day++;
 		}
 		break
 		case 4:
@@ -22,15 +25,28 @@ function nextDay()
 		if(day == 30)
 		{
 			month++;
-			day = 0;
+			day = 1;
+		}
+		else {
+			day++;
 		}
 		break;
 		default:
 		if(day == 31)
 		{
-			month++;
-			day = 0;
+			if(month ==12) {
+				month=1;
+				day = 1;
+			}
+			else {
+				month++;
+				day = 1;
+			}
 		}
+		else {
+			day++;
+		}
+	
 		break;
 	}
 	//After changing the day, set the date
@@ -90,7 +106,7 @@ function checkValidDay(inDay, inMonth)
 		{
 			return true;
 		}
-		break;
+		break
 		case 4:
 		case 6:
 		case 9:

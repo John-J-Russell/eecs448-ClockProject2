@@ -239,7 +239,7 @@ function calendarSetButton()
 		document.getElementById("InputMonth").style.backgroundColor = "red";
 		document.getElementById("InputDay").value = "";
 		document.getElementById("InputMonth").value = "";
-	}
+	}sen
 }
 
 function setClockButton()
