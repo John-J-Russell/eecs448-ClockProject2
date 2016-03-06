@@ -210,7 +210,17 @@ function calendarSetButton()
 		month = tempMonth;
 		setDate();
 		displayDate(calendarDIV);
+		
+		document.getElementById("InputDay").style.backgroundColor = "white";
+		document.getElementById("InputMonth").style.backgroundColor = "white";
+		document.getElementById("InputDay").value = "";
+		document.getElementById("InputMonth").value = "";
 	}
+	
+	document.getElementById("InputDay").style.backgroundColor = "red";
+	document.getElementById("InputMonth").style.backgroundColor = "red";
+	document.getElementById("InputDay").value = "";
+	document.getElementById("InputMonth").value = "";
 }
 
 function setClockButton()
@@ -229,9 +239,25 @@ function setClockButton()
 			Clock.setAM_PM(tempampm);			
 		}
 		clockCounter = 0;
+		
+		document.getElementById("InputHours").style.backgroundColor = "white";
+		document.getElementById("InputMinutes").style.backgroundColor = "white";
+		document.getElementById("InputSeconds").style.backgroundColor = "white";
+		document.getElementById("InputHours").value = "";
+		document.getElementById("InputMinutes").value = "";
+		document.getElementById("InputSeconds").value = "";
 	}
 	
+	else {
+			document.getElementById("InputHours").style.backgroundColor = "red";
+			document.getElementById("InputMinutes").style.backgroundColor = "red";
+			document.getElementById("InputSeconds").style.backgroundColor = "red";
+			document.getElementById("InputHours").value = "";
+			document.getElementById("InputMinutes").value = "";
+			document.getElementById("InputSeconds").value = "";
+	}
 }
+
 
 function setClockMilitaryButton()
 {
