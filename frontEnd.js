@@ -173,13 +173,17 @@ function stopWatchResetButton()
 
 function timerStartButton()
 {
-	if(!timerEnabledFlag && checkValidTimerInput(document.getElementById("hourField").value,document.getElementById("minField").value, document.getElementById("secField").value))
+	var _tempHour = parseInt(hourField.value);
+	var _tempMin  = parseInt(minField.value);
+	var _tempSec  = parseInt(secField.value);
+
+	if(!timerEnabledFlag && checkValidTimerInput(_tempHour,_tempMin,_tempSec))
 	{
 		
 		secField.style.backgroundColor = "white";
 		minField.style.backgroundColor = "white";
 		hourField.style.backgroundColor = "white";
-		startTimer(document.getElementById("hourField").value,document.getElementById("minField").value, document.getElementById("secField").value);
+		startTimer(_tempHour,_tempMin, _tempSec);
 		displayTimer(timerDIV);	
 		timerEnabledFlag = true;
 	}
@@ -199,6 +203,7 @@ function timerResetButton()
 	{
 		resetTimer();
 		timerEnabledFlag = false;
+		timerCounter = 0;
 	}
 }
 
