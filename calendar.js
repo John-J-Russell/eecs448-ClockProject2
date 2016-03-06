@@ -82,7 +82,7 @@ function setDate()
 //range, like not allowing February 30, etc, etc. 
 function checkValidDay(inDay, inMonth)
 {
-	if(inDay > 0 && inMonth <= 12 && inMonth >= 0 )
+	if(inDay > 0 && inMonth <= 12 && inMonth > 0 )
 	{
 		switch(inMonth){
 		case 2:
