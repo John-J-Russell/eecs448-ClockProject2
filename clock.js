@@ -239,8 +239,16 @@
 			var offset = 0;
 			if(this.AM_PM == "pm")
 			{
-				offset += 12;
-			} 
+				if(this.Hours == 12)
+				{
+					offset = 0;
+				}
+				else
+				{
+					offset = 12;
+				}
+			}
+
 			return parseInt(_hours) + offset;
 		},
 

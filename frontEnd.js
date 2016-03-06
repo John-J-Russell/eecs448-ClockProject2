@@ -207,18 +207,21 @@ function calendarSetButton()
 
 function setClockButton()
 {
-	var tempHour = document.getElementById("InputHours").value;
-	var tempMin  = document.getElementById("InputMinutes").value;
-	var tempSec  = document.getElementById("InputSeconds").value;
+	var tempHour = parseInt(document.getElementById("InputHours").value);
+	var tempMin  = parseInt(document.getElementById("InputMinutes").value);
+	var tempSec  = parseInt(document.getElementById("InputSeconds").value);
 	var tempampm = document.getElementById("amORpm").value;
-	if(checkValidTimeInput(tempHour, tempMin, tempSec,tempampm))
+	if(checkValidTimeInput(tempHour, tempMin, tempSec))
 	{
 		Clock.setHours(tempHour);
 		Clock.setMinutes(tempMin); 
 		Clock.setSeconds(tempSec); 
-		Clock.setAM_PM(tempampm);
+		if(!Military)
+		{
+			Clock.setAM_PM(tempampm);			
+		}
+		clockCounter = 0;
 	}
-	clockCounter = 0;
 	
 }
 
@@ -259,7 +262,7 @@ function shutDownThisJointButton()
 //May be a bit too specific to be defined here
 function checkValidTimeInput(_hour, _min,_sec)
 {
-	if(Clock.getMilitary == true)
+	if(Clock.getMilitaryTime() == true)
 	{
 		if(_hour >= 0 && _hour < 24)
 		{
