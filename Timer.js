@@ -1,20 +1,55 @@
 /*
-	JOHN RUSSELL
-	j362r647@ku.edu, jjruss2014@gmail.com, jjruss2014@yahoo.com
-	timer.js
-	29 Feb 2016
-	Handles the Timer back-code
+** EECS 448 Project #1,2: Clock
+** @author: John Russell 
+** @description: Functions that help implement the Timer . Many of the methods are called in frontEnd.js
+** Last update: March 5, 2016.
 */
 
 
+
+/**
+     * //Global timer object used for this file 
+	 * @author John Russell 
+*/
+var timer=
+{
+	//Object variables for hour minutes and seconds 
+	hour:0,
+	min:0,
+	sec:0,
+	
+	//Boolean for whether the clock is running or not 
+	tickTockOrNot:false,
+	
+	//Function for ressetting all object variables to the default values 
+	reset:function()
+	{
+		this.hour=0;
+		this.min=0;
+		this.sec=0;
+		this.tickTockOrNot=false;
+	}
+}
+
+/**
+     * Called in the timerStartButton function of the frontEnd.js file 
+	 * @author John Russell 
+     * @param {number} hoursDiv - HTML value that contains the hours of the timer 
+	 * @param {number} minutesDiv - HTML value that contains the minutes of the timer 
+	 * @param {number} secondsDiv - HTML value that contains the seconds of the timer 
+     * @return {number} y - The y value.
+	 * @see frontEnd.js, timer.reset()
+*/
 function startTimer(hoursDiv, minutesDiv, secondsDiv)
 {
-	timer.reset();
+	timer.reset(); // Call to the timer Object reset method from this file 
+	
+	//Store the current hours, minutes, and seconds from the HTML Elemnts 
 	var h=hoursDiv;
 	var m=minutesDiv;
 	var s=secondsDiv;
 	
-	//If empty fields, just use zeros there.
+	//If the hours, minutes, or seconds values are empty, store 0 in the h,m, and s variables
 	if(h=='')
 	{
 		h=0;
@@ -28,168 +63,175 @@ function startTimer(hoursDiv, minutesDiv, secondsDiv)
 		s=0;
 	}
 	
-	if((m<0||m>59) || (s<0||s>59) || h<0)
-	{
-		alert("Invalid entry");
+	//Set the object variables from the timer Object to the values from the HTML file 
+	timer.hour=h;
+	timer.min=m;
+	timer.sec=s;
+	//Set the boolean to true to start running the clock 
+	timer.tickTockOrNot=true;
 		
-	}
-	
-	else
-	{
-		//put variables in timer, start ticking down.
-		timer.hour=h;
-		timer.min=m;
-		timer.sec=s;
-		timer.tickTockOrNot=true;
-		//console.log(timer);
-		//displayTime();
-		
-		//setTimeout(countdown, 1000);
-	}
 }
 
-//Takes it down a second
+/**
+     * Function for manually running a timer. Called in the timerHandling method in the frontEnd.js file 
+	 * @author John Russell 
+     * @param {number} x - The x value.
+     * @return {number} y - The y value.
+	 * @see frontEnd.js
+*/
 function countdown(timerDiv)
 {
+	//If the timer is running 
 	if(timer.tickTockOrNot==true)
 	{
 		
-		if(makeTimeString(timerDiv)=="00:00:00")
+		//If the seconds are 0 
+		if(timer.sec==0)
 		{
-			//Play a thing if possible
-			//timer.tickTockOrNot=false;
-			//alert("It's done, now go save your cake");
-			//var audio = new Audio('STOP.mp3');
-			//audio.play();
-		}
-		else
-		{
-			//decrement remaining time by one second
+			//Reset the seconds 
+			timer.sec=59;
 			
-			if(timer.sec==0)
+			//If the minutes are 0 
+			if(timer.min==0)
 			{
-				timer.sec=59;
-				if(timer.min==0)
+				//Reset the minutes 
+				timer.min=59;
+				
+				//If the hours are 0 
+				if(timer.hour==0)
 				{
-					timer.min=59;
-					if(timer.hour==0)
-					{
-						alert("wait what?");
-					}
-					else
-					{
-						timer.hour=timer.hour-1;
-					}
 				}
+				//Decrement the hours by 1 
 				else
 				{
-					timer.min=timer.min-1;
+					timer.hour=timer.hour-1;
 				}
 			}
+			
+			//If the minues are not 0, decerement the minutes by one
 			else
 			{
-				timer.sec=timer.sec-1;
+				timer.min=timer.min-1;
 			}
-			
 		}
-		//displayTime();
-		//setTimeout( countdown , 1000 );
+		
+		//If the seconds are not 0, decrement the seconds by one 
+		else
+		{
+			timer.sec=timer.sec-1;
+		}
+		
+
 	}
 	
 	
 }
 
-
-//Put that time onto the page
-//Subject to change.
-function displayTime()
-{
-	//var out=document.getElementById("timeDisplay");
-	//.innerHTML changes content of <p> tag
-	//out.innerHTML=makeTimeString();
-	//This is a bit stupid, but saves time.
-	var throwaway=makeTimeString();
-}
-
+/**
+     * Checks if the timer is at 0. Called in the timerHandling method of the frontEnd.js File 
+	 * @author John Russell 
+     * @param 
+     * @return {boolean} - Returns true if the timer is at 0, false otherwise 
+	 * @see frontEnd.js
+*/
 function isTimerZero()
 {
+	//If the timer is at 0, return true 
 	if(timer.hour === 0 && timer.min === 0 && timer.sec === 0)
 	{
 		return true;
 	}
+	
+	
+	//If the timer is not at 0, return false 
 	return false;
 }
 
 //For consistency sake, displays the current timer values in a div.
+/**
+     * Calls the makeTimeString method from this file, to set the HTML element passed in as a parameter to the valid time. Called onLoad function, tick function, and timerStart function in the frontEnd.js file 
+	 * @author
+     * @param {HTML Element} timerDiv - HTML element to set 
+     * @return 
+	 * @see frontEnd.js
+*/
 function displayTimer(timerDiv)
 {
-	makeTimeString(timerDiv);
+	makeTimeString(timerDiv); // Call the makeTImeString method to set the HTML element passed in as a parameter 
 }
 
-//turns the time into a string for easy displayment
+//
+/**
+     * Turns the time into a string for easy displayment. Called in the timerDisplay method from this file. 
+	 * @author John Russell 
+     * @param {HTML Element} - HTML Elemnt to hold the timing display 
+     * @return 
+	 * @see timerDisplay() 
+*/
 function makeTimeString(timerDiv)
 {
-	//gussy this up later with the extra zeros where applicable
+	//Get the time from the object variables of timer 
 	var tempHour=timer.hour;
 	var tempMin=timer.min;
 	var tempSec=timer.sec;
+	
+	//Add zeros in front of the hours, minutes, seconds variables if any of them are less than 10 
 	if(timer.hour<10)
 	{
 		tempHour="0"+timer.hour;
 	}
+	//Add zeros in front of the hours, minutes, seconds variables if any of them are less than 10 
 	if(timer.min<10)
 	{
 		tempMin="0"+timer.min;
 	}
+	//Add zeros in front of the hours, minutes, seconds variables if any of them are less than 10 
 	if(timer.sec<10)
 	{
 		tempSec="0"+timer.sec;
 	}
+	//String that holds the final time 
 	var prettyTimeString=tempHour+":"+tempMin+":"+tempSec;
 	
-	//Changes display
+	//Set the HTML Element passed in as a parameter 
 	timerDiv.innerHTML = prettyTimeString;
 
-	//This is a legacy for the decrementer, which uses this to check if time has run out.
-	return(prettyTimeString);
 }
 
-
-//Switches if timer should keep decrementing or not
+/**
+     * Switches if timer should keep decrementing or not. Called in the timerPauseButton() method of the frontEnd.js file 
+	 * @author John Russell 
+     * @param 
+     * @return 
+	 * @see frontEnd.js
+*/
 function switchTickTockOrNot()
 {
+	//If the boolean is true set to false
 	if(timer.tickTockOrNot==true)
 	{
 		timer.tickTockOrNot=false;
 	}
+	
+	//If the boolean is false set to true
 	else
 	{
-		//timeout delay here makes it take a second before decreasing.
 		timer.tickTockOrNot=true;
-	//	setTimeout(countdown, 1000);
 	}
 }
 
-//As name implies, resets the timer to zero.
+/**
+     * Resets the timer to zero. Create a point. Called in the timerResetButton() and timerHandling() methods of the frontEnd.js files. 
+	 * @author John Russell 
+     * @param 
+     * @return 
+	 * @see frontEnd.js, timer.reset();
+*/
 function resetTimer()
 {
-	timer.reset();
-	//displayTime();
+	timer.reset(); // Call the reset method of the timer object from this file 
+	
 }
 
-//Global timer object
-var timer=
-{
-	hour:0,
-	min:0,
-	sec:0,
-	tickTockOrNot:false,
-	reset:function()
-	{
-		this.hour=0;
-		this.min=0;
-		this.sec=0;
-		this.tickTockOrNot=false;
-	}
-}
+
 	

@@ -1,63 +1,98 @@
+
+<!-- EECS 448 Project #2: Clock -->
+<!--Authors: Alec Knutsen, Cesar Avalos, John Russell, Yarden Tamir -->
+
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Forked Clock</title>
+		<!-- Link to stylesheet -->
 		<link rel="stylesheet" type="text/css" href="clock.css" />
 
 </head>
 <body>
+	<!-- Main content holds the clock, date, timer, and stopwatch -->
 	<div id="main-content">
-	<div id="time-content" class="controls">
+	
+		<!-- Holds the input boxes for clock buttons, clock buttons, and display --> 
+		<div id="time-content" class="controls"><h1 align="center">Clock</h1> <br>
+			<!-- Input Boxes --> 
 			<input type="number" placeholder="Hours"class="timeIn" id="InputHours"> : 
 			<input type="number" placeholder="Minutes"class="timeIn"id="InputMinutes"> : 
 			<input type="number" placeholder="Seconds"class="timeIn"id="InputSeconds"> 
+			<!-- Select Box for am and pm --> 
 			<select id="amORpm">
 					<option value="am">am</option>
 					<option value="pm">pm</option>
-			</select>	<br>
-	<div class="button-content">
-		<button id="clockSetBtn" onclick="setClockButton()">Set Time</button>
-		<button id="clockMilBtn" onclick="setClockMilitaryButton()">Military Time</button>
-	</div>
-	<div id="clock" class="clockMode">
-		<div id="clock-hour" class="object"></div>
-	</div>
-	</div>
-	<div id="calendar-content" class="controls"> 
-		<div id="calendar" align="center" class="object"></div>
-		<input type="number" id="InputDay" placeholder="Day" class="timeIn"> : 
-		<input type="number" id="InputMonth" placeholder="Month" class="timeIn"> 
-		<button id="calendarSetBtn" onclick="calendarSetButton()">Set Date</button>
-	</div>
+			</select>	
+			<!-- Buttons for set time and converting to civlian/military time --> 
+			<br>
+			<br>
+			<div class="button-content" align = "center">
+				<button id="clockSetBtn" onclick="setClockButton()">Set Time</button>
+				<button id="clockMilBtn" onclick="setClockMilitaryButton()">Military Time</button>
+			</div>
+			<!-- Actual Display of the clok --> 
+			<div id="clock" class="clockMode" align = "center">
+				<div id="clock-hour" class="object"></div>
+			</div>
+		</div>
+		
+		<!-- Holds calendar display, input boxes for the calendar, and set button --> 
+		<div id="calendar-content" class="controls"> <h1 align="center">Date</h1> <br>
+			<!-- Calendar display --> 
+			<div id="calendar" align="center" class="object"></div>
+			<!-- Input Boxes --> 
+			<input type="number" id="InputDay" placeholder="Day" class="timeIn"> : 
+			<input type="number" id="InputMonth" placeholder="Month" class="timeIn"> 
+			<!-- Button to set Calendar --> 
+			<br>
+			<br>
+			<button id="calendarSetBtn" onclick="calendarSetButton()">Set Date</button>
+		</div>
 
-	<div id="timer-content" class="controls"> <h1 align="center">Timer</h1> <br>
+		<!-- Holds the timer display, the input boxes for the timer, and the start, pause/resume, and reset buttons --> 
+		<div id="timer-content" class="controls"> <h1 align="center">Timer</h1> <br>
+			<!-- Display --> 
 			<div id="timer" align="center" class="object"></div>	
-				<input type="number" id="hourField" name="hF" placeholder="Hours" class="timeIn"> :
-				<input type="number" id="minField" name="mF" placeholder="Minutes" class="timeIn"> :
-				<input type="number" id="secField" name="sF" placeholder="Seconds" class="timeIn">
-				<br>
-				<div align="center">
-					<button type="button" onClick="timerStartButton()"> Set timer </button>
-					<button type="button" onClick="timerPauseButton()" id="pauseTimerBtn" > Pause </button>
-					<button type="button" onClick="timerResetButton()"> Reset </button>
-				</div>
-	</div>
-
-	<div id="stopwatch-content" class="controls"><h1 align="center"> Stopwatch </h1>
-		<div id="stopWatch" align="center" class="object"></div>
+			<!-- Input Boxes --> 
+			<input type="number" id="hourField" name="hF" placeholder="Hours" class="timeIn" > :
+			<input type="number" id="minField" name="mF" placeholder="Minutes" class="timeIn"> :
+			<input type="number" id="secField" name="sF" placeholder="Seconds" class="timeIn">
+			<br>
+			<!-- Timer buttons --> 
+			<br>
+			<div align="center">
+				<button type="button" onClick="timerStartButton()"> Set timer </button>
+				<button type="button" onClick="timerPauseButton()" id="pauseTimerBtn" > Pause </button>
+				<button type="button" onClick="timerResetButton()"> Reset </button>
+			</div>
+		</div>
+		
+		<!-- Holds the stopWatch display and start reset buttons for the stopwatch --> 
+		<div id="stopwatch-content" class="controls"><h1 align="center"> Stopwatch </h1>
+			<!-- Stopwatch display --> 
+			<div id="stopWatch" align="center" class="object"></div>
+			<!-- Stopwatch buttons --> 
 			<div align="center">
 				<button id="stopWatchBtn" onclick="stopWatchPlayPauseButton()">	Start </button>
 				<button id="resetStopWatchBtn" onclick="stopWatchResetButton()"> Reset</button>	
 			</div>
 		</div>
-	</div>
+		
+		<!-- Buttons for zoom in and zoom out and hiding the page  --> 
+		<div id="display-content">
+			<button id="magnify" onclick="zoom_up()">Zoom In</button>
+			<button id="magnify" onclick="zoom_down()">Zoom Out</button>
+			<button id="shutDown" onclick="shutDownThisJointButton()"> Shut Down This Joint </button>
+		</div>
+		
+	</div><!-- End of main content  --> 
 	
-	<div id="display-content">
-		<button id="magnify" onclick="zoom_up()">Zoom In</button>
-		<button id="magnify" onclick="zoom_down()">Zoom Out</button>
-	</div>
-	</div>
-		<button id="shutDown" onclick="shutDownThisJointButton()"> Shut Down This Joint </button>
+	
+
+		
 
 </body>
 <script type="text/javascript" src="calendar.js"></script>

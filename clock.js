@@ -1,692 +1,575 @@
 /*
-** EECS 448 Project #1: Clock
+** EECS 448 Project #1,2: Clock
+** One object and many helper methods mostly used in frontEnd.js 
 ** Authors: Luke Dercher, Sri Gayatri, Luke Weber.
-** More Authors: Alec Knutsen 
-** Annotated by Alec Knusten, the patience on this man is hereby
-** immortalized
-** Last update: Feb 29, 2016.
+** More Authors: Alec Knutsen, Cesar Avalos, John Russell, Yarden Tamir 
+** Last update: March 5, 2016.
 */
 
-	//Global Variables: i, counter, and invalid 
-	var i;
-	var counter;
-	
-	//Variable for the clock if it has invalid values before running
-	var invalid=false;
-	"use strict"
-	
-	
-	//Author: Luke Weber
-	//Clock Object 
-	var Clock =
-	{	
 
-		//Local Variables for object Clock
-		//Initialized to values passed in from HTML elements input boxes 
-		Minutes : 0,
-		Seconds : 0,
-		Hours : 0,
-		
-		//Local boolean for time mode
-		MilitaryTime : false,
-		
-		//Local String for time mode 
-		AM_PM : "am",
-	
-		//Get method for class variable hours 
-		getHours: function ()
-		{
-			return(parseInt(this.Hours));
-		},
-		
-		//Set method for class variable hours 
-		setHours: function (aHours)
-		{
-			
-			//Set min/max hour for non military time
-			var MaxHour = 12
-			var MinHour = 1
-			
-			//If in military time, change max, min hour 
-			if(this.getMilitaryTime())
-			{
-				var MaxHour = 23
-				var MinHour = 0
-			}
-			
-			//If we we have a valid hour passed into the method 
-			if (!isNaN(aHours) && (aHours <= MaxHour && aHours >= MinHour))
-			{
-					//Set class variable to parameter passed in 
-					//Return true 
-					this.Hours = aHours
-					return(true)
-			}
-			
-			//If the hours is invalid call the InvalidEntry function
-			else
-			{
-				return(InvalidEntry())
-			}
-			
-		},
-		
-		setTime: function(_hours, _minutes, _seconds)
-		{
-			this.Hours = _hours;
-			this.Minutes = _minutes;
-			this.Seconds = _seconds;
-		},
 
-		//Get method for class variable minutes 
-		getMinutes: function ()
-		{
-			return(parseInt(this.Minutes));
-		},
+//Global Variables: i, counter, and invalid 
+var i;
+var counter;
+
+//Variable for the clock if it has invalid values before running
+var invalid=false;
+"use strict"
+
+
+
+/**
+	 * Clock Object. Contains a number of methods used in this file and used in frontEnd.js 
+	 * @author Luke Weber, Alec Knutsen, John Russell, Yarden Tamir, Cesar Avalos 
+*/
+var Clock =
+{	
+
+	//Local Variables for object Clock
+	Minutes : 0,
+	Seconds : 0,
+	Hours : 0,
+	
+	//Local boolean for time mode
+	MilitaryTime : false,
+	
+	//Local String for time mode 
+	AM_PM : "am",
+
+	/**
+		 * Get method for class variable hours. Called in clockDisplay() method from this file. 
+		 * @author Luke Weber 
+		 * @return {number} - Return integer variable of class hours 
+		 * @see - clockDisplay()
+	*/
+	getHours: function ()
+	{
+		return(parseInt(this.Hours));
+	},
+	
+	
+	/**
+		 * Set method for class variable hours. 
+		 * Not used in our program
+		 * @author Luke Weber 
+		 * @param {number} aHours - Parameter used to set class variable hours 
+		 * @return - Returns true if the parameter passed in is a valid hour, else calls the InvalidEntry function 
+		 * @see invalidEntry() 
+	*/
+	setHours: function (aHours)
+	{
 		
-		//Set method for class variable minutes 
-		setMinutes: function (aMinutes)
+		//Set min/max hour for non military time
+		var MaxHour = 12
+		var MinHour = 1
+		
+		//If in military time, change max, min hour 
+		if(this.getMilitaryTime())
 		{
-			//If we have a valid minutes passed in as parameter 
-			if (!isNaN(aMinutes) && aMinutes <= 60 && aMinutes >= 0)
-			{
-				
-				//Set class variable minutes to the parameter and return true 
-				this.Minutes = aMinutes
+			var MaxHour = 23
+			var MinHour = 0
+		}
+		
+		//If we we have a valid hour passed into the method 
+		if (!isNaN(aHours) && (aHours <= MaxHour && aHours >= MinHour))
+		{
+				//Set class variable to parameter passed in 
+				//Return true 
+				this.Hours = aHours
 				return(true)
-			}
+		}
+		
+		//If the hours is invalid call the InvalidEntry function
+		else
+		{
+			return(InvalidEntry())
+		}
+		
+	},
+	
+	/**
+		 * Set method for object variables Hours, Minutes, and Seconds.
+		 * Called in initializeClockValues() function of the frontEnd.js file.
+		 * Called in the loadConfig() function of the cache.js file 
+		 * @author Luke Weber 
+		 * @param {number} _hours - Parameter used to set object variable Hours 
+		 * @param {number} _minutes - Parameter used to set object variable Minutes
+		 * @param {number} _seconds - Parameter used to set object variable Seconds
+		 * @return 
+		 * @see - clock.js, cache.js 
+	*/
+	setTime: function(_hours, _minutes, _seconds)
+	{
+		//Set all class variables 
+		this.Hours = _hours;
+		this.Minutes = _minutes;
+		this.Seconds = _seconds;
+	},
+
+	/**
+		 * Get method for object variable minutes. Called in the clockDisplay() method from this file.
+		 * Called in the initializeClockValues() method from the frontEnd.js file. 
+		 * @author Luke Weber 
+		 * @param 
+		 * @return {number} - Returns integer value of Mintues Variable 
+		 * @see - clockDisplay(), frontEnd.js
+	*/
+	getMinutes: function ()
+	{
+		return(parseInt(this.Minutes));
+	},
+	
+	/**
+		 * Set method for object variable minutes. Called in the setClockButton() method of the frontEnd.js file  
+		 * @author Luke Weber 
+		 * @param {number} aMinutes - Parameter representing variable that the class variable Minutes wil be set to 
+		 * @return {boolean} - Returns true if the parameter is a valid minute, returns the function invalidEntry() otherwise 
+		 * @see invalidEntry(), frontEnd.js 
+	*/
+	setMinutes: function (aMinutes)
+	{
+		//If we have a valid minutes passed in as parameter 
+		if (!isNaN(aMinutes) && aMinutes <= 60 && aMinutes >= 0)
+		{
 			
-			//If the parameter is invalid, call the InvalidEntry function
+			//Set class variable minutes to the parameter and return true 
+			this.Minutes = aMinutes
+			return(true)
+		}
+		
+		//If the parameter is invalid, call the InvalidEntry function
+		else
+		{
+			return(InvalidEntry())
+		}
+	},
+
+	/**
+		 * Get method for class variable seconds. 
+		 * Called in the clockDisplay() function from this file.
+		 * Called in the initializeClockValues() function from the frontEnd.js file 
+		 * @author - Luke Weber 
+		 * @return - Returns integer value of object variable Seconds 
+		 * @see - clockDisplay(), frontEnd.js 
+	*/
+	getSeconds: function ()
+	{
+		return(parseInt(this.Seconds));
+	},
+	
+	/**
+		 * Set method for object variable seconds.
+		 * Called in the setClockButton() method of the frontEnd.js file 
+		 * @author - Luke Weber 
+		 * @param aSeconds - Value that object variable seconds will be set to 
+		 * @return - Returns true if the parameter is valid, returns the function invalidEntry if the parameter is invalid 
+		 * @see invalidEntry(), frontEnd.js
+	*/
+	setSeconds: function (aSeconds)
+	{
+		//If the seconds passed in as a parameter is valid
+		if (!isNaN(aSeconds) && aSeconds <= 60 && aSeconds >= 0)
+		{
+			
+			//Set the class variable seconds to the parameter and return true
+			this.Seconds = aSeconds
+			return(true)
+		}
+		
+		//Else call the invalidEntry function if the entry is invalid
+		else
+		{
+			return(InvalidEntry())
+		}
+	},
+	
+	/**
+		 * Get method for class variable  military_time.
+		 * Called in setHours() and clockDisplay() functions from this file 
+		 * Called in the checkValidTimeInput() function located in frontEnd.js 
+		 * @author - Cesar Avalos 
+		 * @param 
+		 * @return {boolean} - Returns object variable MilitaryTime 
+		 * @see - setHours(), clockDisplay(), frontEnd.js 
+	*/
+	getMilitaryTime: function()
+	{
+	
+		return this.MilitaryTime;
+	},
+
+	/**
+		 * Set method for object variable MilitaryTime
+		 * Called in the setClockMilitaryButton() function of the frontEnd.js file 
+		 * @author - Cesar Avalos 
+		 * @param {boolean} _mil - Parameter that will set value of MilitaryTime 
+		 * @return 
+		 * @see - frontEnd.js 
+	*/
+	setMilitary: function(_mil)
+	{
+		this.MilitaryTime = _mil;
+	},
+	
+	/**
+		 * Function that adds time to object variables hours, minutes, and seconds 
+		 * Called in the offsetTime() function from this file. 
+		 * @author - Cesar Avalos 
+		 * @param {number} _hours - Parameter that will be added to object variable hours 
+		 * @param {number} _minutes - Parameter that will be added to object variable minutes
+		 * @param {number} _seconds - Parameter that will be added to object variable seconds
+		 * @return 
+		 * @see - offsetTime() 
+	*/
+	addTime: function(_hours, _minutes, _seconds)
+	{
+		//Add parameters to corresponding class variables 
+		this.Hours += _hours;
+		this.Minutes += _minutes;
+		this.Seconds += _seconds;
+	},
+
+	/**
+		 * Get method for object variable AM_PM.
+		 * Called in the changeAM_PM() and clockDisplay() functions from this file. 
+		 * @author Luke Weber 
+		 * @param 
+		 * @return {number} - Return object variable AM_PM
+		 * @see - changeAM_PM(), clockDisplay() 
+	*/
+	getAM_PM : function()
+	{
+		
+		return(this.AM_PM)
+		
+	},
+	
+	
+	/**
+		 * Set method for class variable AM_PM.
+		 * @author - Luke Weber 
+		 * @param {number} AM_PM - Parameter object variable AM_PM will be set to 
+		 * @return 
+		 * @see
+	*/
+	setAM_PM : function(AM_PM)
+	{
+		//Set object variable 
+		this.AM_PM = AM_PM;
+	},
+	
+	/**
+		 * Helper function to change from am to pm or change from pm to am
+		 * Called in the changeAM_PM() function from this file.
+		 * Called in the setClockButton() function in frontEnd.js 
+		 * @author - Luke Weber 
+		 * @param 
+		 * @return 
+		 * @see - changeAM_PM(), frontEnd.js 
+	*/
+	changeAM_PM : function ()
+	{
+		//If the previous string is am, change to pm 
+		if (this.getAM_PM() == "am")
+		{
+			this.setAM_PM("pm")
+		}
+		
+		//If the previous string is pm, change to am 
+		else if (this.getAM_PM() == "pm")
+		{
+			this.setAM_PM("am")
+		}
+		
+	},	
+	
+	/**
+		 * Function to handle the hour changes depending on the mode.
+		 * Called in the tick function from this file.
+		 * @author Luke Weber, Cesar Avalos 
+		 * @param 
+		 * @return 
+		 * @see calendar.js, tick()
+	*/
+	hourIncrement: function()
+	{
+		//If we are in military time
+		if(this.MilitaryTime)
+		{
+			//If we are at the last hour, reset the hours and call the next day function from the calendar.js file to iterate the day 
+			if(this.Hours == 23)
+			{
+
+				this.Hours = 0;
+				nextDay();
+			}
+			//If we are not at the last hour, iterate the hours 
 			else
 			{
-				return(InvalidEntry())
+				this.Hours++;
 			}
-		},
-
-		//Get method for class variable seconds 
-		getSeconds: function ()
+		}
+		//If we are not in military time 
+		else
 		{
-			return(parseInt(this.Seconds));
-		},
-		
-		//Set method for class variable seconds 
-		setSeconds: function (aSeconds)
-		{
-			//If the seconds passed in as a parameter is valid
-			if (!isNaN(aSeconds) && aSeconds <= 60 && aSeconds >= 0)
+			//If we are at 11 am, set the the hours to 12 and change to pm 
+			if(this.Hours == 11 && this.AM_PM == "am")
 			{
-				
-				//Set the class variable seconds to the parameter and return true
-				this.Seconds = aSeconds
-				return(true)
+				this.Hours = 12;
+				this.AM_PM = "pm";
 			}
-			
-			//Else call the invalidEntry function if the entry is invalid
-			else
+			//If we are at 11 pm, set the the hours to 12, change to am, and call the next day function to iterate the day 
+			else if(this.Hours == 11 && this.AM_PM == "pm")
 			{
-				return(InvalidEntry())
-			}
-		},
-		
-		//Get method for class variable  military_time
-		getMilitaryTime: function()
-		{
-			//Get the element value for 12/24 for hour mode from the HTML element
-			/*var MaxHour = document.getElementById("Hour clock").options[document.getElementById("Hour clock").selectedIndex].value
-			
-				//If the value is 12, return false for military time
-				if(MaxHour == 12)
-				{
-					return(false)
-				}
-				
-				//If the value is not 12, return true for military time 
-				else
-				{
-					return(true)
-				}
-				*/
-			return this.MilitaryTime;
-		},
-
-		setMilitary: function(_mil)
-		{
-			this.MilitaryTime = _mil;
-		},
-		
-		addTime: function(_hours, _minutes, _seconds)
-		{
-			this.Hours += _hours;
-			this.Minutes += _minutes;
-			this.Seconds += _seconds;
-		},
-
-		//Get method for class variable AM_PM
-		getAM_PM : function()
-		{
-			
-			return(this.AM_PM)
-			
-		},
-		
-		//Set method for class variable AM_PM 
-		setAM_PM : function(AM_PM)
-		{
-			this.AM_PM = AM_PM;
-		},
-		
-		//Helper function to change from am to pm or change from pm to am
-		changeAM_PM : function ()
-		{
-			//If the previous string is am, change to pm 
-			if (this.getAM_PM() == "am")
-			{
-				this.setAM_PM("pm")
-			}
-			
-			//If the previous string is pm, change to am 
-			else if (this.getAM_PM() == "pm")
-			{
-				this.setAM_PM("am")
-			}
-			
-		},	
-		//Function to handle the hour changes depending on the mode
-		hourIncrement: function()
-		{
-			if(this.MilitaryTime)
-			{
-				if(this.Hours == 23)
-				{
-					this.Hours = 0;
-					nextDay();
-				}
-				else
-				{
-					this.Hours++;
-				}
-			}
-			else
-			{
-				if(this.Hours == 11 && this.AM_PM == "am")
-				{
-					this.Hours = 12;
-					this.AM_PM = "pm";
-				}
-				else if(this.Hours == 11 && this.AM_PM == "pm")
-				{
-					this.Hours = 12
-					this.AM_PM = "am";
-					nextDay();
-				}
-				else if(this.Hours == 12 && this.AM_PM == "am")
-				{
-					this.Hours = 1;
-				}
-				else if(this.Hours == 12 && this.AM_PM == "pm")
-				{
-					this.Hours = 1;
-				}
-				else
-				{
-					this.Hours++;
-				}
-			}
-		},
-
-		toMilitaryTime: function(_hours)
-		{
-			var offset = 0;
-			if(this.AM_PM == "pm")
-			{
-				if(this.Hours == 12)
-				{
-					offset = 0;
-				}
-				else
-				{
-					offset = 12;
-				}
-			}
-			
-			else if(this.AM_PM == "am")
-			{
-				if(this.Hours == 12) {
-					return(0);
-				}
-			}
-
-
-			return parseInt(_hours) + offset;
-		},
-
-		toCivilianTime:	function(_hours)
-		{
-			if(_hours >= 12)
-			{
-				this.AM_PM = "pm";	
-			}	
-			else
-			{
+				this.Hours = 12
 				this.AM_PM = "am";
+				nextDay();
 			}
-		return (_hours + 24) % 12 || 12;
-		},
-
-		transformToCorrectMode: function()
-		{
-			if(this.MilitaryTime)
+			//If we are at 12 am, reset hours to 1 
+			else if(this.Hours == 12 && this.AM_PM == "am")
 			{
-				this.Hours = this.toMilitaryTime(this.Hours);
+				this.Hours = 1;
 			}
+			//If we are at 12 pm, reset hours to 1 
+			else if(this.Hours == 12 && this.AM_PM == "pm")
+			{
+				this.Hours = 1;
+			}
+			//If we are not at 11 am,pm or 12 am,pm, just iterate the hours 
 			else
 			{
-				this.Hours = this.toCivilianTime(this.Hours);
+				this.Hours++;
 			}
-		},
+		}
+	},
 
-		//Generic funtion to make the clock tick
-		tick: function()
+	/**
+		 * Function that handles conversion from civilian time  to military time.
+		 * Used in the TransformtoCorrectMode() function from this file 
+		 * @author - Cesar Avalos, Alec Knutsen 
+		 * @param {number} _hours - Current hour value of clock 
+		 * @return {number} - Returns converted hour 
+		 * @see - TransformtoCorrectMode()
+	*/
+	toMilitaryTime: function(_hours)
+	{
+		var offset = 0; // Offest used to set the time 
+		
+		//If we are in a pm hour 
+		if(this.AM_PM == "pm")
 		{
-			if(this.Seconds == 59)
+			//If we are at 12 pm, offset is 0 because 12 is the appropriate hour in military time 
+			if(this.Hours == 12)
 			{
-				if(this.Minutes == 59)
-				{
-					this.hourIncrement();
-					this.Minutes = 0;
-				}
-				else
-				{
-					this.Minutes++;
-				}
-				this.Seconds = 0;
+				offset = 0;
 			}
+			//If we are at any pm hour other than 12, the appropriate hour is hour +12 (set offset to 12)
 			else
 			{
-				this.Seconds++;
-			}
-		}
-	} // End Class Object 
-	
-	
-	//Generic function to display clock in HTML
-	//Based on the function below by Gayarati and Weber
-	function displayClock(clockDiv, hourDiv)
-	{
-		var modeText = "";
-		var tempHour = Clock.getHours();
-		if(Clock.getMilitaryTime() == false)
-		{
-			modeText = " " + Clock.getAM_PM();
-		}
-		hourDiv.innerHTML =  formatTimeString(tempHour) + ":" + formatTimeString(Clock.getMinutes()) + ":" + formatTimeString(Clock.getSeconds()) + modeText;
-	}
-
-	// Author: Sri Gayatri & Luke Weber
-	//Method called in blink method and called recursively 
-	//If the time is invalid, returns false
-	//If the time is valid, it runs a manual program of a clock 
-	function startClock(MaxHour, MinHour)
-	{
-				
-		
-			//Get the current time from the methods of the class object 
-			m = Clock.getMinutes; 
-			s = Clock.getSeconds; 
-			h = Clock.getHours;
-
-			//Convert variables to integer 
-			h=parseInt(h);
-			m=parseInt(m);
-			s=parseInt(s);
-		
-				
-			
-		//? Unused Variable 
-		var valid = document.getElementById("valid").innerHTML;
-		
-		//If the time is invalid, return false 
-		if (invalid)
-		{
-		return;
-		}
-		
-		
-		//Calls setSeconds method of the Clock object to update the seconds time 
-		Clock.setSeconds(Clock.getSeconds()+1);
-		
-		//If the clock seconds need to be reset 
-		if(Clock.getSeconds() == 60)
-		{	
-	
-			//Call setSeconds method of the clock object to reset the second 
-			Clock.setSeconds(0);
-			
-			//Update the minutes using the setMinutes method of the clockObject 
-			Clock.setMinutes( Clock.getMinutes() + 1 );
-			
-			
-			//If the clock minutes need to be reset 
-			if(Clock.getMinutes() == 60)
-			{	
-		
-				//Call the setMinutes method of the clock object to set the time to 0 
-				Clock.setMinutes(0);
-				
-				
-				//If the am_pm mode needs to be reset in regular time 	
-				if((Clock.getHours() == MaxHour-1) && !Clock.getMilitaryTime())
-				{
-					
-					Clock.changeAM_PM(); // call the changeAM_PM mode of the clock object to change from am to pm or vice versa 
-				}
-				
-				
-				//If the hours need to be reset, call the setHours method of the Class object 
-				if(Clock.getHours() == MaxHour)
-				{	//If 59 sec, 59mins, and 12 hrs
-					Clock.setHours(MinHour);
-					
-				}
-				
-				//If the hourse do not need to be reset, iterate by 1 using the setMethod by 1 
-				else
-				{
-					Clock.setHours(Clock.getHours()+1);
-				}
-				
+				offset = 12;
 			}
 		}
 		
-
-		//Set the new time on clock
-		document.getElementById("hClock").innerHTML = Clock.getHours();
-		document.getElementById("mClock").innerHTML = formatTimeString(Clock.getMinutes());
-		document.getElementById("sClock").innerHTML = formatTimeString(Clock.getSeconds());
-		document.getElementById("am_pm").innerHTML = Clock.getAM_PM()
-
-		//Clears the previous setTimeout and Calls the start Clock function every 1 second.
-		
-		//Global variable i, call clearTimeout method from library 
-		clearTimeout(i);
-		//Recall method every 1 second 
-		i = setTimeout(function() { startClock(MaxHour, MinHour); }, 1000);
-	}
-	
-	
-	//Helper function called in init_blink method 
-	//Basically switches the color of the seconds, hours,minutes display between red and black 
-	function blink(MaxHour, MinHour)
-	{
-		
-		//If counter is divisble by 2 switch colors to red of the HTML elements sClock, mClock, hClock
-		if (counter%2 == 0 )
+		//If we are in am mode, do not make any changes to hour except at 12 am 
+		else if(this.AM_PM == "am")
 		{
-			  document.getElementById("hClock").style.color = 'red';
-			  
-			  document.getElementById("mClock").style.color = 'red';
-			  
-			  document.getElementById("sClock").style.color = 'red';
-		}	  
-		
-		//If counter is divisble by 2 switch colors to black of the HTML elements sClock, mClock, hClock
-		else if(counter%2 == 1)
-		{
-			  document.getElementById("hClock").style.color = 'black';
-			  
-			  document.getElementById("mClock").style.color = 'black';
-			  
-			  document.getElementById("sClock").style.color = 'black';
+			//If we are at 12 am, set hours to 0 
+			if(this.Hours == 12) {
+				return(0);
+			}
 		}
-		
-		//If the counter gets step to sop, change the  colors to black of the HTML elements sClock, mClock, hClock
-		else if (counter == "stop")
+
+
+		return parseInt(_hours) + offset; // Return the hours plus the offset 
+	},
+
+	/**
+		 * Handles conversion from military time to civilian time.
+		 * Used in the transformToCorrectMode() mode function from this file. 
+		 * @author - Cesar Avalos 
+		 * @param {number} _hours - Represents current hours in military time 
+		 * @return {number} - Returns converted hours in civilian time 
+		 * @see - transformToCorrectMode()
+	*/
+	toCivilianTime:	function(_hours)
+	{
+		//If we are at an hour greater than or equal 12, set AM_PM object variable to pm 
+		if(_hours >= 12)
 		{
-			document.getElementById("hClock").style.color = 'black';
-			  
-			document.getElementById("mClock").style.color = 'black';
-			  
-			document.getElementById("sClock").style.color = 'black';
-			
-			
-			//Set the invalid clock equal to false 
-			invalid = false;
-			
-			//Call the start clock method 
-			startClock(MaxHour, MinHour);
+			this.AM_PM = "pm";	
+		}	
+		//If we are at an hour less than 12, set AM_PM object variable to am
+		else
+		{
+			this.AM_PM = "am";
 		}
-		
-		//Iterate the counter each time the method is called 
-		counter = counter + 1;
-	}
-		
-	
+	//Return the appropriate hour conversion 
+	return (_hours + 24) % 12 || 12;
+	},
 
-	// Author: Luke Dercher and Luke Weber
-	//Helper method called in Invalid_Entry method 
-	function init_blink(MaxHour, MinHour)
+	/**
+		 * Uses toMilitaryTime, toCivilianTime functions above to convert to the correct time based on the mode MilitaryTime.
+		 * Used in setClockMilitaryButton() function in frontEnd.js 
+		 * @author - Cesar Avalos 
+		 * @param 
+		 * @return 
+		 * @see toCivilianTime, toMilitaryTime, frontEnd.js 
+	*/
+	transformToCorrectMode: function()
 	{
-		//Set invalid equal to true
-		invalid = true
-		//Calls the blink function every 500 milliseconds 
-		window.setInterval(blink, 500, MaxHour, MinHour)
-	}
-	
-	//Function called in the clock object 
-	function InvalidEntry()
-	{
-		//?Unused variable 
-		var text= "Input not valid"; 
-				
-		//Set html inputs to 12, 0,0 
-		document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
-
-		document.getElementById("mClock").innerHTML = "00";
-		
-		document.getElementById("sClock").innerHTML = "00";
-		
-		//Set counter equal to 0 
-		counter = 0
-		
-		
-		//Call_init blink method 
-		init_blink(12, 1);
-		
-		//Return boolean false 
-		return(false)
-	}
-
-	
-	
-	
-	//Author: Sri 
-	//Called in setClock method 
-	//Helper method adds 0 in front of numbers 
-	function formatTimeString(i) 
-	{
-		if (i < 10) {
-			i = "0" + i
-		};  // add zero in front of numbers < 10
-		return i;
-	}
-	
-	//Author: Luke Dercher, Sri, and Luke Weber 
-	//Not called in javascript file
-	//Method sets html elements 
-	//CALLED IN THE HTML FILE 
-	function clockBuild()
-	{
-		
-		//Local variables for h,m, s, and text 
-		var h,m,s,text; 
-		
-		//Initialize global counter variables 
-		counter = 0;
-
-		// Call helper javascript functions passing in the InputMinutes, InputSeconds, and InputsHours from the HTML file
-		//Works is a boolean. Each set method returns true or false depending on if the time is valid.
-		//If all times are valid, then works will evaluate to true 
-		var Works = Clock.setMinutes(document.getElementById("InputMinutes").value); 
-		Works = Works && Clock.setSeconds(document.getElementById("InputSeconds").value); 
-		Works = Works && Clock.setHours(document.getElementById("InputHours").value);
-
-		//Convert the strings to int
-		h=parseInt(h);
-		m=parseInt(m);
-		s=parseInt(s);
-		
-		
-		//Local variable dropDown that gets the element for the 12/24 hour mode 
-		dropDown = document.getElementById("Hour clock")
-		
-		
-		//MaxHour gets the value from the dropDown element 
-		MaxHour = dropDown.options[dropDown.selectedIndex].value
-		
-		//Set min our maxHour based on 12 or 24 hour mode 
-		MinHour = 0
-		if(MaxHour==12)
+		//If we want to convert to military time 
+		if(this.MilitaryTime)
 		{
-			MinHour = 1
+			//Set hours object variable using toMilitaryTime function
+			this.Hours = this.toMilitaryTime(this.Hours);
 		}
-		
-		//Set colon element in HTML to colon 
-		document.getElementById("colon").innerHTML = ":"
-			
-		//Set colon2 element in HTML to colon 
-		document.getElementById("colon2").innerHTML = ":"
-		
-		
-		//If the clock is valid 
-		if(Works)
+		//If we want to convert to civilian time 
+		else
 		{
-			//Text for clock 
-			text = "Your digital clock"; 
-			
-			//Set global counter variable to stop
-			counter = "stop";
-			
-			invalid = false;
-			
-			
-			//Set the html elemnts for time using the getSeconds, getMinutes, and getHours methods of the Clock object 
-			document.getElementById("hClock").innerHTML = Clock.getHours();
-			
-			document.getElementById("mClock").innerHTML = Clock.getMinutes();
-			
-			document.getElementById("sClock").innerHTML = Clock.getSeconds();
-			
-			
-			//Set the AM/PM element using the setAM_PM method of the clock Object to the value from the HTML element 			
-			Clock.setAM_PM(document.getElementById("amORpm").options[document.getElementById("amORpm").selectedIndex].value)
-					
-			//Call the startClock method to run the clock 
-			startClock(MaxHour, MinHour);//Start the clock (Only Once when user Presses button everytime)
+			//Set hours object variable using toCivilianTime function
+			this.Hours = this.toCivilianTime(this.Hours);
 		}
-		
-		
-		else // If the time is invalid, return nothing 
-		{
-			return
-		}			
-		
-		//Set the valid document element in the HTML file to the text variable 
-		document.getElementById("valid").innerHTML = text;
-	}
-	
-	
-	//Author: Luke Dercher
-	//CALLED IN THE HTML FILE when the 12/24 hour mode selector gets changed 
-	
-	function chngDisp()
-	{
+	},
 
-		//Get the 12/24 dropdown menu elemnt 
-		dropDown = document.getElementById("Hour clock");
-		
-		//Get the value for the max hour from the element 
-		MaxHour = dropDown.options[dropDown.selectedIndex].value;
-		MinHour = 0;
-		
-		//Set the minHour based on the 12/24 hour maxHour 
-		if(MaxHour == 12)
+	/** 
+		 * Generic funtion to make the clock tick.
+		 * Called in the clockHandling() method of the frontEnd.js file
+		 * @author - Cesar Avalos 
+		 * @param 
+		 * @return 
+		 * @see  hourIncrement, frontEnd.js 
+	*/
+	tick: function()
+	{
+		//If we reached the max seconds 
+		if(this.Seconds == 59)
 		{
-			MinHour = 1;
-		}
-		
-		//Get the current Hour from the HTML element hClock 
-		var Hour = parseInt(document.getElementById("hClock").innerHTML);
-		
-		//If the MaxHour is 12 
-		if (MaxHour == 12)
-		{
-			//Set the text for whatNums element in HTML
-			document.getElementById("whatNums").innerHTML = "Please input a number between 1 and 12:";
-			
-			//If you are in 12 hour mode and need to convert the time 
-			if (Hour > 12) 
+			//If we reached the max minutes 
+			if(this.Minutes == 59)
 			{
-				//Subtract 12 from the current hour. Set to hour using setHours method of the object method setAM_PM 
-				Clock.setHours(Hour - 12);
-				//Set to pm using setAM_PM method of the object method setAM_PM 
-				Clock.setAM_PM("pm");
+				//Increment the hour
+				this.hourIncrement();
+				//Reset the minutes 
+				this.Minutes = 0;
 			}
-			
-			//Else if the time is 12 
-			else if(Hour == 12)
+			//If we have not reached the max minutes, iterate the minutes 
+			else
 			{
-				//Call setAM_PM method of object class to set mode to pm 
-				Clock.setAM_PM("pm");
-								
+				this.Minutes++;
 			}
 			
-			//Else if the time does not need to be converted 
-			else 
-			{
-				Clock.setAM_PM("am"); // Call setAM_PM method of object method to AM 
-			}
-			
-			document.getElementById('amORpm').style.display = '';//show am or pm scrolldown when 12hrtime selected
-			
+			//Reset the seconds 
+			this.Seconds = 0;
 		}
-		
-		//If we are in military tie 
-		else if (MaxHour == 23)
-		{		
-			//Set appropriate text for text element whatNums 
-			document.getElementById("whatNums").innerHTML = "Please input a number between 0 and 23:";
-			
-			//If the hour needs to be converted use the setHours method of the clock object to appropriately update the hours 
-			if(Clock.getAM_PM() == "pm" && ! Hour==12)
-			{
-				Clock.setHours(Hour+ 12);
-			}
-			
-			//Call setAM_PM method of clock object to make am_pm the empty string 
-			Clock.setAM_PM(" ");
-			
-			//hides the am_pm scrolldown bar when military time selected
-			document.getElementById('amORpm').style.display = 'none';
+		//If we have not reached the max seconds, iterate the seconds 
+		else
+		{
+			this.Seconds++;
 		}
-		
 	}
+} // End Class Object 
 
-//Function to offset time, whenever the delta time is calculated
-//offset the clock by that amount of time
+	
+
+/**
+	 * Generic function to display clock in HTML. Based on the function below by Gayarati and Weber.
+	 * Called in the window.onload() function and tick function in frontEnd.js 
+	 * @author - Cesar Avalos, Yarden Tamir 
+	 * @param {HTML Element} clockDiv 
+	 * @param {HTML Element} hourDiv - HTML Elemnt that will display the clock 
+	 * @return 
+	 * @see formatTimeString, getHours, frontEnd.js 
+*/
+function displayClock(clockDiv, hourDiv)
+{
+	var modeText = ""; // String that either has am_pm attached or not 
+	//Get the current hours of the clock 
+	var tempHour = Clock.getHours();
+	//If we are not in military time, attach the am,pm to modeText 
+	if(Clock.getMilitaryTime() == false)
+	{
+		modeText = " " + Clock.getAM_PM();
+	}
+	//Set the timer display hourDiv using the formatTimeString method from this file 
+	hourDiv.innerHTML =  formatTimeString(tempHour) + ":" + formatTimeString(Clock.getMinutes()) + ":" + formatTimeString(Clock.getSeconds()) + modeText;
+}
+
+	
+
+//
+/**
+	 * Function called in the clock object. Used to validate input 
+	 * Called in the setHours(), setMinutes(), setSeconds(), setTime() functions from this file 
+	 * Not super important in our clock 
+	 * @author - Luke Weber 
+	 * @param 
+	 * @return - Returns false 
+	 * @see - setHours(), setMinutes(), setSeconds(), setTime()
+*/
+function InvalidEntry()
+{ 
+			
+	//Set html inputs to 12, 0,0 
+	document.getElementById("hClock").innerHTML = "12";//display invalid when bad input is given
+
+	document.getElementById("mClock").innerHTML = "00";
+	
+	document.getElementById("sClock").innerHTML = "00";
+	
+	//Set counter equal to 0 
+	counter = 0
+	
+	
+	//Return boolean false 
+	return(false)
+}
+
+
+	
+	
+/**
+	 * Helper method adds 0 in front of numbers.
+	 * Called in the displayClock() method from this file 
+	 * @author - Sri 
+	 * @param {number} i - Value to add 0 in front of 
+	 * @return {number} - Returns value with zero in front 
+	 * @see - displayClock()
+*/
+function formatTimeString(i) 
+{
+	if (i < 10) {
+		i = "0" + i
+	};  // add zero in front of numbers < 10
+	
+	return i; // Return edited value 
+}
+
+	
+	
+
+/**
+	 * Function to offset time, whenever the delta time is calculated offset the clock by that amount of time. Called in cache.js 
+	 * NOT REALLY VITAL TO OUR CLOCK 
+	 * @author - Cesar Avalos  
+	 * @param {number} _offset - Value to offset by 
+	 * @return 
+	 * @see cache.js
+*/
 function offsetTime(_offset)
 {
+	//Variables to hold propery offseet 
 	var offsetSeconds = Math.floor((_offset)/1000 % 60);
 	var offsetMinutes = Math.floor((_offset)/(60 * 1000) % 60);
 	var offsetHours   = Math.floor((_offset)/(60 * 60 * 1000) % 24);
-	console.log("approximately "+offsetHours+" hours, " + offsetMinutes + " minutes " + offsetSeconds + " transpired. ");
+	
 	if((offsetHours / 24) > 1)
 	{
-		//Not really in the mood to think, but this should offset days.
+		//Offset days 
 		for(i = 0; i < (offsetHours / 24); i++)
 		{
 			nextDay();
 		}
 	}
+	//Call addTime function of clock Object 
 	Clock.addTime(offsetHours, offsetMinutes, offsetSeconds); 
-	//Clock.formatTimeString();
 }
