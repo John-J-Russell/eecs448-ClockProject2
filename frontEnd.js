@@ -105,7 +105,17 @@ function timerHandling()
 {
 	if(timerEnabledFlag)
 	{
-		if(timerCounter >= clockCounterLimit)
+		if( isTimerZero() )
+		{
+			console.log("timer is 0");
+			var audio = new Audio('STOP.mp3');
+			audio.play();
+			timer.tickTockOrNot = false;
+			timerCounter = 0;
+			resetTimer();
+			timerEnabledFlag = false;
+		}
+		else if(timerCounter >= clockCounterLimit)
 		{
 			timerCounter = 0;
 			countdown(timerDIV);
@@ -115,13 +125,7 @@ function timerHandling()
 			timerCounter++;
 		}
 
-		if(isTimerZero())
-		{
-			var audio = new Audio('STOP.mp3');
-			audio.play();
-			timer.tickTockOrNot=false;
-			timerEnabledFlag = false;
-		}
+
 	}
 }
 
@@ -169,9 +173,14 @@ function stopWatchResetButton()
 
 function timerStartButton()
 {
-	if(!timerEnabledFlag && checkValidTimerInput(hourField.value, minField.value, secField.value))
+	var _tempHour = parseInt(hourField.value);
+	var _tempMin  = parseInt(minField.value);
+	var _tempSec  = parseInt(secField.value);
+
+
+	if(!timerEnabledFlag && checkValidTimerInput(_tempHour, _tempMin, _tempSec))
 	{
-		startTimer(hourField, minField, secField);
+		startTimer(_tempHour, _tempMin, _tempSec);
 		displayTimer(timerDIV);	
 		timerEnabledFlag = true;
 	}

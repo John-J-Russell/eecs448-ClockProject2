@@ -10,9 +10,9 @@
 function startTimer(hoursDiv, minutesDiv, secondsDiv)
 {
 	timer.reset();
-	var h=hoursDiv.value;
-	var m=minutesDiv.value;
-	var s=secondsDiv.value;
+	var h=hoursDiv;
+	var m=minutesDiv;
+	var s=secondsDiv;
 	
 	//If empty fields, just use zeros there.
 	if(h=='')
