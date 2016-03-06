@@ -57,10 +57,10 @@ function countdown(timerDiv)
 		if(makeTimeString(timerDiv)=="00:00:00")
 		{
 			//Play a thing if possible
-			timer.tickTockOrNot=false;
+			//timer.tickTockOrNot=false;
 			//alert("It's done, now go save your cake");
-			var audio = new Audio('STOP.mp3');
-			audio.play();
+			//var audio = new Audio('STOP.mp3');
+			//audio.play();
 		}
 		else
 		{
@@ -111,6 +111,14 @@ function displayTime()
 	var throwaway=makeTimeString();
 }
 
+function isTimerZero()
+{
+	if(timer.hour === 0 && timer.min === 0 && timer.sec === 0)
+	{
+		return true;
+	}
+	return false;
+}
 
 //For consistency sake, displays the current timer values in a div.
 function displayTimer(timerDiv)

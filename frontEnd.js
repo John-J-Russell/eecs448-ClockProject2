@@ -114,6 +114,14 @@ function timerHandling()
 		{
 			timerCounter++;
 		}
+
+		if(isTimerZero())
+		{
+			var audio = new Audio('STOP.mp3');
+			audio.play();
+			timer.tickTockOrNot=false;
+			timerEnabledFlag = false;
+		}
 	}
 }
 
@@ -161,7 +169,7 @@ function stopWatchResetButton()
 
 function timerStartButton()
 {
-	if(!timerEnabledFlag)
+	if(!timerEnabledFlag && checkValidTimerInput(hourField.value, minField.value, secField.value))
 	{
 		startTimer(hourField, minField, secField);
 		displayTimer(timerDIV);	
@@ -291,6 +299,21 @@ function checkValidTimeInput(_hour, _min,_sec)
 	return false;
 }
 
+
+function checkValidTimerInput(_hour, _min,_sec)
+{
+	if(_hour >= 0 && _min >= 0 && _sec >= 1)
+	{
+		if(!isNaN(_hour) &&!isNaN(_min) && !isNaN(_sec) )
+		{
+			return true;
+		}
+		else
+		{
+			return false
+		}
+	}
+}
 
 function zoomIn()
 {
