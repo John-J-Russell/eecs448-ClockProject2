@@ -105,7 +105,17 @@ function timerHandling()
 {
 	if(timerEnabledFlag)
 	{
-		if(timerCounter >= clockCounterLimit)
+		if( isTimerZero() )
+		{
+			console.log("timer is 0");
+			var audio = new Audio('STOP.mp3');
+			audio.play();
+			timer.tickTockOrNot = false;
+			timerCounter = 0;
+			resetTimer();
+			timerEnabledFlag = false;
+		}
+		else if(timerCounter >= clockCounterLimit)
 		{
 			timerCounter = 0;
 			countdown(timerDIV);
@@ -115,13 +125,7 @@ function timerHandling()
 			timerCounter++;
 		}
 
-		if(isTimerZero())
-		{
-			var audio = new Audio('STOP.mp3');
-			audio.play();
-			timer.tickTockOrNot=false;
-			timerEnabledFlag = false;
-		}
+
 	}
 }
 
@@ -171,9 +175,21 @@ function timerStartButton()
 {
 	if(!timerEnabledFlag && checkValidTimerInput(hourField.value, minField.value, secField.value))
 	{
+		
+		secField.style.backgroundColor = "white";
+		minField.style.backgroundColor = "white";
+		hourField.style.backgroundColor = "white";
 		startTimer(hourField, minField, secField);
 		displayTimer(timerDIV);	
 		timerEnabledFlag = true;
+	}
+	
+	else {
+	
+		secField.style.backgroundColor = "red";
+		minField.style.backgroundColor = "red";
+		hourField.style.backgroundColor = "red";
+		
 	}
 }
 
@@ -210,7 +226,17 @@ function calendarSetButton()
 		month = tempMonth;
 		setDate();
 		displayDate(calendarDIV);
+		
+		document.getElementById("InputDay").style.backgroundColor = "white";
+		document.getElementById("InputMonth").style.backgroundColor = "white";
+		document.getElementById("InputDay").value = "";
+		document.getElementById("InputMonth").value = "";
 	}
+	
+	document.getElementById("InputDay").style.backgroundColor = "red";
+	document.getElementById("InputMonth").style.backgroundColor = "red";
+	document.getElementById("InputDay").value = "";
+	document.getElementById("InputMonth").value = "";
 }
 
 function setClockButton()
@@ -229,9 +255,25 @@ function setClockButton()
 			Clock.setAM_PM(tempampm);			
 		}
 		clockCounter = 0;
+		
+		document.getElementById("InputHours").style.backgroundColor = "white";
+		document.getElementById("InputMinutes").style.backgroundColor = "white";
+		document.getElementById("InputSeconds").style.backgroundColor = "white";
+		document.getElementById("InputHours").value = "";
+		document.getElementById("InputMinutes").value = "";
+		document.getElementById("InputSeconds").value = "";
 	}
 	
+	else {
+			document.getElementById("InputHours").style.backgroundColor = "red";
+			document.getElementById("InputMinutes").style.backgroundColor = "red";
+			document.getElementById("InputSeconds").style.backgroundColor = "red";
+			document.getElementById("InputHours").value = "";
+			document.getElementById("InputMinutes").value = "";
+			document.getElementById("InputSeconds").value = "";
+	}
 }
+
 
 function setClockMilitaryButton()
 {
