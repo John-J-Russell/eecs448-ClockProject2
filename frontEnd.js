@@ -344,7 +344,7 @@ function checkValidTimeInput(_hour, _min,_sec)
 
 function checkValidTimerInput(_hour, _min,_sec)
 {
-	if(_hour >= 0 && _min >= 0 && _sec >= 1)
+	if(_hour >= 0 && _min >= 0 && _min <=59 && sec<=59 && _sec >= 1)
 	{
 		if(!isNaN(_hour) &&!isNaN(_min) && !isNaN(_sec) )
 		{
