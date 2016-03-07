@@ -516,6 +516,7 @@ function setClockMilitaryButton()
 function shutDownThisJointButton()
 {
 	//If the page is visible 
+	//alert("g");
 	if(isThisGinJointVisible)
 	{
 		//Hide all main elements and zoom in, zoom out buttons 
